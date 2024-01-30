@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Exceptions\TelefonoAcudienteNotFoundException.cs~RF192b6e8.TMP" />
+    <None Remove="Models\AcudienteEstudiante1.cs~RF9d858cd.TMP" />
+  </ItemGroup>
+
+</Project>
