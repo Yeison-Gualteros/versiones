@@ -6,6 +6,7 @@ import Docentebuscarestudiante from './DocenteBuscarestudiante'
 import Docenteelegircurso from './Docenteelegircurso'
 import Docenteestudiantelista from './Docenteestudiantelista'
 import DocenteReclamos from './DocenteReclamos'
+import Docenteuserupdate from './Docenteuserupdate'
 
 import Estudiante from './Estudiante'
 import Estudianteinfornotas from './EstudianteinfoNotas'
@@ -23,6 +24,7 @@ export default function RouterPage() {
                     <Route path='/Docenteelegircurso' exact Component={Docenteelegircurso}/>
                     <Route path='/Docenteestudiantelista' exact Component={Docenteestudiantelista}/>
                     <Route path='/DocenteReclamos' exact Component={DocenteReclamos}/>
+                    <Route path='/Docenteuserupdate' exact Component={Docenteuserupdate}/>
 
                     <Route path='/Estudiante' exact Component={Estudiante}/>
                     <Route path='/EstudianteinfoNotas' exact Component={Estudianteinfornotas}/>

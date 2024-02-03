@@ -120,25 +120,25 @@ export default function Docentebuscarestudiante() {
             <div>
 	
 	
-	<section class="full-box nav-lateral">
-		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
-		<div class="full-box nav-lateral-content">
-			<figure class="full-box nav-lateral-avatar">
-				<i class="far fa-times-circle show-nav-lateral"></i>
-				<figcaption class="SRMNPE text-center">
-					SRUNPE <br/><small class="roboto-condensed-light"></small>
+	<section className="full-box nav-lateral">
+		<div className="full-box nav-lateral-bg show-nav-lateral"></div>
+		<div className="full-box nav-lateral-content">
+			<figure className="full-box nav-lateral-avatar">
+				<i className="far fa-times-circle show-nav-lateral"></i>
+				<figcaption className="SRMNPE text-center">
+					SRUNPE <br/><small className="roboto-condensed-light"></small>
 				</figcaption>
-				<img src="/assets/avatar/Avatar_negro.jpg" class="img-fluid" alt="Avatar"/>
-				<figcaption class="roboto-medium text-center">
-					Juan David Novoa Yanguma <br/><small class="roboto-condensed-light"><p><span class="badge badge-success">Docente</span></p></small>
+				<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+				<figcaption className="roboto-medium text-center">
+					Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
 				</figcaption>
 			</figure>
-			<div class="full-box nav-lateral-bar"></div>
-			<nav class="full-box nav-lateral-menu">
+			<div className="full-box nav-lateral-bar"></div>
+			<nav className="full-box nav-lateral-menu">
             <ul>
                                     <li>
                                     <Link to={'/docente'}>
-                                        <i class="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
+                                        <i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
                                     </Link>
                                     </li>
                                     <li>
@@ -147,7 +147,7 @@ export default function Docentebuscarestudiante() {
                                         
                                             <li>
                                                 <Link to={'/Docenteelegircurso'}>
-                                                <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
+                                                <a ><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
                                                 </Link>	
                                             </li>
                                         							
@@ -159,14 +159,14 @@ export default function Docentebuscarestudiante() {
                                         
                                         <li>
                                             <Link to={'/Docenteestudiantelista'}>
-                                            <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+                                            <a ><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
                                             </Link>
                                         </li>
                                         
                                         
                                         <li>
                                             <Link to={'/Docentebuscarestudiante'}>
-                                            <a ><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+                                            <a ><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
                                             </Link>
                                         </li>
                                         
@@ -174,7 +174,7 @@ export default function Docentebuscarestudiante() {
                                     </li>
                                     <li>
                                     <Link to={'/DocenteReclamos'}>
-                                        <i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
+                                        <i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
                                     </Link>
                                     </li>
                                 </ul>
@@ -185,12 +185,12 @@ export default function Docentebuscarestudiante() {
 
 
 		
-		<section class="full-box page-content">
+		<section className="full-box page-content">
         <nav className="full-box navbar-info">
             <a className="float-left show-nav-lateral">
                 <i className="fas fa-exchange-alt"></i>
             </a>
-            <Link to={'/Docenteuserupdate'}>
+            <Link to={'/DocenteuserUpdate'}>
             <a >
                 <i className="fas fa-user-cog"></i>
             </a>
@@ -201,43 +201,43 @@ export default function Docentebuscarestudiante() {
         </nav>
 
 			
-			<div class="full-box page-header">
-				<h3 class="text-left">
-					<i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
+			<div className="full-box page-header">
+				<h3 className="text-left">
+					<i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
 				</h3>
-				<p class="text-justify">
+				<p className="text-justify">
 					
 				</p>
 			</div>
 
-			<div class="container-fluid">
-                <ul class="full-box list-unstyled page-nav-tabs">
+			<div className="container-fluid">
+                <ul className="full-box list-unstyled page-nav-tabs">
                     <li>
                     <Link to={'/Docenteestudiantelista'}>
                         <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; lista de estudiantes
                     </Link>
                     </li>
                     <li>
-                        <a class="active" href="Docente-buscar-estudiante.html"><i class="fas fa-search fa-fw"></i> &nbsp;buscar estudiante</a>
+                        <a className="active" href="Docente-buscar-estudiante.html"><i className="fas fa-search fa-fw"></i> &nbsp;buscar estudiante</a>
                     </li>
                     
                 </ul>
             </div>
 			
 			
-			<div class="container-fluid">
-				<form class="form-neon" action="">
-					<div class="container-fluid">
-						<div class="row justify-content-md-center">
-							<div class="col-12 col-md-6">
-								<div class="form-group">
-									<label for="inputSearch" class="frome bmd-label-floating">¿Qué estudiante estas buscando?</label>
-									<input type="text" class="form-control" name="busqueda-" id="inputSearch" maxlength="30"/>
+			<div className="container-fluid">
+				<form className="form-neon" action="">
+					<div className="container-fluid">
+						<div className="row justify-content-md-center">
+							<div className="col-12 col-md-6">
+								<div className="form-group">
+									<label for="inputSearch" className="frome bmd-label-floating">¿Qué estudiante estas buscando?</label>
+									<input type="text" className="form-control" name="busqueda-" id="inputSearch" maxlength="30"/>
 								</div>
 							</div>
-							<div class="col-12">
-								<p class="text-center" >
-									<button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+							<div className="col-12">
+								<p className="text-center" >
+									<button type="submit" className="btn btn-raised btn-info"><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
 								</p>
 							</div>
 						</div>
@@ -246,25 +246,25 @@ export default function Docentebuscarestudiante() {
 			</div>
 
 			
-			<div class="container-fluid">
+			<div className="container-fluid">
 				<form action="">
 					<input type="hidden" name="eliminar-busqueda" value="eliminar"/>
-					<div class="container-fluid">
-						<div class="row justify-content-md-center">
-							<div class="col-12 col-md-6">
-								<p class="text-center" >
+					<div className="container-fluid">
+						<div className="row justify-content-md-center">
+							<div className="col-12 col-md-6">
+								<p className="text-center" >
 									Resultados de la busqueda <strong>“Buscar”</strong>
 								</p>
 							</div>
-							<div class="col-12">
-								<p class="text-center">
-									<button type="submit" class="btn btn-raised btn-danger"><i class="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
+							<div className="col-12">
+								<p className="text-center">
+									<button type="submit" className="btn btn-raised btn-danger"><i className="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
 								</p>
 							</div>
 						</div>
 					</div>
 				</form>
-			</div>
+			
 
 
 			<div className="table-responsive">
@@ -323,6 +323,8 @@ export default function Docentebuscarestudiante() {
               </tbody>
                 </table>
               </div>
+              </div>
+              <div className="container-fluid">
               <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
                   <li className="page-item disabled">
@@ -352,6 +354,7 @@ export default function Docentebuscarestudiante() {
                   </li>
                 </ul>
               </nav>
+            </div>
             </section>
 	
         </div>
