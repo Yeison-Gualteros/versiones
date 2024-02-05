@@ -19,7 +19,6 @@ export default function Docenteelegircurso() {
   return(
         
             <React.Fragment>
-            <div>
 	
                 <main className="full-box main-container">
                     
@@ -164,18 +163,8 @@ export default function Docenteelegircurso() {
                     </section>
                 </main>
                 
-                <footer className="footer">
-                    <div className="footer-container">
-                    <div className="row">
-                        <div className="col-12">
-                            <p>Derechos de autor </p>
-                            <p>&copy; Plantilla: https://designlopers.com/</p>
-                        </div>
-                    </div>
-                    </div>
-                </footer>
                 
-            </div>
+                
             </React.Fragment>
         
     )

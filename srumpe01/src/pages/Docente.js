@@ -5,7 +5,6 @@ export default function Docente() {
     return(
         
             <React.Fragment>
-            <div>
 	
                 <main className="full-box main-container">
                     
@@ -98,7 +97,7 @@ export default function Docente() {
                         
                         <div className="full-box tile-container">
 
-                            <a href="Docente-elegir-curso.html" className="tile">
+                            <a href="/Docenteelegircurso" className="tile">
                                 <div className="tile-tittle">Elegir Curso</div>
                                 <div className="tile-icon">
                                     <i className="fas fa-layer-group fa-fw"></i>
@@ -128,7 +127,6 @@ export default function Docente() {
                     </div>
                 </footer>
                 
-            </div>
             </React.Fragment>
         
     )

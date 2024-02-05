@@ -16,7 +16,6 @@ export default function Docenteuserupdate() {
   return (
     
       <React.Fragment>
-        <div>
         <main className="full-box main-container">
          
           <section className="full-box nav-lateral">
@@ -369,7 +368,6 @@ export default function Docenteuserupdate() {
 
       
         
-      </div>
       </React.Fragment>
     
   );

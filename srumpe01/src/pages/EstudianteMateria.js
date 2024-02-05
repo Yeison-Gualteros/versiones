@@ -156,16 +156,7 @@ export default function EstudianteMaterias() {
         
 	</div>
 </section>
-	<footer className="footer">
-		<div className="footer-container">
-		  <div className="row">
-			<div className="col-12">
-			 	<p>Derechos de autor </p>
-				<p>&copy; Plantilla: https://designlopers.com/</p>
-			</div>
-		  </div>
-		</div>
-	</footer>
+	
     </main>
 	  
         </React.Fragment>

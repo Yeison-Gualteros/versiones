@@ -16,11 +16,11 @@ export default function Docente() {
 		if (selectedOption === 'estudiante' && username === 'YeisonGualteros' && password === 'yeison123') {
 		  // Redirigir al usuario a la página de cliente
 		  navigate('/estudiante');
-		} else if (selectedOption === 'administrador' && username === 'AxlAcuña' && password === 'axl123') {
+		} else if (selectedOption === 'administrador' && username === 'aa' && password === 'axl123') {
 		  // Redirigir al usuario a la página de administrador
-		  navigate('/administrador');
+		  navigate('/Secretaria');
 		}else if (selectedOption === 'docente' && username === 'JuanNovoa' && password === 'juan123') {
-			// Redirigir al usuario a la página de administrador
+			// Redirigir al usuario a la página de administrado
 			navigate('/docente');
 		}  else {
 		  alert('Credenciales incorrectas');

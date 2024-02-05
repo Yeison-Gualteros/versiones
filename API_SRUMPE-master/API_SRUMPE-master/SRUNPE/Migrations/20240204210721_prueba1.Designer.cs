@@ -12,8 +12,8 @@ using Repository;
 namespace SRUNPE.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240130143408_prueba01")]
-    partial class prueba01
+    [Migration("20240204210721_prueba1")]
+    partial class prueba1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,13 +71,13 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            AcudienteId = new Guid("e2582b22-37c0-47e3-87c5-8dd9d25c7dc6"),
+                            AcudienteId = new Guid("6624b394-37c3-44b0-bd71-ce73f9c9b51b"),
                             Apellidos = "Pérez",
                             CorreoElectronico = "maria.perez@email.com",
                             Estado = true,
                             EstadoCivil = "Casada",
                             FechaNacimiento = new DateTime(1980, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5986),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6328),
                             Genero = "Femenino",
                             Nombres = "María",
                             NumeroIdentificacion = 12345,
@@ -86,13 +86,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("9f60be2a-b88b-4d54-b14f-97cebdcb17cd"),
+                            AcudienteId = new Guid("96303924-3699-4056-9104-1df5567488df"),
                             Apellidos = "González",
                             CorreoElectronico = "juan.gonzalez@email.com",
                             Estado = true,
                             EstadoCivil = "Soltero",
                             FechaNacimiento = new DateTime(1975, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5992),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6331),
                             Genero = "Masculino",
                             Nombres = "Juan",
                             NumeroIdentificacion = 67890,
@@ -101,13 +101,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("4b8f80d8-0645-4482-886a-dc966cf5e519"),
+                            AcudienteId = new Guid("0ff17d5d-6183-4d58-bf1e-aeaea6a7aa62"),
                             Apellidos = "López",
                             CorreoElectronico = "ana.lopez@email.com",
                             Estado = true,
                             EstadoCivil = "Divorciada",
                             FechaNacimiento = new DateTime(1990, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5996),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6334),
                             Genero = "Femenino",
                             Nombres = "Ana",
                             NumeroIdentificacion = 54321,
@@ -116,13 +116,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("74fa1817-7181-4cd4-940d-3041993a9f4a"),
+                            AcudienteId = new Guid("af1053d8-94d3-49b1-bb4a-58a17d74fb4e"),
                             Apellidos = "Martínez",
                             CorreoElectronico = "pedro.martinez@email.com",
                             Estado = true,
                             EstadoCivil = "Casado",
                             FechaNacimiento = new DateTime(1988, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6000),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6339),
                             Genero = "Masculino",
                             Nombres = "Pedro",
                             NumeroIdentificacion = 98765,
@@ -131,13 +131,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("56a9c7b4-e512-43eb-a811-f71d14f6c8e6"),
+                            AcudienteId = new Guid("2998699f-7e97-4804-8a2a-a2378c56f6fe"),
                             Apellidos = "Sánchez",
                             CorreoElectronico = "luis.sanchez@email.com",
                             Estado = true,
                             EstadoCivil = "Casado",
                             FechaNacimiento = new DateTime(1972, 12, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6009),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6342),
                             Genero = "Masculino",
                             Nombres = "Luis",
                             NumeroIdentificacion = 13579,
@@ -146,13 +146,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("bb96f26d-e98b-4f2e-9dd3-63e9720c91f0"),
+                            AcudienteId = new Guid("55f9121f-6262-40ab-b33c-9feec7cf9b75"),
                             Apellidos = "Rodríguez",
                             CorreoElectronico = "carlos.rodriguez@email.com",
                             Estado = true,
                             EstadoCivil = "Soltero",
                             FechaNacimiento = new DateTime(1985, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6013),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6344),
                             Genero = "Masculino",
                             Nombres = "Carlos",
                             NumeroIdentificacion = 24680,
@@ -161,13 +161,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("ff959ea3-0a28-4bb1-a211-96f6672f9ade"),
+                            AcudienteId = new Guid("54600650-7007-405d-8f82-8c4d584b3af5"),
                             Apellidos = "Gómez",
                             CorreoElectronico = "laura.gomez@email.com",
                             Estado = true,
                             EstadoCivil = "Divorciada",
                             FechaNacimiento = new DateTime(1992, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6017),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6346),
                             Genero = "Femenino",
                             Nombres = "Laura",
                             NumeroIdentificacion = 86420,
@@ -176,13 +176,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("9432f2e3-23e6-45cd-9432-5d634647838f"),
+                            AcudienteId = new Guid("71443ae2-02ea-434c-af26-67c86d5769ec"),
                             Apellidos = "Hernández",
                             CorreoElectronico = "andres.hernandez@email.com",
                             Estado = true,
                             EstadoCivil = "Casado",
                             FechaNacimiento = new DateTime(1979, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6021),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6349),
                             Genero = "Masculino",
                             Nombres = "Andrés",
                             NumeroIdentificacion = 97531,
@@ -191,13 +191,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("bde66664-41f6-4a16-998e-e5d6f52d37d9"),
+                            AcudienteId = new Guid("5c7b53c8-4032-4b6f-b55a-0f39be78ef04"),
                             Apellidos = "Díaz",
                             CorreoElectronico = "sofia.diaz@email.com",
                             Estado = true,
                             EstadoCivil = "Soltera",
                             FechaNacimiento = new DateTime(1987, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6025),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6351),
                             Genero = "Femenino",
                             Nombres = "Sofía",
                             NumeroIdentificacion = 75319,
@@ -206,13 +206,13 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AcudienteId = new Guid("54ff4357-8d8a-411d-ab58-42d435476b46"),
+                            AcudienteId = new Guid("285915f3-78f9-44c0-85e4-dccc0f2f6e6a"),
                             Apellidos = "Luna",
                             CorreoElectronico = "roberto.luna@email.com",
                             Estado = true,
                             EstadoCivil = "Viudo",
                             FechaNacimiento = new DateTime(1970, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(6028),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6353),
                             Genero = "Masculino",
                             Nombres = "Roberto",
                             NumeroIdentificacion = 10293,
@@ -258,7 +258,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            DireccionAcudienteId = new Guid("c8413278-7eee-43c6-80d5-d08459f0d999"),
+                            DireccionAcudienteId = new Guid("0de111a7-810f-4b75-b957-643cbe3d7b74"),
                             Calle = "Calle 72",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110231",
@@ -268,7 +268,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            DireccionAcudienteId = new Guid("ca17cb2e-cbf9-40d3-8f2d-712973667c76"),
+                            DireccionAcudienteId = new Guid("28f1ce21-eb12-40bc-bca5-613a3f000a14"),
                             Calle = "Calle 72",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110231",
@@ -278,7 +278,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            DireccionAcudienteId = new Guid("5cc80e17-3f17-4d41-ae6f-873652fdbd15"),
+                            DireccionAcudienteId = new Guid("5e4f4401-731e-4766-8776-5f1a2a423d98"),
                             Calle = "Carrera 10",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110321",
@@ -288,7 +288,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            DireccionAcudienteId = new Guid("592a9608-d1e5-49e7-a388-2df1bb036b15"),
+                            DireccionAcudienteId = new Guid("84351207-d6e1-46ab-aa22-7f881163d464"),
                             Calle = "Avenida Boyacá",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110511",
@@ -298,7 +298,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            DireccionAcudienteId = new Guid("32825096-9b47-482c-a080-f02d5666b4e1"),
+                            DireccionAcudienteId = new Guid("a657e50a-2d15-407d-8634-5710908dbfb3"),
                             Calle = "Calle 80",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110841",
@@ -308,7 +308,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            DireccionAcudienteId = new Guid("42493fc5-9815-4fe3-a9f9-f96bbb8d4aed"),
+                            DireccionAcudienteId = new Guid("f6b8c5f8-3951-442a-ac5f-2605fa72cf0b"),
                             Calle = "Carrera 7",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110171",
@@ -318,7 +318,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            DireccionAcudienteId = new Guid("17e0d49b-22a7-4839-9533-e658634afbe9"),
+                            DireccionAcudienteId = new Guid("48116869-2292-499f-9e7d-60ec2ea28d65"),
                             Calle = "Avenida 68",
                             CiudadLocalidad = "Bogotá",
                             CodigoPostal = "110841",
@@ -354,7 +354,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            TelefonoAcudienteId = new Guid("81afc35b-48cc-4545-a9d3-096684f4df7a"),
+                            TelefonoAcudienteId = new Guid("b9bf66ae-756e-4c76-9253-f836b13ebe02"),
                             AcudienteId = 1,
                             Indicativo = "+1",
                             Numero = -4135,
@@ -362,7 +362,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("999be28d-0d74-49e4-ae35-3b16e39b3907"),
+                            TelefonoAcudienteId = new Guid("d8624544-37e2-4ca1-aaf3-8e53e79296db"),
                             AcudienteId = 2,
                             Indicativo = "+1",
                             Numero = -6975,
@@ -370,7 +370,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("c7445617-62ac-4629-bda4-e1149e232f7d"),
+                            TelefonoAcudienteId = new Guid("08fe1deb-a3d4-43c4-9c60-2c511d544370"),
                             AcudienteId = 3,
                             Indicativo = "+1",
                             Numero = -5357,
@@ -378,7 +378,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("80cea964-edbd-482d-9b26-fcf9df86873f"),
+                            TelefonoAcudienteId = new Guid("98f4bc5e-f60b-494a-876b-db81838f186c"),
                             AcudienteId = 4,
                             Indicativo = "+1",
                             Numero = -5753,
@@ -386,7 +386,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("9aa54acd-deb5-4b34-8e0b-1c9ab2915784"),
+                            TelefonoAcudienteId = new Guid("4502dbae-1482-4d71-a625-9a1d93db5b71"),
                             AcudienteId = 5,
                             Indicativo = "+1",
                             Numero = 911,
@@ -394,7 +394,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("cc037f26-aeff-4d6d-80e5-c46188cd38f8"),
+                            TelefonoAcudienteId = new Guid("8c760710-ccae-487b-a173-4ac1cb961806"),
                             AcudienteId = 1,
                             Indicativo = "+1",
                             Numero = -667,
@@ -402,7 +402,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("178c9816-b86a-46b3-a7da-60473146ef06"),
+                            TelefonoAcudienteId = new Guid("b2fa0b63-ebb4-4f92-8b03-c81c019cc0d9"),
                             AcudienteId = 2,
                             Indicativo = "+1",
                             Numero = -1889,
@@ -410,7 +410,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("8a2c43f6-6b64-42e2-9c71-3ece19bf905d"),
+                            TelefonoAcudienteId = new Guid("c0af4df5-4c25-469b-bdb2-e5e799a0e040"),
                             AcudienteId = 3,
                             Indicativo = "+1",
                             Numero = -3111,
@@ -418,7 +418,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("2557cf66-e9af-4afb-bc08-06685d3971d0"),
+                            TelefonoAcudienteId = new Guid("13380ff2-fb3f-4640-ad8c-6168a37014a7"),
                             AcudienteId = 4,
                             Indicativo = "+1",
                             Numero = -4333,
@@ -426,7 +426,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            TelefonoAcudienteId = new Guid("b511bd7d-a1b1-4c9f-939d-21586f433b9e"),
+                            TelefonoAcudienteId = new Guid("53b3f7c5-7e02-44f4-aba6-72d183a048f6"),
                             AcudienteId = 5,
                             Indicativo = "+1",
                             Numero = -5555,
@@ -485,7 +485,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            AulaId = new Guid("eb277d02-270e-4780-8733-1d90e570528f"),
+                            AulaId = new Guid("70520c79-41d9-4655-a137-6cdf1c2bf646"),
                             Capacidad = 50,
                             EstadoAula = "Disponible",
                             HorarioDisponibilidad = "Lunes a Viernes, 08:00 AM - 06:00 PM",
@@ -499,7 +499,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AulaId = new Guid("c76bf257-0b0f-4d60-91bb-195a5504b8a3"),
+                            AulaId = new Guid("dadbeac7-9882-4740-8158-a0e8a4f51bf5"),
                             Capacidad = 30,
                             EstadoAula = "Ocupado",
                             HorarioDisponibilidad = "Lunes a Viernes, 10:00 AM - 05:00 PM",
@@ -513,7 +513,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AulaId = new Guid("9b8f1f96-61f3-4d25-b979-ff27c2facfca"),
+                            AulaId = new Guid("fd9033db-604b-4c0f-bcc2-41c04bce4641"),
                             Capacidad = 100,
                             EstadoAula = "Disponible",
                             HorarioDisponibilidad = "Disponible previa reserva",
@@ -527,7 +527,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AulaId = new Guid("b938ca56-e983-4ac7-bf37-6b5a770441fe"),
+                            AulaId = new Guid("268625d1-459f-4a92-bbb8-907a76d8f8c6"),
                             Capacidad = 40,
                             EstadoAula = "En Mantenimiento",
                             HorarioDisponibilidad = "No disponible temporalmente",
@@ -541,7 +541,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            AulaId = new Guid("93b0fa00-55b5-4739-9970-599b7a224d38"),
+                            AulaId = new Guid("01ad2377-7fa3-4b14-9ae7-9540bdd52cee"),
                             Capacidad = 10,
                             EstadoAula = "Disponible",
                             HorarioDisponibilidad = "Lunes a Domingo, 09:00 AM - 11:00 PM",
@@ -602,7 +602,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            CursoId = new Guid("8e5df352-bc5c-4488-b284-d7d9f153e382"),
+                            CursoId = new Guid("55d9da66-dce5-4623-b65c-f847bca3c5ed"),
                             AulasAsignadas = "Aula 101, Aula 102",
                             Codigo = "CS101",
                             Curso = 101,
@@ -615,7 +615,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            CursoId = new Guid("ebe9d013-05aa-4313-80ea-05df716bec7f"),
+                            CursoId = new Guid("879a965e-f936-49e2-8c38-f963ffd4525c"),
                             AulasAsignadas = "Classroom 201, Classroom 202",
                             Codigo = "ENG201",
                             Curso = 201,
@@ -628,7 +628,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            CursoId = new Guid("59d2e468-b2e8-4f29-a60c-6b28eee1e7c3"),
+                            CursoId = new Guid("afe1908f-d23e-4de6-9276-d96fb740f829"),
                             AulasAsignadas = "Math Classroom 301",
                             Codigo = "MATH301",
                             Curso = 301,
@@ -641,7 +641,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            CursoId = new Guid("2aaf4cb4-ea06-408b-a359-c5d54c403437"),
+                            CursoId = new Guid("d2b19a24-1de8-4c82-8917-4e612e99c201"),
                             AulasAsignadas = "Chemistry Lab 201",
                             Codigo = "CHEM401",
                             Curso = 401,
@@ -654,7 +654,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            CursoId = new Guid("e79e732f-2c9b-4043-b62d-e82adc62b58f"),
+                            CursoId = new Guid("97fed96b-01eb-4b77-8b08-b5640d3097b1"),
                             AulasAsignadas = "History Classroom 101",
                             Codigo = "HIST501",
                             Curso = 501,
@@ -723,7 +723,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            HorarioId = new Guid("3e2fa338-b3e8-4683-96d5-5470da889b85"),
+                            HorarioId = new Guid("9ef9e7ed-7fe8-434b-b8d7-1a1538079249"),
                             DiaSemana = "Lunes",
                             DuracionClaseMinutos = 120,
                             EstadoHorario = "Activo",
@@ -739,7 +739,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            HorarioId = new Guid("45d4cc9b-b617-4b9b-98fe-b45945d8c461"),
+                            HorarioId = new Guid("3844d98a-fafd-4f5e-bc15-65f724499846"),
                             DiaSemana = "Martes",
                             DuracionClaseMinutos = 120,
                             EstadoHorario = "Activo",
@@ -755,7 +755,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            HorarioId = new Guid("d4b084ae-ac9e-424d-a5d4-20396c474862"),
+                            HorarioId = new Guid("460c3d2b-7dde-4f87-b293-c25dc8cea55c"),
                             DiaSemana = "Miércoles",
                             DuracionClaseMinutos = 120,
                             EstadoHorario = "Activo",
@@ -771,7 +771,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            HorarioId = new Guid("7eb27728-e584-46b4-adc1-9a3eace613f4"),
+                            HorarioId = new Guid("16840dc1-34f1-4148-aa84-eed0c8f50fc9"),
                             DiaSemana = "Jueves",
                             DuracionClaseMinutos = 120,
                             EstadoHorario = "Activo",
@@ -787,7 +787,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            HorarioId = new Guid("36f151bd-cc88-42fc-b7a2-71d3e75b6579"),
+                            HorarioId = new Guid("658da267-2633-4f39-98d4-be09059039cd"),
                             DiaSemana = "Viernes",
                             DuracionClaseMinutos = 120,
                             EstadoHorario = "Activo",
@@ -846,7 +846,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            MateriaId = new Guid("04e52085-89d3-4053-a6c2-dee9fbf5cdee"),
+                            MateriaId = new Guid("c2cf0895-8999-4d74-ba75-aab009b25b8e"),
                             DepartamentoAcademico = "Departamento de Matemáticas",
                             Descripcion = "Curso de Matemáticas Avanzadas",
                             Estado = "En progreso",
@@ -860,7 +860,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MateriaId = new Guid("b258699b-db45-44be-aa86-7b9e457b0bfc"),
+                            MateriaId = new Guid("a5c6cb77-2fb2-4e82-b7cd-3837a338d9d6"),
                             DepartamentoAcademico = "Departamento de Historia",
                             Descripcion = "Curso de Historia Mundial",
                             Estado = "Inscripciones abiertas",
@@ -874,7 +874,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MateriaId = new Guid("67560243-6625-47b2-979b-2ceb87605fcc"),
+                            MateriaId = new Guid("68302346-9481-4b79-9439-8618e209e17f"),
                             DepartamentoAcademico = "Departamento de Informática",
                             Descripcion = "Curso de Ciencias de la Computación",
                             Estado = "En progreso",
@@ -888,7 +888,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MateriaId = new Guid("256565eb-9dd8-483b-bb99-362a544ed06e"),
+                            MateriaId = new Guid("183491a1-8403-4b0a-afde-7645b1a4ccf4"),
                             DepartamentoAcademico = "Departamento de Literatura",
                             Descripcion = "Curso de Literatura Universal",
                             Estado = "Inscripciones abiertas",
@@ -902,7 +902,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MateriaId = new Guid("26ccc9b3-c319-4e16-b6ad-28393ba5372e"),
+                            MateriaId = new Guid("dbe485f7-72ee-40a3-ae62-1e751b1bb9c4"),
                             DepartamentoAcademico = "Departamento de Física",
                             Descripcion = "Curso de Física Avanzada",
                             Estado = "Completo",
@@ -916,7 +916,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MateriaId = new Guid("bd769b1b-b3c8-478d-8c68-622055fd63cf"),
+                            MateriaId = new Guid("0a48898d-9e2b-4da0-ae5e-630664883ff4"),
                             DepartamentoAcademico = "Departamento de Economía",
                             Descripcion = "Curso de Economía Moderna",
                             Estado = "En progreso",
@@ -930,7 +930,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MateriaId = new Guid("8abd2723-8ca8-4fdc-8aed-767c74bcd98e"),
+                            MateriaId = new Guid("c2f8043d-0ad0-4420-9122-248c237606f5"),
                             DepartamentoAcademico = "Departamento de Arte",
                             Descripcion = "Curso de Arte Contemporáneo",
                             Estado = "Inscripciones abiertas",
@@ -954,6 +954,10 @@ namespace SRUNPE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
@@ -961,6 +965,9 @@ namespace SRUNPE.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
+
+                    b.Property<int>("Telefono")
+                        .HasColumnType("int");
 
                     b.Property<string>("TipoPersona")
                         .HasColumnType("nvarchar(max)");
@@ -972,82 +979,102 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            CandidatoEstudianteId = new Guid("f57d3215-cc4f-4fe0-bd0a-0b344d76d254"),
+                            CandidatoEstudianteId = new Guid("74b1e102-80f2-43c4-a35a-e772aa7c9256"),
                             Apellido = "Acuña",
+                            Direccion = "calle 10",
                             FechaNacimiento = new DateTime(1995, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Axl",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("49409752-9e3b-429a-b0c0-fb70c6d49197"),
+                            CandidatoEstudianteId = new Guid("327fb1ce-2908-48b3-8bf6-445d9d730def"),
                             Apellido = "Castro",
+                            Direccion = "calle 9",
                             FechaNacimiento = new DateTime(1990, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Juan",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("f888eafb-169c-45db-882f-976033143d8e"),
+                            CandidatoEstudianteId = new Guid("dba06ff8-366b-409a-b4a7-47fb78aa2e74"),
                             Apellido = "Sánchez",
+                            Direccion = "calle 8",
                             FechaNacimiento = new DateTime(1987, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Carlos",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("f39fc767-56f9-417a-a746-371e3b69d9ea"),
+                            CandidatoEstudianteId = new Guid("1b951756-e8e7-495c-94be-324bb9f5144d"),
                             Apellido = "López",
+                            Direccion = "calle 7",
                             FechaNacimiento = new DateTime(2000, 11, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Laura",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("b0d1c69b-fe84-45bd-87e4-d1a2a34bfb42"),
+                            CandidatoEstudianteId = new Guid("cb9f6dc3-1f86-49dd-be20-250be8344931"),
                             Apellido = "Ramírez",
+                            Direccion = "calle 6",
                             FechaNacimiento = new DateTime(1998, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Pedro",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("0836ac53-b431-407f-a370-8e68cf67b629"),
+                            CandidatoEstudianteId = new Guid("68469754-6f4f-4f66-81bd-96cf39ef664a"),
                             Apellido = "Martínez",
+                            Direccion = "calle 5",
                             FechaNacimiento = new DateTime(1993, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Ana",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("9975a76b-cb45-48e7-b4f2-dd9e5fe2267b"),
+                            CandidatoEstudianteId = new Guid("3ccab877-a601-4a15-90f5-36985c897ae1"),
                             Apellido = "Fernández",
+                            Direccion = "calle 4",
                             FechaNacimiento = new DateTime(1989, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Roberto",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("4cb2eb42-eac8-446d-ac79-6df5cbc1843e"),
+                            CandidatoEstudianteId = new Guid("f743d562-e940-4647-9030-8649288a8671"),
                             Apellido = "Gómez",
+                            Direccion = "calle 3",
                             FechaNacimiento = new DateTime(1996, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Isabel",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("c46760ba-ec7e-4912-850d-d5cfe4eea0b4"),
+                            CandidatoEstudianteId = new Guid("7ee9663b-de19-4825-96f3-d1b3da730dd1"),
                             Apellido = "Díaz",
+                            Direccion = "calle 2",
                             FechaNacimiento = new DateTime(1991, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Francisco",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         },
                         new
                         {
-                            CandidatoEstudianteId = new Guid("7055b6ac-7ec5-4c5c-aadf-9eb84b13c505"),
+                            CandidatoEstudianteId = new Guid("08314d06-16cc-4c5f-992b-20b1342a1268"),
                             Apellido = "Hernández",
+                            Direccion = "calle 1",
                             FechaNacimiento = new DateTime(1994, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Sofía",
+                            Telefono = 123456,
                             TipoPersona = "Estudiante"
                         });
                 });
@@ -1086,57 +1113,57 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            CupoId = new Guid("e76cb355-4e59-4152-9ece-cfec11182782"),
+                            CupoId = new Guid("6bde23dc-75aa-4d1f-bd4a-af0b4f8418d5"),
                             CantidadDisponible = 10,
                             Descripcion = "Cupo para el evento principal",
                             Duracion = new TimeSpan(0, 2, 0, 0, 0),
                             Estado = true,
-                            FechaFin = new DateTime(2024, 2, 29, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7057),
-                            FechaInicio = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7056),
+                            FechaFin = new DateTime(2024, 3, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6982),
+                            FechaInicio = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6981),
                             Ubicacion = "Salón principal"
                         },
                         new
                         {
-                            CupoId = new Guid("3c6f9b30-31f8-40a7-96cb-2ff6910dc0f8"),
+                            CupoId = new Guid("739b37a1-680c-465e-8f04-e79cabd209c8"),
                             CantidadDisponible = 5,
                             Descripcion = "Cupo para el taller de programación",
                             Duracion = new TimeSpan(0, 3, 0, 0, 0),
                             Estado = true,
-                            FechaFin = new DateTime(2024, 3, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7081),
-                            FechaInicio = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7080),
+                            FechaFin = new DateTime(2024, 4, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7000),
+                            FechaInicio = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7000),
                             Ubicacion = "Aula 101"
                         },
                         new
                         {
-                            CupoId = new Guid("94c253d8-be34-4937-ba13-93f0400356e4"),
+                            CupoId = new Guid("8ac36878-ffe4-4d1a-ac7a-a9a545c11683"),
                             CantidadDisponible = 20,
                             Descripcion = "Cupo para el seminario de marketing",
                             Duracion = new TimeSpan(0, 4, 0, 0, 0),
                             Estado = true,
-                            FechaFin = new DateTime(2024, 4, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7086),
-                            FechaInicio = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7085),
+                            FechaFin = new DateTime(2024, 5, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7003),
+                            FechaInicio = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7003),
                             Ubicacion = "Aula 102"
                         },
                         new
                         {
-                            CupoId = new Guid("d4bad599-4572-40f7-b9b4-958811b049ce"),
+                            CupoId = new Guid("e284aada-d51c-4eda-afe5-328ac4319581"),
                             CantidadDisponible = 15,
                             Descripcion = "Cupo para el curso de diseño gráfico",
                             Duracion = new TimeSpan(0, 2, 0, 0, 0),
                             Estado = true,
-                            FechaFin = new DateTime(2024, 5, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7091),
-                            FechaInicio = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7090),
+                            FechaFin = new DateTime(2024, 6, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7006),
+                            FechaInicio = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7006),
                             Ubicacion = "Aula 103"
                         },
                         new
                         {
-                            CupoId = new Guid("cdca8211-078b-4bcc-a580-bc9d20562830"),
+                            CupoId = new Guid("1b843e4e-7d3d-4545-b03e-a7019c0d03a5"),
                             CantidadDisponible = 30,
                             Descripcion = "Cupo para el evento de networking",
                             Duracion = new TimeSpan(0, 1, 0, 0, 0),
                             Estado = true,
-                            FechaFin = new DateTime(2024, 6, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7096),
-                            FechaInicio = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7095),
+                            FechaFin = new DateTime(2024, 7, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7009),
+                            FechaInicio = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7008),
                             Ubicacion = "Aula 104"
                         });
                 });
@@ -1196,7 +1223,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("2d54a999-187f-4a8c-99db-d17841e7938c"),
                             CandidatoEstudianteId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5603),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6055),
                             NombreDocumento = "Diploma",
                             NumeroDocumento = 987654,
                             Observaciones = "Logros académicos",
@@ -1209,7 +1236,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("3e68515e-3a47-4a62-a8c7-9f12242d020e"),
                             CandidatoEstudianteId = new Guid("4f3657e5-5824-47b8-b4cd-6f49a3f4dbf1"),
                             Estado = false,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5623),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6072),
                             NombreDocumento = "Certificado de Graduación",
                             NumeroDocumento = 123456,
                             Observaciones = "Graduación universitaria",
@@ -1222,7 +1249,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("4a303cce-8c0e-4ae7-89c1-067d0b7741b6"),
                             CandidatoEstudianteId = new Guid("3e68515e-3a47-4a62-a8c7-9f12242d020e"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5628),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6075),
                             NombreDocumento = "Certificado de Matrícula",
                             NumeroDocumento = 789012,
                             Observaciones = "Matrícula escolar",
@@ -1235,7 +1262,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("5f78d0e1-579e-4dfc-82a1-92010b4191d3"),
                             CandidatoEstudianteId = new Guid("31eb541a-9419-4eac-bf1b-0289a6c6f6f0"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5632),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6079),
                             NombreDocumento = "Cédula de Identidad",
                             NumeroDocumento = 555555,
                             Observaciones = "Documento oficial",
@@ -1248,7 +1275,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("f38f6b1a-86e9-4d9d-8a7a-62f17e6f1ba2"),
                             CandidatoEstudianteId = new Guid("7f255218-f8e0-45a9-9807-12e1bcfd438c"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5637),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6082),
                             NombreDocumento = "Carné de Estudiante",
                             NumeroDocumento = 7890123,
                             Observaciones = "Carné escolar",
@@ -1261,7 +1288,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("7e15d9a4-98cb-4d14-9a35-862f8c202725"),
                             CandidatoEstudianteId = new Guid("bb9b0679-4f04-4ac4-9ddc-5c3e50e81298"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5642),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6085),
                             NombreDocumento = "Boleta de Calificaciones",
                             NumeroDocumento = 9876543,
                             Observaciones = "Registro académico",
@@ -1274,7 +1301,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("8f4a67c2-fd5e-4316-8c50-7249f159d0f1"),
                             CandidatoEstudianteId = new Guid("a6509bea-688e-43b5-a870-6ee461ccf601"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5646),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6087),
                             NombreDocumento = "Pasaporte",
                             NumeroDocumento = 1234567,
                             Observaciones = "Documento de viaje",
@@ -1287,7 +1314,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("9b9d6d8f-72f0-4f0a-8e18-1e75b0182e3f"),
                             CandidatoEstudianteId = new Guid("db9fcac5-8654-45c3-87c7-8b5e13e9e6c2"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5651),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6090),
                             NombreDocumento = "Certificado Médico",
                             NumeroDocumento = 543210,
                             Observaciones = "Informe médico",
@@ -1300,7 +1327,7 @@ namespace SRUNPE.Migrations
                             EstudianteDocumentosId = new Guid("10a5e754-1570-4be0-8650-2c53d7cfb4d3"),
                             CandidatoEstudianteId = new Guid("b3b5a5a7-5b82-4f76-98c1-654589db8f61"),
                             Estado = true,
-                            FechaActualizacion = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(5656),
+                            FechaActualizacion = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(6093),
                             NombreDocumento = "Fotografía del Estudiante",
                             NumeroDocumento = 1111111,
                             Observaciones = "Foto de perfil",
@@ -1451,7 +1478,7 @@ namespace SRUNPE.Migrations
                             EstadisticaId = 1,
                             AñoEscolar = 2023,
                             CantidadExamenes = 5,
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 92, DateTimeKind.Local).AddTicks(398),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(9086),
                             Materia = "Matemáticas",
                             NotaMaxima = 9.0m,
                             NotaMinima = 7.5m,
@@ -1463,7 +1490,7 @@ namespace SRUNPE.Migrations
                             EstadisticaId = 2,
                             AñoEscolar = 2023,
                             CantidadExamenes = 4,
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 92, DateTimeKind.Local).AddTicks(403),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(9091),
                             Materia = "Ciencias",
                             NotaMaxima = 8.5m,
                             NotaMinima = 6.5m,
@@ -1475,7 +1502,7 @@ namespace SRUNPE.Migrations
                             EstadisticaId = 3,
                             AñoEscolar = 2023,
                             CantidadExamenes = 3,
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 92, DateTimeKind.Local).AddTicks(407),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(9095),
                             Materia = "Historia",
                             NotaMaxima = 9.5m,
                             NotaMinima = 8.5m,
@@ -1487,7 +1514,7 @@ namespace SRUNPE.Migrations
                             EstadisticaId = 4,
                             AñoEscolar = 2023,
                             CantidadExamenes = 5,
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 92, DateTimeKind.Local).AddTicks(410),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(9097),
                             Materia = "Lenguaje",
                             NotaMaxima = 8.0m,
                             NotaMinima = 6.0m,
@@ -1499,7 +1526,7 @@ namespace SRUNPE.Migrations
                             EstadisticaId = 5,
                             AñoEscolar = 2023,
                             CantidadExamenes = 2,
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 92, DateTimeKind.Local).AddTicks(413),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(9100),
                             Materia = "Arte",
                             NotaMaxima = 9.0m,
                             NotaMinima = 8.0m,
@@ -1511,7 +1538,7 @@ namespace SRUNPE.Migrations
                             EstadisticaId = 6,
                             AñoEscolar = 2023,
                             CantidadExamenes = 3,
-                            FechaRegistro = new DateTime(2024, 1, 30, 9, 34, 8, 92, DateTimeKind.Local).AddTicks(416),
+                            FechaRegistro = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(9103),
                             Materia = "Educación Física",
                             NotaMaxima = 10.0m,
                             NotaMinima = 9.0m,
@@ -1563,11 +1590,11 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            MatriculaId = new Guid("030f8ddd-63b4-4e86-9872-48213adeb5a5"),
+                            MatriculaId = new Guid("460056d5-f474-468a-bac6-f4a1a5d8f44a"),
                             CategoriaMatricula = "Estudiante de Tiempo Completo",
                             Comentarios = "Comentario sobre la matrícula 1",
                             EstadoMatricula = "Activa",
-                            FechaMatricula = new DateTime(2024, 1, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(8124),
+                            FechaMatricula = new DateTime(2024, 2, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7653),
                             InformacionPlanEstudios = "Plan de estudios 2023",
                             PeriodoAcademico = 2024,
                             RegistroCambios = "Registro de cambios 1",
@@ -1575,11 +1602,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MatriculaId = new Guid("53497f2b-6047-4422-a072-c4bb55071cd1"),
+                            MatriculaId = new Guid("ba71f5a3-bd81-4b4f-aff6-d656d523f86a"),
                             CategoriaMatricula = "Estudiante de Tiempo Parcial",
                             Comentarios = "Comentario sobre la matrícula 2",
                             EstadoMatricula = "Pendiente",
-                            FechaMatricula = new DateTime(2024, 2, 29, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(8131),
+                            FechaMatricula = new DateTime(2024, 3, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7657),
                             InformacionPlanEstudios = "Plan de estudios 2023",
                             PeriodoAcademico = 2024,
                             RegistroCambios = "Registro de cambios 2",
@@ -1587,11 +1614,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MatriculaId = new Guid("0a5f6a6a-052a-4885-ba55-1be112c1be0d"),
+                            MatriculaId = new Guid("de0f2394-a4a0-49ea-8888-37b2653eb650"),
                             CategoriaMatricula = "Estudiante Internacional",
                             Comentarios = "Comentario sobre la matrícula 3",
                             EstadoMatricula = "Cancelada",
-                            FechaMatricula = new DateTime(2024, 3, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(8136),
+                            FechaMatricula = new DateTime(2024, 4, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7661),
                             InformacionPlanEstudios = "Plan de estudios 2023",
                             PeriodoAcademico = 2024,
                             RegistroCambios = "Registro de cambios 3",
@@ -1599,11 +1626,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MatriculaId = new Guid("2b0e549b-6eb8-47ed-8444-7a9d8e8d3871"),
+                            MatriculaId = new Guid("dcbd5037-9e2a-49c9-a309-e9f4a622a967"),
                             CategoriaMatricula = "Estudiante de Tiempo Completo",
                             Comentarios = "Comentario sobre la matrícula 4",
                             EstadoMatricula = "Activa",
-                            FechaMatricula = new DateTime(2024, 4, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(8141),
+                            FechaMatricula = new DateTime(2024, 5, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7663),
                             InformacionPlanEstudios = "Plan de estudios 2023",
                             PeriodoAcademico = 2024,
                             RegistroCambios = "Registro de cambios 4",
@@ -1611,11 +1638,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            MatriculaId = new Guid("4cf41d02-83dd-48cd-a8c1-f9ea4f65233f"),
+                            MatriculaId = new Guid("1212d56d-5f4a-4b8a-8bac-e8af50c76d7e"),
                             CategoriaMatricula = "Estudiante de Tiempo Completo",
                             Comentarios = "Comentario sobre la matrícula 5",
                             EstadoMatricula = "Activa",
-                            FechaMatricula = new DateTime(2024, 5, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(8146),
+                            FechaMatricula = new DateTime(2024, 6, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7668),
                             InformacionPlanEstudios = "Plan de estudios 2023",
                             PeriodoAcademico = 2024,
                             RegistroCambios = "Registro de cambios 5",
@@ -1656,7 +1683,7 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            PreMatriculaId = new Guid("e2003266-ef8f-4a96-a780-f66c448480f3"),
+                            PreMatriculaId = new Guid("2345c21b-69d3-4fca-87a5-04e90c84cbc8"),
                             EstadoPreMatricula = "Pendiente",
                             GradoONivel = "Quinto de Primaria",
                             Observaciones = "Estudiante con requerimientos especiales.",
@@ -1665,7 +1692,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            PreMatriculaId = new Guid("eb5c2b07-a105-4d70-b327-48bae638caa0"),
+                            PreMatriculaId = new Guid("3eec71e2-cc13-4b58-8fd9-8dd48c1b955f"),
                             EstadoPreMatricula = "Activa",
                             GradoONivel = "Séptimo de Secundaria",
                             Observaciones = "Estudiante de transferencia.",
@@ -1674,7 +1701,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            PreMatriculaId = new Guid("b89064ad-d771-455d-af95-2f992b58e2c6"),
+                            PreMatriculaId = new Guid("4b94fb18-48e1-4312-9e8f-e5c60d4aa52a"),
                             EstadoPreMatricula = "Pendiente",
                             GradoONivel = "Tercero de Primaria",
                             Observaciones = "Estudiante extranjero.",
@@ -1683,7 +1710,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            PreMatriculaId = new Guid("7b8f1193-3097-44d3-8103-06450d90110a"),
+                            PreMatriculaId = new Guid("1e203d42-9b7d-4bbe-84fa-0168ab06abe5"),
                             EstadoPreMatricula = "Activa",
                             GradoONivel = "Cuarto de Secundaria",
                             Observaciones = "Estudiante con beca deportiva.",
@@ -1692,7 +1719,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            PreMatriculaId = new Guid("4fb8157e-2554-498f-a34f-ae5065a06991"),
+                            PreMatriculaId = new Guid("f70f2817-6c4c-4317-98ea-2ed90762b36d"),
                             EstadoPreMatricula = "Activa",
                             GradoONivel = "Segundo de Primaria",
                             Observaciones = "Estudiante con discapacidad visual.",
@@ -1701,7 +1728,7 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            PreMatriculaId = new Guid("ffc62a15-35be-41f4-b98a-056d1bdd732f"),
+                            PreMatriculaId = new Guid("dfee6f54-9d82-4ae1-a7d5-a800b10e0402"),
                             EstadoPreMatricula = "Pendiente",
                             GradoONivel = "Octavo de Secundaria",
                             Observaciones = "Estudiante sin observaciones adicionales.",
@@ -1752,11 +1779,11 @@ namespace SRUNPE.Migrations
                     b.HasData(
                         new
                         {
-                            RespuestaCupoId = new Guid("5dff8d92-73c7-42cb-9af6-b6d51f3bcc1b"),
+                            RespuestaCupoId = new Guid("10b90ed5-8bb8-4f2e-bd15-4857fd932dcd"),
                             DuracionRespuesta = new TimeSpan(30, 0, 0, 0, 0),
                             EstadoRespuesta = "Aceptada",
-                            FechaRespuesta = new DateTime(2024, 1, 31, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7410),
-                            FechaVencimiento = new DateTime(2024, 2, 29, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7416),
+                            FechaRespuesta = new DateTime(2024, 2, 5, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7198),
+                            FechaVencimiento = new DateTime(2024, 3, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7204),
                             MensajeRespuesta = "Respuesta 1",
                             Prioridad = "Alta",
                             TipoRespuesta = "Aceptación",
@@ -1764,11 +1791,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("888bade6-2edc-4379-9f7d-0b721ff43b36"),
+                            RespuestaCupoId = new Guid("49f896d0-04f3-436f-91c1-826fbbeb55da"),
                             DuracionRespuesta = new TimeSpan(45, 0, 0, 0, 0),
                             EstadoRespuesta = "Rechazada",
-                            FechaRespuesta = new DateTime(2024, 2, 1, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7425),
-                            FechaVencimiento = new DateTime(2024, 3, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7427),
+                            FechaRespuesta = new DateTime(2024, 2, 6, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7210),
+                            FechaVencimiento = new DateTime(2024, 4, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7211),
                             MensajeRespuesta = "Respuesta 2",
                             Prioridad = "Media",
                             TipoRespuesta = "Rechazo",
@@ -1776,11 +1803,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("da73ae1c-8b9f-41d8-8d64-0f22f96aee9c"),
+                            RespuestaCupoId = new Guid("d18b00d0-dd4a-4ebf-8339-a8a2470e2742"),
                             DuracionRespuesta = new TimeSpan(60, 0, 0, 0, 0),
                             EstadoRespuesta = "Pendiente",
-                            FechaRespuesta = new DateTime(2024, 2, 2, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7431),
-                            FechaVencimiento = new DateTime(2024, 4, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7432),
+                            FechaRespuesta = new DateTime(2024, 2, 7, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7213),
+                            FechaVencimiento = new DateTime(2024, 5, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7214),
                             MensajeRespuesta = "Respuesta 3",
                             Prioridad = "Baja",
                             TipoRespuesta = "Pendiente",
@@ -1788,11 +1815,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("ecf23155-ecd9-4e58-8670-39eeaf42016c"),
+                            RespuestaCupoId = new Guid("a9522efb-ae0e-4ee3-b221-7a70cd298df0"),
                             DuracionRespuesta = new TimeSpan(30, 0, 0, 0, 0),
                             EstadoRespuesta = "Aceptada",
-                            FechaRespuesta = new DateTime(2024, 2, 3, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7436),
-                            FechaVencimiento = new DateTime(2024, 5, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7437),
+                            FechaRespuesta = new DateTime(2024, 2, 8, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7218),
+                            FechaVencimiento = new DateTime(2024, 6, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7219),
                             MensajeRespuesta = "Respuesta 4",
                             Prioridad = "Alta",
                             TipoRespuesta = "Aceptación",
@@ -1800,11 +1827,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("249f90ab-b016-4fc8-b44f-647586233694"),
+                            RespuestaCupoId = new Guid("0a5d3972-b0e0-49ec-aef8-19f0d80d938f"),
                             DuracionRespuesta = new TimeSpan(45, 0, 0, 0, 0),
                             EstadoRespuesta = "Rechazada",
-                            FechaRespuesta = new DateTime(2024, 2, 4, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7443),
-                            FechaVencimiento = new DateTime(2024, 6, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7444),
+                            FechaRespuesta = new DateTime(2024, 2, 9, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7221),
+                            FechaVencimiento = new DateTime(2024, 7, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7221),
                             MensajeRespuesta = "Respuesta 5",
                             Prioridad = "Media",
                             TipoRespuesta = "Rechazo",
@@ -1812,11 +1839,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("decc16ff-aec2-4f06-ab6e-75d2c38abab6"),
+                            RespuestaCupoId = new Guid("7dfc3fab-584f-4060-be48-1ed5d03c0972"),
                             DuracionRespuesta = new TimeSpan(30, 0, 0, 0, 0),
                             EstadoRespuesta = "Aceptada",
-                            FechaRespuesta = new DateTime(2024, 2, 5, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7448),
-                            FechaVencimiento = new DateTime(2024, 7, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7449),
+                            FechaRespuesta = new DateTime(2024, 2, 10, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7223),
+                            FechaVencimiento = new DateTime(2024, 8, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7224),
                             MensajeRespuesta = "Respuesta 6",
                             Prioridad = "Alta",
                             TipoRespuesta = "Aceptación",
@@ -1824,11 +1851,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("56065618-28f6-4009-9194-53ad92d0566c"),
+                            RespuestaCupoId = new Guid("5944f4a6-bf5a-4c7e-83c6-9d77f5664bb8"),
                             DuracionRespuesta = new TimeSpan(45, 0, 0, 0, 0),
                             EstadoRespuesta = "Rechazada",
-                            FechaRespuesta = new DateTime(2024, 2, 6, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7453),
-                            FechaVencimiento = new DateTime(2024, 8, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7454),
+                            FechaRespuesta = new DateTime(2024, 2, 11, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7226),
+                            FechaVencimiento = new DateTime(2024, 9, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7227),
                             MensajeRespuesta = "Respuesta 7",
                             Prioridad = "Media",
                             TipoRespuesta = "Rechazo",
@@ -1836,11 +1863,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("f5dc5219-e91e-4c2a-bf8c-9a9576857853"),
+                            RespuestaCupoId = new Guid("789a22df-5294-47cf-af46-53d9fde9fa86"),
                             DuracionRespuesta = new TimeSpan(60, 0, 0, 0, 0),
                             EstadoRespuesta = "Pendiente",
-                            FechaRespuesta = new DateTime(2024, 2, 7, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7457),
-                            FechaVencimiento = new DateTime(2024, 9, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7459),
+                            FechaRespuesta = new DateTime(2024, 2, 12, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7229),
+                            FechaVencimiento = new DateTime(2024, 10, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7229),
                             MensajeRespuesta = "Respuesta 8",
                             Prioridad = "Baja",
                             TipoRespuesta = "Pendiente",
@@ -1848,11 +1875,11 @@ namespace SRUNPE.Migrations
                         },
                         new
                         {
-                            RespuestaCupoId = new Guid("72d4463e-11f5-4d45-9390-9865fc078028"),
+                            RespuestaCupoId = new Guid("68fcaba0-7c27-4372-a111-fc26349c5b3d"),
                             DuracionRespuesta = new TimeSpan(30, 0, 0, 0, 0),
                             EstadoRespuesta = "Aceptada",
-                            FechaRespuesta = new DateTime(2024, 2, 8, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7462),
-                            FechaVencimiento = new DateTime(2024, 10, 30, 9, 34, 8, 91, DateTimeKind.Local).AddTicks(7463),
+                            FechaRespuesta = new DateTime(2024, 2, 13, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7231),
+                            FechaVencimiento = new DateTime(2024, 11, 4, 16, 7, 21, 846, DateTimeKind.Local).AddTicks(7232),
                             MensajeRespuesta = "Respuesta 9",
                             Prioridad = "Alta",
                             TipoRespuesta = "Aceptación",

@@ -117,8 +117,7 @@ export default function Docentebuscarestudiante() {
     return(
         
             <React.Fragment>
-            <div>
-	
+<main className="full-box main-container">	
 	
 	<section className="full-box nav-lateral">
 		<div className="full-box nav-lateral-bg show-nav-lateral"></div>
@@ -357,7 +356,7 @@ export default function Docentebuscarestudiante() {
             </div>
             </section>
 	
-        </div>
+        </main>
 	
 
             </React.Fragment>

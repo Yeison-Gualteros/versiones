@@ -5,7 +5,7 @@ export default function Docente() {
     return(
         
             <React.Fragment>
-            <div>
+            
 	
                 <main className="full-box main-container">
                     
@@ -161,7 +161,6 @@ export default function Docente() {
               
                 
                 
-            </div>
             </React.Fragment>
         
     )

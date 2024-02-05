@@ -103,7 +103,6 @@ export default function Docenteestudiantelista() {
 
   return (
     <React.Fragment>
-      <div>
         <main className="full-box main-container">
           <section className="full-box nav-lateral">
             <div className="full-box nav-lateral-bg show-nav-lateral"></div>
@@ -255,7 +254,7 @@ export default function Docenteestudiantelista() {
 </section>
 
 </main>
-</div>
+
 
 <div id="modalCandidatoEstudiante" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">

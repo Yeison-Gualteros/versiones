@@ -13,6 +13,13 @@ import Estudianteinfornotas from './EstudianteinfoNotas'
 import EstudianteMaterias from './EstudianteMateria'
 import EstudianteuserUpdate from './EstudianteuserUpdate'
 
+import Secretaria from './Secretaria'
+import Secretariaestudiantelista from './Secretariaestudiantelista'
+import Secretariabuscarestudiante from './Secretariabuscarestudiante'
+import Secretariadocentelista from './Secretariadocentelista'
+import Secretariadocentebuscar from './Secretariadocentebuscar'
+import Secretariacursoslista from './Secretariacursoslista'
+
 export default function RouterPage() {
     return(
         <div>
@@ -30,6 +37,14 @@ export default function RouterPage() {
                     <Route path='/EstudianteinfoNotas' exact Component={Estudianteinfornotas}/>
                     <Route path='/EstudianteMateria' exact Component={EstudianteMaterias}/>
                     <Route path='/EstudianteuserUpdate' exact Component={EstudianteuserUpdate}/>
+
+                    <Route path='/Secretaria' exact Component={Secretaria}/>
+                    <Route path='/Secretariaestudiantelista' exact Component={Secretariaestudiantelista}/>
+                    <Route path='/Secretariabuscarestudiante' exact Component={Secretariabuscarestudiante}/>
+                    <Route path='/Secretariadocentelista' exact Component={Secretariadocentelista}/>
+                    <Route path='/Secretariadocentebuscar' exact Component={Secretariadocentebuscar}/>
+                    <Route path='/Secretariacursoslista' exact Component={Secretariacursoslista}/>
+
                 </Routes>
             </Router>
         </div>
