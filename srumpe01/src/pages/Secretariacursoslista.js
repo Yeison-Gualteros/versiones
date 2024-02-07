@@ -1,9 +1,148 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import axios from 'axios';
+import { show_alert } from '../functions';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariacursoslista() {
+
+
+	const url = 'https://localhost:5001/api/cursos';
+	const [cursos, setcursos] = useState([]);
+
+  const [cursosId, setcursosId] = useState('');
+  const [Codigo, setCodigo] = useState('');
+  const [description, setDescription] = useState('');
+  const [departamentoacademico, setdepartamentoacademico] = useState('');
+  const [profesorasignado, setprofesorasignado] = useState('');
+  const [operation, setOperations] = useState(1);
+  const [title, setTitle] = useState('');
+
+
+  useEffect(() => {
+	getcursos();
+  },[]);
+
+  const getcursos = async () => {
+    const respuesta = await axios.get(url);
+    console.log(respuesta.data); // Add this line to see the structure of the response
+    setcursos(respuesta.data.cursos);
+};
+
+  
+
+  const openModal = (op, curso) => {
+    setOperations(op);
+    if (op === 1) {
+      setTitle('Registrar curso');
+      setcursosId('');
+      setcursos('');
+	  setCodigo('');
+	  setDescription('');
+	  setdepartamentoacademico('');
+      setprofesorasignado('');
+    } else if (op === 2) {
+      setTitle('Editar curso');
+      setcursosId(curso.cursosId);
+      setcursos(curso.curso);
+	  setCodigo(curso.codigo);
+	  setDescription(curso.descripcion);
+	  setdepartamentoacademico(curso.departamentoacademico);
+      setprofesorasignado(curso.profesorasignado);
+    }
+    window.setTimeout(function () {
+      document.getElementById('Nombre').focus();
+    }, 500);
+  };
+
+  const validar = () => {
+    if (cursos.trim() === "") {
+      show_alert("Escribe el nuevo curso", "Escribe el nuevo curso");
+    } else if (profesorasignado === "") {
+      show_alert("Seleccione el docente", "Seleccione el docente");
+    } else if (Codigo.trim() === "") {
+		show_alert("Escribe el código del curso", "Escribe el código del curso");
+	}else if (description.trim() === "") {
+		show_alert("Escribe la descripción del curso", "Escribe la descripción del curso");
+	}else if (departamentoacademico.trim() === "") {
+		show_alert("Escribe el departamento academico del curso", "Escribe el departamento academico del curso");
+	}else {
+      let parametros;
+      let metodo;
+
+      if (operation === 1) {
+        parametros = { cursos: cursos, profesorasignado: profesorasignado, codigo: Codigo, descriccion: description, departamentoacademico: departamentoacademico}; 
+        metodo = "POST";
+        
+      } else {
+        parametros = { cursos: cursos, profesorasignado: profesorasignado, codigo: Codigo, descriccion: description, departamentoacademico: departamentoacademico };
+        metodo = "PUT";
+      }
+
+      enviarSolicitud(metodo, parametros);
+    }
+  };
+
+  const enviarSolicitud = async (metodo, parametros) => {
+    if (metodo === "POST") {
+      axios
+        .post(`${url}`, parametros)
+        .then(function (respuesta) {
+          show_alert("Curso añadido exitosamente", "success");
+          document.getElementById("btnCerrar").click();
+          getcursos();
+        })
+        .catch(function (error) {
+          show_alert("error", "Error de solucitud");
+          console.log(error);
+        });
+    } else if (metodo === "PUT") {
+      axios
+        .put(`${url}/${cursosId}`, parametros)
+        .then(function (respuesta) {
+          console.log("Solicitud PUT exitosa:", respuesta.data);
+          var tipo = respuesta.data[0];
+          var msj = respuesta.data[1];
+          show_alert("curso editado con éxito", "success");
+          document.getElementById("btnCerrar").click();
+          getcursos();
+        })
+        .catch(function (error) {
+          show_alert("Error de solucitud", "error");
+          console.log(error);
+        });
+    }
+  };
+
+
+  const deleteCandidatoEstudiante = (cursoId, curso) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "¿Seguro quieres eliminar el curso " + curso + "?",
+      icon: "question",
+      text: "No se podra dar marcha atras",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`${url}/${cursoId}`);
+          show_alert("Curso eliminado exitosamente", "success");
+          getcursos();
+        } catch (error) {
+          show_alert("Error al eliminar el curso", "error");
+          console.error(error);
+        }
+      } else {
+        show_alert("El curso no fue eliminado", "info");
+      }
+    });
+  };
     return (
         <React.Fragment>
-        <div>
+        
 	
 	
 	<main class="full-box main-container">
@@ -133,96 +272,39 @@ export default function Secretariacursoslista() {
             
             
 			 <div class="container-fluid">
-				<div class="table-responsive">
-					<table class="table table-dark table-sm">
+			 <div className="table-responsive">
+					
+					<table className="table table-dark table-sm">
 						<thead>
-							<tr class="text-center roboto-medium">
+							<tr className="text-center roboto-medium">
 								<th>#</th>
-								<th>GRADO</th>
-								<th>GRUPO</th>
-								<th>DIRECTOR DE CURSO</th>
-								<th>NUMERO DE ESTUDIANTES</th>							
-								<th>ACTUALIZAR</th>								
-								<th>ELIMINAR</th>
+								<th>ID</th>
+								<th>CURSOS</th>
+								<th>DOCENTE</th>
+								<th>ACTUALIZAR/ELIMINAR</th>
+								
 							</tr>
 						</thead>
-						<tbody>
-							<tr class="text-center" >
-								<td>4</td>
-								<td>301</td>
-								
-								<td>NOMBRE PROFESOR</td>
-								<td>37/40</td>																
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>								
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>4</td>
-								<td>301</td>
-								
-								<td>NOMBRE PROFESOR</td>
-								<td>37/40</td>																
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>								
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>4</td>
-								<td>301</td>
-								
-								<td>NOMBRE PROFESOR</td>
-								<td>37/40</td>																
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>								
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>4</td>
-								<td>301</td>
-								
-								<td>NOMBRE PROFESOR</td>
-								<td>37/40</td>																
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>								
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
+						<tbody className="table-group-divider">
+						{cursos.map((Cursos, i) =>( 
+						<tr className="text-center"  key={Cursos.candidatoEstudianteId}>
+							<td>{i+1}</td>
+							<td>{Cursos.cursoId}</td>
+							<td>{Cursos.curso}</td>
+							<td>{Cursos.profesorasignado}</td>
+							<td>
+								<button onClick={() => openModal(2, Cursos)} className="btn btn-warning" data-bs-toggle='modal' data-bs-target='#modalCandidatoEstudiante'>
+									<i className="fa-solid fa-edit"></i>
+								</button>
+								&nbsp;
+								<button onClick={() => deleteCandidatoEstudiante(Cursos.cursoId, Cursos.curso, Cursos.profesorasignado)} className="btn btn-danger">
+									<i className="fa-solid fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					))}
+
+							
 						</tbody>
 					</table>
 				</div>
@@ -243,9 +325,60 @@ export default function Secretariacursoslista() {
         </section>
     </main>
     
-    	
-	</div>
+	<div id="modalCandidatoEstudiante" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="candidatoEstudianteId" />
+              <div className="input-group mb-3">
+                
+                
+              </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fa-solid fa-comment"></i></span>
+                    <input
+                        type="text"
+                        id="Curso"
+                        className="form-control"
+                        placeholder="CURSO"
+                        value={cursos}
+                        onChange={(e) => setcursos(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fa-solid fa-comment"></i></span>
+                      <input
+                        type="text"
+                        id="Apellido"
+                        className="form-control"
+                        placeholder="APELLIDO"
+                        value={Codigo}
+                        onChange={(e) => setCodigo(e.target.value)}
+                      />
+                    </div>
+                    <div className='d-grid col-6 mx-auto'>
+                    <div className="d-flex justify-content-center align-items-center h-100">
+                      <button onClick={() => validar()} className='btn btn-success'>Guardar</button>
+                    </div>
+                    </div>
+                  </div>
+                  <div className='modal-footer'>
+                  <div className="d-flex justify-content-center align-items-center h-100">
+                    <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+			  </div>
+	
     </React.Fragment>
+
+			
+
         )
 
 
