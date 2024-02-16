@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariaestudiantelista() {
-	const url = 'https://localhost:5001/api/candidatoEstudiante';
+	const url = 'https://localhost:7284/api/candidatoEstudiante';
   const [candidatoEstudiante, setCandidatoEstudiante] = useState([]);
   const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
   const [nombre, setNombre] = useState('');
@@ -172,7 +172,7 @@ export default function Secretariaestudiantelista() {
 									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
 								</li>
 								<li>
-									<a href="/Secrtariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
 								</li>
 							</ul>
 						</li>

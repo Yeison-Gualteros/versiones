@@ -8,7 +8,7 @@ import withReactContent from 'sweetalert2-react-content';
 export default function Secretariacursoslista() {
 
 
-	const url = 'https://localhost:5001/api/cursos';
+	const url = 'https://localhost:7284/api/cursos';
 	const [cursos, setcursos] = useState([]);
 
   const [cursosId, setcursosId] = useState('');
@@ -26,8 +26,7 @@ export default function Secretariacursoslista() {
 
   const getcursos = async () => {
     const respuesta = await axios.get(url);
-    console.log(respuesta.data); // Add this line to see the structure of the response
-    setcursos(respuesta.data.cursos);
+    setcursos(respuesta.data);
 };
 
   
@@ -145,7 +144,7 @@ export default function Secretariacursoslista() {
         
 	
 	
-	<main class="full-box main-container">
+	<main className="full-box main-container">
 		
 	<section className="full-box nav-lateral">
 			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
@@ -190,7 +189,7 @@ export default function Secretariacursoslista() {
 									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
 								</li>
 								<li>
-									<a href="/Secrtariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
 								</li>
 							</ul>
 						</li>
@@ -233,37 +232,37 @@ export default function Secretariacursoslista() {
 		</section>
 
 		
-		<section class="full-box page-content">
-			<nav class="full-box navbar-info">
-				<a href="#" class="float-left show-nav-lateral">
-					<i class="fas fa-exchange-alt"></i>
+		<section className="full-box page-content">
+			<nav className="full-box navbar-info">
+				<a href="#" className="float-left show-nav-lateral">
+					<i className="fas fa-exchange-alt"></i>
 				</a>
-				<a href="/Secretariauserupdate.html">
-					<i class="fas fa-user-cog"></i>
+				<a href="/Secretariaactualizar">
+					<i className="fas fa-user-cog"></i>
 				</a>
-				<a href="#" class="btn-exit-system">
-					<i class="fas fa-power-off"></i>
+				<a href="#" className="btn-exit-system">
+					<i className="fas fa-power-off"></i>
 				</a>
 			</nav>
 
 
             
-            <div class="full-box page-header">
-                <h3 class="text-left">
-                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS
+            <div className="full-box page-header">
+                <h3 className="text-left">
+                    <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS
                 </h3>
-                <p class="text-justify">
+                <p className="text-justify">
                     
                 </p>
             </div>
-            <div class="container-fluid">
-                <ul class="full-box list-unstyled page-nav-tabs">
+            <div className="container-fluid">
+                <ul className="full-box list-unstyled page-nav-tabs">
                    
                     <li>
-                        <a class="active" href="curso-lista.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS</a>
+                        <a className="active" href="curso-lista.html"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS</a>
                     </li>
                     <li>
-                        <a href="curso-buscar.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR CURSO</a>
+                        <a href="curso-buscar.html"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR CURSO</a>
                     </li>
                     
                 </ul>
@@ -271,7 +270,7 @@ export default function Secretariacursoslista() {
             
             
             
-			 <div class="container-fluid">
+			 <div className="container-fluid">
 			 <div className="table-responsive">
 					
 					<table className="table table-dark table-sm">
@@ -286,38 +285,39 @@ export default function Secretariacursoslista() {
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
-						{cursos.map((Cursos, i) =>( 
-						<tr className="text-center"  key={Cursos.candidatoEstudianteId}>
-							<td>{i+1}</td>
-							<td>{Cursos.cursoId}</td>
-							<td>{Cursos.curso}</td>
-							<td>{Cursos.profesorasignado}</td>
-							<td>
-								<button onClick={() => openModal(2, Cursos)} className="btn btn-warning" data-bs-toggle='modal' data-bs-target='#modalCandidatoEstudiante'>
-									<i className="fa-solid fa-edit"></i>
-								</button>
-								&nbsp;
-								<button onClick={() => deleteCandidatoEstudiante(Cursos.cursoId, Cursos.curso, Cursos.profesorasignado)} className="btn btn-danger">
-									<i className="fa-solid fa-trash"></i>
-								</button>
-							</td>
-						</tr>
-					))}
+						{cursos.map((Cursos, i) => ( 
+    <tr className="text-center" key={Cursos.cursosId}> 
+        <td>{i+1}</td>
+        <td>{Cursos.cursoId}</td>
+        <td>{Cursos.curso}</td>
+        <td>{Cursos.profesorasignado}</td>
+        <td>
+            <button onClick={() => openModal(2, Cursos)} className="btn btn-warning" data-bs-toggle='modal' data-bs-target='#modalCandidatoEstudiante'>
+                <i className="fa-solid fa-edit"></i>
+            </button>
+            &nbsp;
+            <button onClick={() => deleteCandidatoEstudiante(Cursos.cursoId, Cursos.curso, Cursos.profesorasignado)} className="btn btn-danger">
+                <i className="fa-solid fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+))}
+
 
 							
 						</tbody>
 					</table>
 				</div>
 				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled">
-							<a class="page-link" href="#" tabindex="-1">Previous</a>
+					<ul className="pagination justify-content-center">
+						<li className="page-item disabled">
+							<a className="page-link" href="#" tabIndex="-1">Previous</a>
 						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#">Next</a>
+						<li className="page-item"><a className="page-link" href="#">1</a></li>
+						<li className="page-item"><a className="page-link" href="#">2</a></li>
+						<li className="page-item"><a className="page-link" href="#">3</a></li>
+						<li className="page-item">
+							<a className="page-link" href="#">Next</a>
 						</li>
 					</ul>
 				</nav>

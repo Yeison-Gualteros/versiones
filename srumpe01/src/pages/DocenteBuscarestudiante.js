@@ -7,7 +7,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Docentebuscarestudiante() {
 
-    const url = 'https://localhost:5001/api/CandidatoEstudiante';
+    const url = 'https://localhost:7284/api/CandidatoEstudiante';
   const [candidatoEstudiante, setcandidatoEstudiante] = useState([]);
   const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
   const [nombres, setNombres] = useState('');
@@ -16,10 +16,9 @@ export default function Docentebuscarestudiante() {
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
-  const [isSubMenuOpen1, setIsSubMenuOpen1] = useState(false);
-
+  
   useEffect(() => {
     getCandidatoEstudiante();
   }, []);
@@ -32,6 +31,15 @@ export default function Docentebuscarestudiante() {
       console.error('Error al obtener al estudiante:', error);
     }
   };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredestudiante = candidatoEstudiante.filter((estudiante) => {
+    const fullName = `${estudiante.nombre} ${estudiante.apellido}`.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase());
+  });
 
   const openModal = (op, estudiante) => {
     setOperation(op);
@@ -225,18 +233,18 @@ export default function Docentebuscarestudiante() {
 			
 			
 			<div className="container-fluid">
-				<form className="form-neon" action="">
+				<form className="form-neon" onSubmit={(e) => e.preventDefault()}>
 					<div className="container-fluid">
 						<div className="row justify-content-md-center">
 							<div className="col-12 col-md-6">
 								<div className="form-group">
 									<label for="inputSearch" className="frome bmd-label-floating">¿Qué estudiante estas buscando?</label>
-									<input type="text" className="form-control" name="busqueda-" id="inputSearch" maxlength="30"/>
+									<input type="text" className="form-control" name="busqueda-" id="inputSearch" maxlength="30" value={searchTerm} onChange={handleSearchChange}/>
 								</div>
 							</div>
 							<div className="col-12">
 								<p className="text-center" >
-									<button type="submit" className="btn btn-raised btn-info"><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
+									<button type="submit" className="btn btn-raised btn-info" onClick={getCandidatoEstudiante}><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
 								</p>
 							</div>
 						</div>
@@ -246,23 +254,7 @@ export default function Docentebuscarestudiante() {
 
 			
 			<div className="container-fluid">
-				<form action="">
-					<input type="hidden" name="eliminar-busqueda" value="eliminar"/>
-					<div className="container-fluid">
-						<div className="row justify-content-md-center">
-							<div className="col-12 col-md-6">
-								<p className="text-center" >
-									Resultados de la busqueda <strong>“Buscar”</strong>
-								</p>
-							</div>
-							<div className="col-12">
-								<p className="text-center">
-									<button type="submit" className="btn btn-raised btn-danger"><i className="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
-								</p>
-							</div>
-						</div>
-					</div>
-				</form>
+				
 			
 
 
@@ -280,7 +272,7 @@ export default function Docentebuscarestudiante() {
                 </tr>
               </thead>
               <tbody>
-              {candidatoEstudiante.map((CandidatoEstudiante, i) => (
+              {filteredestudiante.map((CandidatoEstudiante, i) => (
                 <tr key={CandidatoEstudiante.candidatoEstudianteId} className="text-center">
                   <td className="#">{i + 1}</td>
                   <td className="ID">{CandidatoEstudiante.candidatoEstudianteId}</td>

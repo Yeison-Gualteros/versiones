@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { show_alert } from '../functions';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentebuscar() {
+    const url ='https://localhost:7284/api/Docente';
+
+    const [Docente, setDocente] = useState([]);
+    const [DocenteId, setDocenteId] = useState('');
+    
+
     return (
         <React.Fragment>
-        <main class="full-box main-container">
+        <main className="full-box main-container">
 		
         <section className="full-box nav-lateral">
                 <div className="full-box nav-lateral-bg show-nav-lateral"></div>
@@ -48,7 +57,7 @@ export default function Secretariadocentebuscar() {
                                         <a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
                                     </li>
                                     <li>
-                                        <a href="/Secrtariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+                                        <a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
                                     </li>
                                 </ul>
                             </li>
@@ -91,53 +100,53 @@ export default function Secretariadocentebuscar() {
             </section>
     
             
-            <section class="full-box page-content">
-                <nav class="full-box navbar-info">
-                    <a href="#" class="float-left show-nav-lateral">
-                        <i class="fas fa-exchange-alt"></i>
+            <section className="full-box page-content">
+                <nav className="full-box navbar-info">
+                    <a href="#" className="float-left show-nav-lateral">
+                        <i className="fas fa-exchange-alt"></i>
                     </a>
-                    <a href="/Secretariauserupdate.html">
-                        <i class="fas fa-user-cog"></i>
+                    <a href="/Secretariaactualizar">
+                        <i className="fas fa-user-cog"></i>
                     </a>
-                    <a href="#" class="btn-exit-system">
-                        <i class="fas fa-power-off"></i>
+                    <a href="#" className="btn-exit-system">
+                        <i className="fas fa-power-off"></i>
                     </a>
                 </nav>
 
                 
-            <div class="full-box page-header">
-                <h3 class="text-left">
-                    <i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PROFESOR/A
+            <div className="full-box page-header">
+                <h3 className="text-left">
+                    <i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR PROFESOR/A
                 </h3>
-                <p class="text-justify">
+                <p className="text-justify">
                 </p>
             </div>
-            <div class="container-fluid">
-                <ul class="full-box list-unstyled page-nav-tabs">
+            <div className="container-fluid">
+                <ul className="full-box list-unstyled page-nav-tabs">
                     
                     <li>
-                        <a href="lista-profesores.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PROFESEORES</a>
+                        <a href="lista-profesores.html"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PROFESEORES</a>
                     </li>
                     <li>
-                        <a class="active" href="buscar-profesor.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PROFESOR/A</a>
+                        <a className="active" href="buscar-profesor.html"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR PROFESOR/A</a>
                     </li>
                 </ul>
             </div>
             
             
-            <div class="container-fluid">
-                <form class="form-neon" action="">
-                    <div class="container-fluid">
-                        <div class="row justify-content-md-center">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="inputSearch" class="frome bmd-label-floating">¿Qué Profesor/a estas buscando?</label>
-                                    <input type="text" class="form-control" name="busqueda-" id="inputSearch" maxlength="30"/>
+            <div className="container-fluid">
+                <form className="form-neon" action="">
+                    <div className="container-fluid">
+                        <div className="row justify-content-md-center">
+                            <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="inputSearch" className="frome bmd-label-floating">¿Qué Profesor/a estas buscando?</label>
+                                    <input type="text" className="form-control" name="busqueda-" id="inputSearch" maxLength="30"/>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <p class="text-center" style={{marginTop: "40px;"}}>
-                                    <button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+                            <div className="col-12">
+                                <p className="text-center" style={{marginTop: "40px"}}>
+                                    <button type="submit" className="btn btn-raised btn-info"><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
                                 </p>
                             </div>
                         </div>
@@ -146,19 +155,19 @@ export default function Secretariadocentebuscar() {
             </div>
 
             
-            <div class="container-fluid">
+            <div className="container-fluid">
                 <form action="">
                     <input type="hidden" name="eliminar-busqueda" value="eliminar"/>
-                    <div class="container-fluid">
-                        <div class="row justify-content-md-center">
-                            <div class="col-12 col-md-6">
-                                <p class="text-center" style={{fontSize: "20px;"}}>
+                    <div className="container-fluid">
+                        <div className="row justify-content-md-center">
+                            <div className="col-12 col-md-6">
+                                <p className="text-center" style={{fontSize: "20px"}}>
                                     Resultados de la busqueda <strong>“Buscar”</strong>
                                 </p>
                             </div>
-                            <div class="col-12">
-                                <p class="text-center" style={{marginTop: "20px;"}}>
-                                    <button type="submit" class="btn btn-raised btn-danger"><i class="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
+                            <div className="col-12">
+                                <p className="text-center" style={{marginTop: "20px"}}>
+                                    <button type="submit" className="btn btn-raised btn-danger"><i className="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
                                 </p>
                             </div>
                         </div>
@@ -167,11 +176,11 @@ export default function Secretariadocentebuscar() {
             </div>
 
 
-           <div class="container-fluid">
-				<div class="table-responsive">
-					<table class="table table-dark table-sm">
+           <div className="container-fluid">
+				<div className="table-responsive">
+					<table className="table table-dark table-sm">
 						<thead>
-							<tr class="text-center roboto-medium">
+							<tr className="text-center roboto-medium">
 								<th>#</th>
 								<th>CÓDIGO</th>
 								<th>NOMBRE</th>
@@ -181,74 +190,74 @@ export default function Secretariadocentebuscar() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center" >
+							<tr className="text-center" >
 								<td>1</td>
 								<td>012342567</td>
 								<td>NOMBRE DEL PROFESOR/A</td>
 								<td>20</td>
 								<td>
-                                    <a href="actualizar-profesor.html" class="btn btn-success">
-                                        <i class="fas fa-sync-alt"></i> 
+                                    <a href="actualizar-profesor.html" className="btn btn-success">
+                                        <i className="fas fa-sync-alt"></i> 
                                     </a>
                                 </td>
                                 <td>
                                     <form action="">
-                                        <button type="button" class="btn btn-warning">
-                                            <i class="far fa-trash-alt"></i>
+                                        <button type="button" className="btn btn-warning">
+                                            <i className="far fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>
 							</tr>
-							<tr class="text-center" >
+							<tr className="text-center" >
 								<td>2</td>
 								<td>012342567</td>
 								<td>NOMBRE DEL PROFESOR/A</td>
 								<td>57</td>
 								<td>
-                                    <a href="actualizar-profesor.html" class="btn btn-success">
-                                        <i class="fas fa-sync-alt"></i> 
+                                    <a href="actualizar-profesor.html" className="btn btn-success">
+                                        <i className="fas fa-sync-alt"></i> 
                                     </a>
                                 </td>
                                 <td>
                                     <form action="">
-                                        <button type="button" class="btn btn-warning">
-                                            <i class="far fa-trash-alt"></i>
+                                        <button type="button" className="btn btn-warning">
+                                            <i className="far fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>
 							</tr>
-							<tr class="text-center" >
+							<tr className="text-center" >
 								<td>3</td>
 								<td>012342567</td>
 								<td>NOMBRE DEL PROFESOR/A</td>
 								<td>81</td>
 								<td>
-                                    <a href="actualizar-profesor.html" class="btn btn-success">
-                                        <i class="fas fa-sync-alt"></i> 
+                                    <a href="actualizar-profesor.html" className="btn btn-success">
+                                        <i className="fas fa-sync-alt"></i> 
                                     </a>
                                 </td>
                                 <td>
                                     <form action="">
-                                        <button type="button" class="btn btn-warning">
-                                            <i class="far fa-trash-alt"></i>
+                                        <button type="button" className="btn btn-warning">
+                                            <i className="far fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>
 							</tr>
-							<tr class="text-center" >
+							<tr className="text-center" >
 								<td>4</td>
 								<td>012342567</td>
 								<td>NOMBRE DEL PROFESOR/A</td>
 								<td>90</td>
 								<td>
-                                    <a href="actualizar-profesor.html" class="btn btn-success">
-                                        <i class="fas fa-sync-alt"></i> 
+                                    <a href="actualizar-profesor.html" className="btn btn-success">
+                                        <i className="fas fa-sync-alt"></i> 
                                     </a>
                                 </td>
                                 <td>
                                     <form action="">
-                                        <button type="button" class="btn btn-warning">
-                                            <i class="far fa-trash-alt"></i>
+                                        <button type="button" className="btn btn-warning">
+                                            <i className="far fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -257,15 +266,15 @@ export default function Secretariadocentebuscar() {
 					</table>
 				</div>
 				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled">
-							<a class="page-link" href="#" tabindex="-1">Antes</a>
+					<ul className="pagination justify-content-center">
+						<li className="page-item disabled">
+							<a className="page-link" href="#" tabIndex="-1">Antes</a>
 						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#">Despues</a>
+						<li className="page-item"><a className="page-link" href="#">1</a></li>
+						<li className="page-item"><a className="page-link" href="#">2</a></li>
+						<li className="page-item"><a className="page-link" href="#">3</a></li>
+						<li className="page-item">
+							<a className="page-link" href="#">Despues</a>
 						</li>
 					</ul>
 				</nav>

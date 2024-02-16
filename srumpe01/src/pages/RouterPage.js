@@ -19,6 +19,12 @@ import Secretariabuscarestudiante from './Secretariabuscarestudiante'
 import Secretariadocentelista from './Secretariadocentelista'
 import Secretariadocentebuscar from './Secretariadocentebuscar'
 import Secretariacursoslista from './Secretariacursoslista'
+import Secretariacursobuscar from './Secretariacursobuscar'
+import Secretariamaterialista from './Secretariamaterialista'
+import Secretariareclamos from './Secretariareclamos'
+import Secretariaactualizar from './Secretariaactualizar'
+
+import Prueba from './Prueba'
 
 export default function RouterPage() {
     return(
@@ -44,6 +50,12 @@ export default function RouterPage() {
                     <Route path='/Secretariadocentelista' exact Component={Secretariadocentelista}/>
                     <Route path='/Secretariadocentebuscar' exact Component={Secretariadocentebuscar}/>
                     <Route path='/Secretariacursoslista' exact Component={Secretariacursoslista}/>
+                    <Route path='/Secretariacursobuscar' exact Component={Secretariacursobuscar}/>
+                    <Route path='/Secretariamaterialista' exact Component={Secretariamaterialista}/>
+                    <Route path='/Secretariareclamos' exact Component={Secretariareclamos}/>
+                    <Route path='/Secretariaactualizar' exact Component={Secretariaactualizar}/>
+
+                    {/*<Route path='/Prueba' exact Component={Prueba}/>}*/}
 
                 </Routes>
             </Router>

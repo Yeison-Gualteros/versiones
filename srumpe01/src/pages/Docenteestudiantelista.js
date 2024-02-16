@@ -4,7 +4,7 @@ import axios from 'axios';
 import { show_alert } from '../functions'
 
 export default function Docenteestudiantelista() {
-  const url = 'https://localhost:5001/api/CandidatoEstudiante';
+  const url = 'https://localhost:7284/api/CandidatoEstudiante';
   const [candidatoEstudiante, setcandidatoEstudiante] = useState([]);
   const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
   const [nombre, setNombre] = useState('');

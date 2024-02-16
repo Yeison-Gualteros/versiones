@@ -7,25 +7,46 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariabuscarestudiante() {
 
-    const url = 'https://localhost:5001/api/candidatoEstudiante';
-  const [candidatoEstudiante, setCandidatoEstudiante] = useState([]);
+    const url = 'https://localhost:7284/api/candidatoEstudiante';
+  
   const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
+  const [candidatoEstudiante, setCandidatoEstudiante] = useState([]);
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [telefono, setTelefono] = useState('');
   const [direccion, setDireccion] = useState('');
   const [operation, setOperations] = useState(1);
   const [title, setTitle] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
 
   useEffect(() => {
 	getCandidatoEstudiante();
-  },[]);
+}, []);
 
-  const getCandidatoEstudiante = async () => {
-	const respuesta = await axios.get(url);
-	setCandidatoEstudiante(respuesta.data);
-  };
+const getCandidatoEstudiante = async () => {
+	try {
+		const response = await axios.get(url);
+		setCandidatoEstudiante(response.data);
+	} catch (error) {
+		console.error('Error fetching data:', error);
+	}
+};
+
+const handleSearchChange = (event) => {
+	setSearchTerm(event.target.value);
+};
+
+const filteredCandidatoEstudiante = candidatoEstudiante.filter((estudiante) => {
+	const fullName = `${estudiante.nombre} ${estudiante.apellido} ${estudiante.telefono} ${estudiante.direccion}`.toLowerCase();
+	return fullName.includes(searchTerm.toLowerCase());
+});
+
+
+
+ 
+
+  
 
   const openModal = (op, candidatoEstudiante) => {
     setOperations(op);
@@ -130,7 +151,7 @@ export default function Secretariabuscarestudiante() {
             
 	
 	
-	<main class="full-box main-container">
+	<main className="full-box main-container">
 		
 	<section className="full-box nav-lateral">
 			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
@@ -175,7 +196,7 @@ export default function Secretariabuscarestudiante() {
 									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
 								</li>
 								<li>
-									<a href="/Secrtariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
 								</li>
 							</ul>
 						</li>
@@ -218,132 +239,101 @@ export default function Secretariabuscarestudiante() {
 		</section>
 
 		
-		<section class="full-box page-content">
-			<nav class="full-box navbar-info">
-				<a href="#" class="float-left show-nav-lateral">
-					<i class="fas fa-exchange-alt"></i>
+		<section className="full-box page-content">
+			<nav className="full-box navbar-info">
+				<a href="#" className="float-left show-nav-lateral">
+					<i className="fas fa-exchange-alt"></i>
 				</a>
-				<a href="/Secretariauserupdate.html">
-					<i class="fas fa-user-cog"></i>
+				<a href="/Secretariaactualizar">
+					<i className="fas fa-user-cog"></i>
 				</a>
-				<a href="#" class="btn-exit-system">
-					<i class="fas fa-power-off"></i>
+				<a href="#" className="btn-exit-system">
+					<i className="fas fa-power-off"></i>
 				</a>
 			</nav>
 
 			
 			
-			<div class="full-box page-header">
-				<h3 class="text-left">
-					<i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
+			<div className="full-box page-header">
+				<h3 className="text-left">
+					<i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
 				</h3>
-				<p class="text-justify">
+				<p className="text-justify">
 					
 				</p>
 			</div>
 
-			<div class="container-fluid">
-				<ul class="full-box list-unstyled page-nav-tabs">
+			<div className="container-fluid">
+				<ul className="full-box list-unstyled page-nav-tabs">
 					{/*<li>
-						<a href="estudiante-nuevo.html"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR ESTUDIANTE</a>
+						<a href="estudiante-nuevo.html"><i className="fas fa-plus fa-fw"></i> &nbsp; AGREGAR ESTUDIANTE</a>
 					</li>*/}
 					<li>
-						<a href="/Secretariaestudiantelista"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ESTUDIANTES</a>
+						<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ESTUDIANTES</a>
 					</li>
 					<li>
-						<a class="active" href="/Secretariabuscarestudiante"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE</a>
+						<a className="active" href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE</a>
 					</li>
 				</ul>	
 			</div>
 			
 			
-			<div class="container-fluid">
-				<form class="form-neon" action="">
-					<div class="container-fluid">
-						<div class="row justify-content-md-center">
-							<div class="col-12 col-md-6">
-								<div class="form-group">
-									<label for="inputSearch" class="frome bmd-label-floating">¿Qué estudiante estas buscando?</label>
-									<input type="text" class="form-control" name="busqueda-" id="inputSearch" maxlength="30"/>
-								</div>
-							</div>
-							<div class="col-12">
-								<p class="text-center" style={{marginTop: "40px;"}}>
-									<button type="submit" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
-								</p>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-
-			
-			<div class="container-fluid">
-				<form action="">
-					<input type="hidden" name="eliminar-busqueda" value="eliminar"/>
-					<div class="container-fluid">
-						<div class="row justify-content-md-center">
-							<div class="col-12 col-md-6">
-								<p class="text-center" style={{fontSize: "20px;"}}>
-									Resultados de la busqueda <strong>“Buscar”</strong>
-								</p>
-							</div>
-							<div class="col-12">
-								<p class="text-center" style={{marginTop: "20px;"}}>
-									<button type="submit" class="btn btn-raised btn-danger"><i class="far fa-trash-alt"></i> &nbsp; ELIMINAR BÚSQUEDA</button>
-								</p>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-
-
 			<div className="container-fluid">
-				<div className="table-responsive">
-					
-					<table className="table table-dark table-sm">
-						<thead>
-							<tr className="text-center roboto-medium">
-								<th>#</th>
-								<th>ID</th>
-								<th>NOMBRE</th>
-								<th>APELLIDO</th>
-								<th>DIRECCION</th>
-								<th>TELEFONO</th>
-								<th>ACTUALIZAR/ELIMINAR</th>
-								
-							</tr>
-						</thead>
-						<tbody className="table-group-divider">
-							{candidatoEstudiante.map((CandidatoEstudiante, i) =>( 
-							<tr className="text-center"  key={CandidatoEstudiante.candidatoEstudianteId}>
-								<td>{i+1}</td>
-								<td>{CandidatoEstudiante.candidatoEstudianteId}</td>
-								<td>{CandidatoEstudiante.nombre}</td>
-								<td>{CandidatoEstudiante.apellido}</td>
-								<td>{CandidatoEstudiante.direccion}</td>
-								<td>{CandidatoEstudiante.telefono}</td>
-								<td>
-								<button onClick={() => openModal(2, CandidatoEstudiante)} className="btn btn-warning" data-bs-toggle='modal' data-bs-target='#modalCandidatoEstudiante'>
-                          <i className="fa-solid fa-edit"></i>
-                        </button>
-									&nbsp;
-									<button onClick={() => deleteCandidatoEstudiante(CandidatoEstudiante.candidatoEstudianteId, CandidatoEstudiante.nombre, CandidatoEstudiante.apellido)} className="btn btn-danger">
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
+            <form className="form-neon" onSubmit={(e) => e.preventDefault()}>
+                <div className="row justify-content-md-center">
+                    <div className="col-12 col-md-6">
+                        <div className="form-group">
+                            <label htmlFor="inputSearch" className="frome bmd-label-floating">¿Qué estudiante estás buscando?</label>
+                            <input type="text" className="form-control" name="busqueda-" id="inputSearch" maxLength="30" value={searchTerm} onChange={handleSearchChange} />
+                        </div>
+                    </div>
+                    <div className="col-12">
+                        <p className="text-center" style={{ marginTop: "40px" }}>
+                            <button type="submit" className="btn btn-raised btn-info" onClick={getCandidatoEstudiante}><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
+                        </p> 
+                    </div>
+                </div>
+            </form>
 
-
-								</td>
-								
-							</tr>
-							))}
-							
-							
-						</tbody>
-					</table>
-				</div>
-				</div>
+            <div className="container-fluid">
+                <div className="table-responsive">
+                    <table className="table table-dark table-sm">
+                        <thead>
+                            <tr className="text-center roboto-medium">
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>NOMBRE</th>
+                                <th>APELLIDO</th>
+                                <th>DIRECCION</th>
+                                <th>TELEFONO</th>
+                                <th>ACTUALIZAR/ELIMINAR</th>
+                            </tr>
+                        </thead>
+                        <tbody className="table-group-divider">
+                            {filteredCandidatoEstudiante.map((estudiante, index) => (
+                                <tr className="text-center" key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{estudiante.candidatoEstudianteId}</td>
+                                    <td>{estudiante.nombre}</td>
+                                    <td>{estudiante.apellido}</td>
+                                    <td>{estudiante.direccion}</td>
+                                    <td>{estudiante.telefono}</td>
+                                    <td>
+                                        <button className="btn btn-warning" onClick={() => openModal(2, estudiante)} data-bs-toggle='modal' data-bs-target='#modalCandidatoEstudiante'>
+                                            <i className="fa-solid fa-edit"></i>
+                                        </button>
+                                        &nbsp;
+                                        <button className="btn btn-danger" onClick={() => deleteCandidatoEstudiante(estudiante.candidatoEstudianteId, estudiante.nombre, estudiante.apellido)}>
+                                            <i className="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
 		</section>
 	</main>
