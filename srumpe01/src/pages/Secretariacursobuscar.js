@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default function Secretariacursobuscar() {
     
-	const url = 'https://localhost:7284/api/cursos';
+	const url = 'https://localhost:5001/api/cursos';
 	const [curso, setCursos] = useState([]);
 	const [cursoID, setCursoID] = useState('');
 	const [Codigo, setCodigo] = useState('');

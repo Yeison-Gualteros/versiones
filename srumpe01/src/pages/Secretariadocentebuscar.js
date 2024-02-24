@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentebuscar() {
-    const url ='https://localhost:7284/api/Docente';
+    const url ='https://localhost:5001/api/Docente';
 
     const [Docente, setDocente] = useState([]);
     const [DocenteId, setDocenteId] = useState('');

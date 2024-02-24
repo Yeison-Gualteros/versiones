@@ -7,7 +7,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariabuscarestudiante() {
 
-    const url = 'https://localhost:7284/api/candidatoEstudiante';
+    const url = 'https://localhost:5001/api/candidatoEstudiante';
   
   const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
   const [candidatoEstudiante, setCandidatoEstudiante] = useState([]);

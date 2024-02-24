@@ -8,7 +8,7 @@ import withReactContent from 'sweetalert2-react-content';
 export default function Secretariacursoslista() {
 
 
-	const url = 'https://localhost:7284/api/cursos';
+	const url = 'https://localhost:5001/api/cursos';
 	const [cursos, setcursos] = useState([]);
 
   const [cursosId, setcursosId] = useState('');

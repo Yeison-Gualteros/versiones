@@ -55,7 +55,7 @@ export default function RouterPage() {
                     <Route path='/Secretariareclamos' exact Component={Secretariareclamos}/>
                     <Route path='/Secretariaactualizar' exact Component={Secretariaactualizar}/>
 
-                    {/*<Route path='/Prueba' exact Component={Prueba}/>}*/}
+                    <Route path='/Prueba' exact Component={Prueba}/>
 
                 </Routes>
             </Router>
