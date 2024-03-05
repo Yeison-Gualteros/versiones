@@ -1,14 +1,159 @@
-import React, { useEffect, useState } from 'react';
+import  React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { show_alert } from '../functions';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariacursobuscar() {
     
 	const url = 'https://localhost:5001/api/cursos';
 	const [curso, setCursos] = useState([]);
 	const [cursoID, setCursoID] = useState('');
-	const [Codigo, setCodigo] = useState('');
-	const [profesorasignado, setProfesorasignado] = useState('');
+	const [codigo, setCodigo] = useState('');
+	const [profesorasignado, setprofesorasignado] = useState('');
 	const [searchTerm, setSearchTerm] = useState('');
+
+	
+    
+    const [cursoId, setcursoId] = useState('');
+    
+    const [description, setdescripcion] = useState('');
+    const [departamentoacademico, setdepartamentoacademico] = useState('');
+    
+    const [cursoSeleccionado, setCursoSeleccionado] = useState('');
+    const [aulasAsignadas, setaulasAsignadas] = useState('');
+    const [fechalimiteincripcion, setfechalimiteincripcion] = useState('');
+    const [metodosenseñanza, setmetodosenseñanza] = useState('');
+    const [operation, setOperation] = useState(1);
+    const [title, setTitle] = useState('');
+
+    const url2 = 'https://localhost:5001/api/Docente'
+    const [Docente, setDocente] = useState([]);
+    const [DocenteId, setDocenteId] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [apellido, setapellido] = useState('');
+
+
+    useEffect(() => {
+        getCursos();
+    }, []);
+
+    useEffect(() => {
+      fetch(url2)
+      .then(response => response.json())
+      .then((data) => setDocente(data))
+      .catch((error) => console.error('Error fetching cursos:', error))
+  }, [url2]);
+
+    const getCursos = async () => {
+        const respuesta = await axios.get(url);
+        setCursos(respuesta.data);
+    };
+
+    const openModal = (op, curso) => {
+        setOperation(op);
+        if (op === 1) {
+            setTitle('Registrar curso');
+            setcursoId('');
+            setCodigo('');
+            setCursoSeleccionado('');
+            setdescripcion('');
+            setdepartamentoacademico('');
+            setprofesorasignado('');
+            setaulasAsignadas('');
+            setfechalimiteincripcion('');
+            setmetodosenseñanza('');
+        } if (op === 2) {
+            setTitle('Editar curso');
+            setcursoId(curso.cursosId);
+            setCodigo(curso.codigo);
+            setCursoSeleccionado(curso.cursoSeleccionado);
+            setdescripcion(curso.descripcion);
+            setdepartamentoacademico(curso.departamentoacademico);
+            setprofesorasignado(curso.profesorasignado);
+            setaulasAsignadas(curso.aulasAsignadas);
+            setfechalimiteincripcion(curso.fechalimiteincripcion);
+            setmetodosenseñanza(curso.metodosenseñanza);
+        }
+        window.setTimeout(function () {
+            document.getElementById('Curso').focus();
+        }, 500);
+    };
+
+  const validar = (function() {
+    if (curso.cursoSeleccionado.trim() === "") {
+      show_alert("Escribe el nuevo curso", "Escribe el nuevo curso");
+    } else if (curso.profesorasignado.trim() === "") {
+      show_alert("Seleccione el docente", "Seleccione el docente");
+    }
+    else if (curso.codigo.trim() === "") {
+      show_alert("Escribe el código del curso", "Escribe el código del curso");
+
+    }
+    else if (curso.description.trim() === "") {
+      show_alert("Escribe la descripción del curso", "Escribe la descripción del curso");
+    }
+    else if (curso.departamentoacademico.trim() === "") {
+      show_alert("Escribe el departamento academico del curso", "Escribe el departamento academico del curso");
+    }
+    else {
+      let parametros;
+      let metodo;
+      if (operation === 1) {
+
+        parametros = { cursoSeleccionado: cursoSeleccionado, profesorasignado: profesorasignado, codigo: codigo, descriccion: cursoSeleccionado.description, departamentoacademico: departamentoacademico};
+        metodo = "POST";
+
+    }
+    else {
+      parametros = { cursoSeleccionado: cursoSeleccionado, profesorasignado: profesorasignado, codigo: codigo, descriccion: cursoSeleccionado.description, departamentoacademico: departamentoacademico};
+      metodo = "PUT";
+    }
+
+      enviarSolicitud(metodo, parametros);
+  }
+  })  
+    
+    
+
+  const enviarSolicitud = async (metodo, parametros) => {
+    if (metodo === "POST") {
+      const respuesta = await axios.post(url, parametros);
+      setCursos(respuesta.data);
+      show_alert('Curso Registrado', 'El curso ha sido registrado correctamente');
+    }
+    if (metodo === "PUT") {
+      const respuesta = await axios.put(url + '/' + cursoId, parametros);
+      setCursos(respuesta.data);
+      show_alert('Curso Editado', 'El curso ha sido editado correctamente');
+      
+    }
+};
+
+  const deletecurso = (cursoId, cursoSeleccionado) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "¿Seguro quieres eliminar el curso " + cursoSeleccionado + "?",
+      icon: "question",
+      text: "No se podra dar marcha atras",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`${url}/${cursoId}`);
+          show_alert("Curso eliminado exitosamente", "success");
+          getCursos();
+        } catch (error) {
+          show_alert("Error al eliminar el curso", "error");
+          console.error(error);
+        }
+      } else {
+        show_alert("El curso no fue eliminado", "info");
+      }
+    });
+  };
 
 	useEffect(() => {
 		getcurso();
@@ -28,7 +173,7 @@ export default function Secretariacursobuscar() {
     };
 
 	const filteredcursos = curso.filter((curso) => {
-		const fullName = `${curso.curso} ${curso.Codigo} ${curso.profesorasignado}`.toLowerCase();
+		const fullName = `${curso.curso} ${curso.codigo} ${curso.profesorasignado}`.toLowerCase();
 		return fullName.includes(searchTerm.toLowerCase());
 
 	});
@@ -150,11 +295,9 @@ export default function Secretariacursobuscar() {
             </div>
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
+                    
                     <li>
-                        <a href="curso-nuevo.html"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO CURSO</a>
-                    </li>
-                    <li>
-                        <a href="curso-lista.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS</a>
+                        <a style={{color: 'black'}} href="/Secretariacursoslista"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS</a>
                     </li>
                     <li>
                         <a class="active" href="curso-buscar.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR CURSOS</a>
@@ -193,32 +336,30 @@ export default function Secretariacursobuscar() {
 						<thead>
 							<tr class="text-center roboto-medium">
 								<th>#</th>
-								<th>CURSOS</th>
-								<th>PROFESOR ASIGNADO</th>
-								<th>CODIGO</th>							
-								<th>ACTUALIZAR</th>								
-								<th>ELIMINAR</th>
+								<th>CURSOID</th>
+								<th>CURSO</th>
+								<th>PROFESOR ASIGNADO</th>							
+								<th>ACTUALIZAR / ELIMINAR</th>								
 							</tr>
 						</thead>
 						<tbody>
 							{filteredcursos.map((curso, i) =>(
 								<tr class="text-center" key={i}>
 									<td>{i + 1}</td>
+									<td>{curso.cursoId}</td>
 									<td>{curso.curso}</td>
-									<td>{curso.profesorasignado}</td>
-									<td>{curso.Codigo}</td>																
+									<td>{curso.profesorasignado}</td>																
 									<td>
-										<a href="actualizar-curso.html" class="btn btn-success">
-											<i class="fas fa-sync-alt"></i>	
-										</a>
-									</td>								
-									<td>
-										<form action="">
-											<button type="button" class="btn btn-warning">
-												<i class="far fa-trash-alt"></i>
-											</button>
-										</form>
-									</td>
+									<button onClick={() => openModal(2, curso)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
+                          <i className="fas fa-edit"></i>
+                        </button>
+									 / &nbsp;
+									<button onClick={() => deletecurso(Docente.DocenteId, Docente.nombre, Docente.numeroTelefono, Docente.cursosAsignados, Docente.numeroIdentificacion)} className="btn btn-danger">
+                  <i className="far fa-trash-alt"></i>
+                        </button>
+
+
+								</td>
 								</tr>
 							))}
 							
@@ -242,6 +383,136 @@ export default function Secretariacursobuscar() {
 			</div>
         </section>
     </main>
+	<div id="modalcursos" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="fas fa-times" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="candidatoEstudianteId" />
+              <div className="input-group mb-3">
+                
+                
+              </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
+                    <input
+                        type="text"
+                        id="Curso"
+                        className="form-control"
+                        placeholder="CURSO"
+                        value={cursoSeleccionado} 
+                        onChange={(e) => setCursoSeleccionado(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
+                    <input
+                        type="text"
+                        id="codigo"
+                        className="form-control"
+                        placeholder="Codigo Curso"
+                        value={codigo} 
+                        onChange={(e) => setCodigo(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="far fa-newspaper"></i></span>
+                    <input
+                        type="text"
+                        id="cursodescripcion"
+                        className="form-control"
+                        placeholder="Descripcion del curso"
+                        value={description} 
+                        onChange={(e) => setdescripcion(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-school"></i></span>
+                    <input
+                        type="text"
+                        id="departementoacademico"
+                        className="form-control"
+                        placeholder="Departamento Academico"
+                        value={departamentoacademico} 
+                        onChange={(e) => setdepartamentoacademico(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
+                      <select
+            className="form-control"
+            name="item_estado"
+            id="item_estado"
+            value={DocenteId}
+            onChange={(e) => setDocenteId(e.target.value)}
+          >
+            <option value="" disabled>
+              Seleccione el Docente
+            </option>
+            {Docente.length > 0 ? (
+              Docente.map((Docente) => (
+                <option key={Docente.DocenteId} value={Docente.nombre}>
+                  {Docente.Docente}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Cargando Docentes...
+              </option>
+            )}
+          </select>
+          
+                    </div>
+          
+                    
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-person-booth"></i></span>
+                    <input
+                        type="text"
+                        id="codigo"
+                        className="form-control"
+                        placeholder="Aulas Asignadas"
+                        value={aulasAsignadas} 
+                        onChange={(e) => setaulasAsignadas(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                            <div class="form-group">
+                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona la fecha limite: </span>
+                            
+                            
+                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechalimiteincripcion} onChange={(e)=>setfechalimiteincripcion(e.target.value)}/>
+                          </div>
+                        </div>
+                        <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="text"
+                        id="codigo"
+                        className="form-control"
+                        placeholder="Metodos de enseñanza..."
+                        value={metodosenseñanza}  
+                        onChange={(e) => setmetodosenseñanza(e.target.value)}
+                      />
+                    </div>
+                    <div className='d-grid col-6 mx-auto'>
+                    <div className="d-flex justify-content-center align-items-center h-100">
+                      <button onClick={() => validar()} className='btn btn-success'>Guardar</button>
+                    </div>
+                    </div>
+                  </div>
+                  <div className='modal-footer'>
+                  <div className="d-flex justify-content-center align-items-center h-100">
+                    <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+			  
+	</div>
     </React.Fragment>
     )
 }

@@ -3,9 +3,8 @@ import axios from 'axios';
 import { show_alert } from '../functions';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+ 
 
 export default function Secretariaestudiantelista() {
     const url = 'https://localhost:5001/api/candidatoEstudiante';
@@ -13,10 +12,13 @@ export default function Secretariaestudiantelista() {
     const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
-    const [telefono, setTelefono] = useState('');
+    const [numeroContacto, setNumeroContacto] = useState();
     const [direccion, setDireccion] = useState('');
     const [tipo, setTipo] = useState('');
     const [fechaNacimiento, setFechaNacimiento] = useState(null);
+    const [tipoDocumento, settipoDocumento] = useState('');
+    const [cargadocumento, setcargadaDocumento] = useState('');
+    const [genero, setGenero] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
 
@@ -37,19 +39,25 @@ export default function Secretariaestudiantelista() {
             setCandidatoEstudianteId('');
             setNombre('');
             setApellido('');
-            setTelefono('');
+            setNumeroContacto('');
             setDireccion('');
             setFechaNacimiento('');
             setTipo('');
+            settipoDocumento('');
+            setcargadaDocumento(''); 
+            setGenero('');
         } else if (op === 2) {
             setTitle('Editar Estudiante');
             setCandidatoEstudianteId(candidatoEstudiante.candidatoEstudianteId);
             setNombre(candidatoEstudiante.nombre);
             setApellido(candidatoEstudiante.apellido);
-            setTelefono(candidatoEstudiante.telefono);
+            setNumeroContacto(candidatoEstudiante.NumeroContacto);
             setDireccion(candidatoEstudiante.direccion);
             setFechaNacimiento(candidatoEstudiante.fechaNacimiento);
             setTipo(candidatoEstudiante.tipo);
+            settipoDocumento(candidatoEstudiante.tipoDocumento);
+            setcargadaDocumento(candidatoEstudiante.cargadocumento);
+            setGenero(candidatoEstudiante.genero);
         }
         
         window.setTimeout(function () {
@@ -62,16 +70,23 @@ export default function Secretariaestudiantelista() {
         show_alert("Escribe el nombre del estudiante", "Escribe el nombre del nombre");
       } else if (apellido === "") {
         show_alert("Escribe el apellido del estudiante", "Escribe el estado del apellido");
+      }else if (numeroContacto === "") {
+        show_alert("Escribe el numero de contacto del estudiante", "Escribe el estado del apellido");
+      }else if (direccion === "") {
+        show_alert("Escribe la direccion del estudiante", "Escribe el estado del apellido");
+      }
+      else if (fechaNacimiento === null) {
+        show_alert("Escribe la fecha de nacimiento del estudiante", "Escribe el estado del apellido");
       } else {
         let parametros;
         let metodo;
   
         if (operation === 1) {
-          parametros = { nombre: nombre, apellido: apellido, telefono: telefono, direccion: direccion};
+          parametros = { nombre: nombre, apellido: apellido, NumeroContacto: numeroContacto, direccion: direccion, tipo: tipo, fechaNacimiento: fechaNacimiento, tipoDocumento: tipoDocumento, cargadocumento: cargadocumento, genero: genero};
           metodo = "POST";
           
         } else {
-          parametros = { nombre: nombre, apellido: apellido, telefono: telefono, direccion: direccion};
+          parametros = { nombre: nombre, apellido: apellido, NumeroContacto: numeroContacto, direccion: direccion, tipo: tipo, fechaNacimiento: fechaNacimiento, tipoDocumento: tipoDocumento, cargadocumento: cargadocumento, genero: genero};
           metodo = "PUT";
         }
   
@@ -130,8 +145,7 @@ export default function Secretariaestudiantelista() {
                 } catch (error) {
                     show_alert('Error al eliminar al estudiante', 'error');
                     console.error(error);
-                }
-            } else {
+                }} else {
                 show_alert('El estudiante no fue eliminado', 'info');
             }
         });
@@ -255,40 +269,25 @@ export default function Secretariaestudiantelista() {
 
 			<div className="container-fluid">
 				<ul className="full-box list-unstyled page-nav-tabs">
-					{/*<li onClick={() => openModal(1)}
-					className="btn btn-primary"
-					data-toggle="modal"
-					data-target="#ModalCandidatoEstudiante">
-						<a href="estudiante-nuevo.html"><i className="fas fa-plus fa-fw"></i> &nbsp; AGREGAR ESTUDIANTE</a>
-					</li>*/}
+					<li
+         >
+          <div>
+          <a  onClick={() => openModal(1)}
+          className=""
+          data-toggle="modal"
+          data-target="#ModalCandidatoEstudiante" ><i className="fas fa-plus fa-fw"></i> Añadir Estudiante nuevo</a>
+          </div>
+          </li>
 					<li>
 						<a className="active" href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ESTUDIANTES</a>
 					</li>
 					<li>
-						<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE</a>
+						<a style={{color: 'black'}} href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE</a>
 					</li>
 				</ul> 
 			</div>
       
-			<div className="container-fluid">
-                            <div className="row mt-3">
-                                <div className="col-md-4 offset-4">
-                                    <div className="d-gris mx-auto">
-                                        <div className="d-flex justify-content-center align-items-center h-100">
-                                        <button
-                                            onClick={() => openModal(1)}
-                                            className="btn btn-primary"
-                                            data-toggle="modal"
-                                            data-target="#ModalCandidatoEstudiante" // Corregido el target
-                                        >
-                                            <i className="fa-solid fa-circle-plus"></i> Añadir Estudiante nuevo
-                                        </button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+			
 			<div className="container-fluid">
 				<div className="table-responsive">
 					
@@ -299,8 +298,8 @@ export default function Secretariaestudiantelista() {
 								<th>ID</th>
 								<th>NOMBRE</th>
 								<th>APELLIDO</th>
+								<th>NUMERO CONTACTO</th>
 								<th>DIRECCION</th>
-								<th>TELEFONO</th>
 								<th>ACTUALIZAR/ELIMINAR</th>
 								
 							</tr>
@@ -312,10 +311,10 @@ export default function Secretariaestudiantelista() {
 								<td>{CandidatoEstudiante.candidatoEstudianteId}</td>
 								<td>{CandidatoEstudiante.nombre}</td>
 								<td>{CandidatoEstudiante.apellido}</td>
-								<td>{CandidatoEstudiante.telefono}</td>
+								<td>{CandidatoEstudiante.NumeroContacto}</td>
 								<td>{CandidatoEstudiante.direccion}</td>
 								<td>
-								<button onClick={() => openModal(2, CandidatoEstudiante)} className="btn btn-warning" data-toggle='modal' data-target='#ModalCandidatoEstudiante'>
+								<button onClick={() => openModal(2, CandidatoEstudiante)} className="btn btn-success" data-toggle='modal' data-target='#ModalCandidatoEstudiante'>
                           <i className="fas fa-edit"></i>
                         </button>
 									/&nbsp;
@@ -336,7 +335,7 @@ export default function Secretariaestudiantelista() {
 				</div>
 				</section>
 				</main>
-				<div id="ModalCandidatoEstudiante" className="modal fade" aria-hidden="true">
+				<div id="ModalCandidatoEstudiante" className="modal fade " aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -375,11 +374,11 @@ export default function Secretariaestudiantelista() {
                       <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
                       <input
                         type="text"
-                        id="Telefono"
+                        id="NumeroContacto"
                         className="form-control"
-                        placeholder="TELEFONO"
-                        value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
+                        placeholder="Numero Contacto"
+                        value={numeroContacto}
+                        onChange={(e) => setNumeroContacto(e.target.value)}
                       />
                     </div>
                     <div className="input-group mb-3">
@@ -397,28 +396,59 @@ export default function Secretariaestudiantelista() {
                         <div className="input-group mb-3">
                             <select className="form-select" value={tipo} onChange={(e) => setTipo(e.target.value)}>
                                 <option value="">Seleccione tipo de rol</option>
-                                <option value="estudiante">Estudiante</option>
-                                <option value="docente">Docente</option>
+                                <option value="Estudiante">Estudiante</option>
+                                <option value="Docente">Docente</option>
                             </select>
                         </div>
                         <div className="input-group mb-3">
-                            <span className="input-group-text"><i className="far fa-calendar-alt"></i></span>
-                            <DatePicker
-                                selected={fechaNacimiento}
-                                onChange={date => setFechaNacimiento(date)}
-                                dateFormat="dd/MM/yyyy"
-                                placeholderText="Fecha de nacimiento"
-                                className="form-control"
-                            />
+                            <div class="form-group">
+                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona una fecha: </span>
+                            
+                            
+                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
+                          </div>
                         </div>
-                    <div className='d-grid col-6 mx-auto'>
-                    <div className="d-flex justify-content-center align-items-center h-100">
+                        <div className="input-group mb-3">
+                          <span > <i class="fas fa-venus-mars"></i> Genero</span>
+                            <select className="form-select" value={genero} onChange={(e) => setGenero(e.target.value)}>
+                                <option value="">Seleccione Genero</option>
+                                <option value="Maculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                        <span ><i class="fas fa-id-card"></i> Tipo Documento</span>
+                            <select className="form-select" value={tipoDocumento} onChange={(e) => settipoDocumento(e.target.value)}>
+                                <option value="">Seleccione Tipo Documento</option>
+                                <option value="cedula">C.C</option>
+                                <option value="Targeta de Identidad">T.I</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                        <label for="formFileSm" class="form-label">Inserte el Documento</label>
+                        <input class="form-control form-control-sm" id="formFileSm" type="file"/>
+                        <input
+                        type="text"
+                        id="cargadaDocumento"
+                        className="form-control"
+                        placeholder="Inserto documento (SI O NO)"
+                        value={cargadocumento}
+                        onChange={(e) => setcargadaDocumento(e.target.value)}
+                      />
+</div>
+                        
+                    </div>
+                    <div className='modal-footer'>
+                    <div className='d-grid '>
+                    <div className="d-flex justify-content-center  ">
                       <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
                     </div>
                     </div>
-                  </div>
-                  <div className='modal-footer'>
-                  <div className="d-flex justify-content-center align-items-center h-100">
+                  
+                  
+                  <div className="d-flex justify-content-center ">
                     <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
                   </div>
                   </div>
@@ -428,8 +458,8 @@ export default function Secretariaestudiantelista() {
 
 		</div>
     
-    
     </div>
+    
 	</React.Fragment>
 	
           

@@ -1,7 +1,155 @@
-import React from 'react'
-import { Link } from "react-router-dom";
+import  React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { show_alert } from '../functions';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariamaterialista() {
+
+
+	const url = 'https://localhost:5001/api/materia';
+	const [materia, setMateria] = useState([]);
+	const [materiaId, setMateriaId] = useState('');
+	const [nombre, setNombre] = useState('');
+	const [descripcion, setDescripcion] = useState('');
+	const [departamentoacademico, setDepartamentamentament] = useState('');
+	const [profesorasignado, setProfesorasignado] = useState('');
+	const [modalidadenseñanza, setModalidadenseñanza] = useState('');
+	const [notasadicionales, setNotasadicionales] = useState('');
+	const [metodosenseñanza, setMetodosenseñanza] = useState('');
+	const [operation, setOperation] = useState(1);
+    const [title, setTitle] = useState('');
+
+	const url2 = 'https://localhost:5001/api/Docente'
+    const [Docente, setDocente] = useState([]);
+    const [DocenteId, setDocenteId] = useState('');
+
+	useEffect(() => {
+        getmateria();
+    }, []);
+
+	useEffect(() => {
+		fetch(url2)
+		.then(response => response.json())
+		.then((data) => setDocente(data))
+		.catch((error) => console.error('Error fetching cursos:', error))
+	}, [url2]);
+
+	const getmateria = async () =>{
+		const respuesta = await axios.get(url);
+		setMateria(respuesta.data)
+	}
+
+
+	const openModal = (op, materia)=>{
+		setOperation(op);
+        if (op === 1) {
+            setTitle('Registrar Materia');
+            setMateriaId('');
+            setNombre('');
+            setDescripcion('');
+            setDepartamentamentament('');
+            setProfesorasignado('');
+            setModalidadenseñanza('');
+            setNotasadicionales('');
+            setMetodosenseñanza('');
+        }
+		if (op === 2) {
+
+			setTitle('Editar Materia');
+            setMateriaId(materia.materiaId);
+            setNombre(materia.nombre);
+            setDescripcion(materia.descripcion);
+            setDepartamentamentament(materia.departamentoacademico);
+            setProfesorasignado(materia.profesorasignado);
+            setModalidadenseñanza(materia.modalidadenseñanza);
+            setNotasadicionales(materia.notasadicionales);
+            setMetodosenseñanza(materia.metodosenseñanza);
+			
+		}
+		window.setTimeout(function(){
+			document.getElementById('Nombre').focus();
+		}, 500);
+	};
+
+	const validar = (function(){
+		if (nombre.trim() === "") {
+			show_alert('Escribe el nombre de la materia nueva', 'error');
+		}
+		else if (descripcion.trim() === "") {
+            show_alert('Escribe la descripción de la materia nueva', 'error');
+        }
+		else if (departamentoacademico.trim() === "") {
+            show_alert('Escribe el departamento academico de la materia nueva', 'error');
+        }
+		else if (profesorasignado.trim() === "") {
+            show_alert('Escribe el profesor asignado de la materia nueva', 'error');
+        }
+		else if (modalidadenseñanza.trim() === "") {
+            show_alert('Escribe la modalidad de la materia nueva', 'error');
+        }
+		else if (notasadicionales.trim() === "") {
+            show_alert('Escribe las notas adicionales de la materia nueva', 'error');
+        }
+		else if (metodosenseñanza.trim() === "") {
+            show_alert('Escribe el metodo de la materia nueva', 'error');
+        }
+
+		else {
+			let parametros;
+			let metodo;
+			if (operation === 1) {
+				parametros = { nombre: nombre, descripcion: descripcion, departamentoacademico: departamentoacademico, profesorasignado: profesorasignado, modalidadenseñanza: modalidadenseñanza, notasadicionales: notasadicionales, metodosenseñanza: metodosenseñanza };
+                metodo = "POST";
+			}
+			else {
+				parametros = { materiaId: materiaId, nombre: nombre, descripcion: descripcion, departamentoacademico: departamentoacademico, profesorasignado: profesorasignado, modalidadenseñanza: modalidadenseñanza, notasadicionales: notasadicionales, metodosenseñanza: metodosenseñanza };
+                metodo = "PUT";
+			}
+			enviarSolicitud(metodo, parametros);
+		}
+
+	})
+
+	const enviarSolicitud = async (metodo, parametros) => {
+		if (metodo === "POST") {
+			const respuesta = await axios.post(url, parametros);
+			setMateria(respuesta.data);
+			show_alert('Materia Registrada', 'La materia ha sido registrada correctamente');
+		}
+		if (metodo === "PUT") {
+            const respuesta = await axios.put(url + '/' + materiaId, parametros);
+            setMateria(respuesta.data);
+            show_alert('Materia Editada', 'La materia ha sido editada correctamente');
+        }
+	};
+
+	const deletemateria = (materiaId, nombre) => {
+		const MySwal = withReactContent(Swal);
+		MySwal.fire({
+			title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+			cancelButtonText: 'Cancelar'
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					await axios.delete(`${url}/${materiaId}`);
+					show_alert("Materia eliminada exitosamente", "success");
+					getmateria();
+				}catch (error){
+					show_alert("No se pudo eliminar la materia", "error");
+					console.error(error)
+				}
+			}else {
+				show_alert("La materia no fue elimina", "info")
+			}
+		})
+	}
     return(
         
             <React.Fragment>
@@ -120,8 +268,15 @@ export default function Secretariamaterialista() {
 
 			<div class="container-fluid">
 				<ul class="full-box list-unstyled page-nav-tabs">
-					<li>
-						<a href="materia-nueva.html"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR MATERIAS</a>
+					<li>                
+						<div
+							onClick={() => openModal(1)}
+							data-toggle="modal"
+							data-target="#modalmateria" // Corregido el target
+						><a ><i class="fas fa-plus fa-fw"></i> 
+								Añadir Curso nuevo
+								</a>
+						</div>
 					</li>
 					<li>
 						<a class="active" href="materia-lista.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MATERIAS</a>
@@ -139,129 +294,35 @@ export default function Secretariamaterialista() {
 								<th>ID</th>								
 								<th>MATERIAS</th>
 								<th>DOCENTES</th>
-								<th>CURSOS</th>
-								<th>ACTUALIZAR</th>
-								<th>ELIMINAR</th>
+								<th>ACTUALIZAR / ELIMINAR</th>
+								
 							</tr>
 						</thead>
 						<tbody>
+							{materia.map((materias, i)=>(
 							<tr class="text-center" >
-								<td>1</td>
-								<td>NOMBRE MATERIA</td>
-								<td>NOMBRE DEL DOCENTE</td>
-								<td>-</td>
-								
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>2</td>
-								<td>NOMBRE MATERIA</td>
-								<td>NOMBRE DEL DOCENTE</td>
-								<td>601</td>
-								
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>3</td>
-								<td>NOMBRE MATERIA</td>
-								<td>NOMBRE DEL DOCENTE</td>
-								<td>201</td>
-								
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>4</td>
-								<td>NOMBRE MATERIA</td>
-								<td>NOMBRE DEL DOCENTE</td>
-								<td>301</td>
-								
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>5</td>
-								<td>NOMBRE MATERIA</td>
-								<td>NOMBRE DEL DOCENTE</td>
-								<td>402</td>
-								
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
-							<tr class="text-center" >
-								<td>6</td>
-								<td>NOMBRE MATERIA</td>
-								<td>NOMBRE DEL DOCENTE</td>
-								<td>501</td>
-								
-								<td>
-									<a href="actualizar-curso.html" class="btn btn-success">
-	  									<i class="fas fa-sync-alt"></i>	
-									</a>
-								</td>
-								<td>
-									<form action="">
-										<button type="button" class="btn btn-warning">
-		  									<i class="far fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							</tr>
+							<td>{i+1}</td>
+							<td>{materia.nombre}</td>
+							<td>{materia.profesorasignado}</td>
 							
-						</tbody>
+							
+							<td>
+								<button onClick={() => openModal(2, materia)} className="btn btn-success" data-toggle='modal' data-target='#modalmateria'>
+                          		<i className="fas fa-edit"></i>
+                        		</button>
+									/ &nbsp;
+									<button onClick={() => deletemateria(materia.materiaId, materia.nombre, materia.descripcion, materia.departamentoacademico, materia.profesorasignado, materia.modalidadenseñanza, materia.notasadicionales, materia.metodosenseñanza)} className="btn btn-danger">
+                  <i className="far fa-trash-alt"></i>
+                        </button>
+								</td>
+						</tr>
+							))}
+							</tbody>
 					</table>
+							
+							
+							
+						
 				</div>
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center">
@@ -280,5 +341,139 @@ export default function Secretariamaterialista() {
 
 		</section>
 	</main>
+	<div id="modalmateria" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="fas fa-times" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="materia" />
+              <div className="input-group mb-3">
+                
+                
+              </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
+                    <input
+                        type="text"
+                        id="Nombre"
+                        className="form-control"
+                        placeholder="Nombre de la materia"
+                        value={nombre} 
+                        onChange={(e) => setNombre(e.target.value)}
+                      />
+                    </div>
+					<div className="input-group mb-3">
+                    <span className="input-group-text"><i className="far fa-newspaper"></i></span>
+                    <input
+                        type="text"
+                        id="materiadescripcion"
+                        className="form-control"
+                        placeholder="Descripcion del curso"
+                        value={descripcion} 
+                        onChange={(e) => setDescripcion(e.target.value)}
+                      />
+                    </div>
+					<div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-school"></i></span>
+                    <input
+                        type="text"
+                        id="departementoacademico"
+                        className="form-control"
+                        placeholder="Departamento Academico"
+                        value={departamentoacademico} 
+                        onChange={(e) => setDepartamentamentament(e.target.value)}
+                      />
+                    </div>
+					<div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
+                      <select
+            className="form-control"
+            name="item_estado"
+            id="item_estado"
+            value={DocenteId}
+            onChange={(e) => setDocenteId(e.target.value)}
+          >
+            <option value="" disabled>
+              Seleccione el Docente
+            </option>
+            {Docente.length > 0 ? (
+              Docente.map((Docente) => (
+                <option key={Docente.DocenteId} value={Docente.nombre}>
+                  {Docente.Docente}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Cargando Docentes...
+              </option>
+            )}
+          </select>
+		  
+                    </div>
+
+		  <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="text"
+                        id="madalidaddeenseñanza"
+                        className="form-control"
+                        placeholder="Metodos de enseñanza..."
+                        value={modalidadenseñanza}  
+                        onChange={(e) => setModalidadenseñanza(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
+                    <input
+                        type="text"
+                        id="notasadicionales"
+                        className="form-control"
+                        placeholder="Cnotas adicionales..."
+                        value={notasadicionales} 
+                        onChange={(e) => setNotasadicionales(e.target.value)}
+                      />
+                    </div>
+                    
+                    
+                    
+          
+                    
+          
+                    
+					<div className="input-group mb-3">
+                          <span > <i class="fas fa-venus-mars"></i> Genero</span>
+                          <select 
+                                className="form-select" 
+                                value={modalidadenseñanza.value} 
+                                onChange={(e) => setModalidadenseñanza(e.target.value)}
+                            >
+                                <option value="">Seleccione modalidad</option>
+                                <option value="virtual">Virtual</option>
+                                <option value="presencial">Presencial</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    
+                        
+                    <div className='d-grid col-6 mx-auto'>
+                    <div className="d-flex justify-content-center align-items-center h-100">
+                      <button onClick={() => validar()} className='btn btn-success'>Guardar</button>
+                    </div>
+                    </div>
+                  
+                  <div className='modal-footer'>
+                  <div className="d-flex justify-content-center align-items-center h-100">
+                    <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                  </div>
+                  </div>
+                </div>
+				
+              </div>
+			  
+	</div>
+	</div>
     </React.Fragment>
     )}

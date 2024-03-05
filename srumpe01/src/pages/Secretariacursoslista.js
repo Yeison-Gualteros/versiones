@@ -1,124 +1,131 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import  React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { show_alert } from '../functions';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariacursoslista() {
+    const url = 'https://localhost:5001/api/cursos';
+    const [cursos, setCursos] = useState([]);
+    const [cursoId, setcursoId] = useState('');
+    const [codigo, setCodigo] = useState('');
+    const [description, setdescripcion] = useState('');
+    const [departamentoacademico, setdepartamentoacademico] = useState('');
+    const [profesorasignado, setprofesorasignado] = useState('');
+    const [cursoSeleccionado, setCursoSeleccionado] = useState('');
+    const [aulasAsignadas, setaulasAsignadas] = useState('');
+    const [fechalimiteincripcion, setfechalimiteincripcion] = useState('');
+    const [metodosenseñanza, setmetodosenseñanza] = useState('');
+    const [operation, setOperation] = useState(1);
+    const [title, setTitle] = useState('');
+
+    const url2 = 'https://localhost:5001/api/Docente'
+    const [Docente, setDocente] = useState([]);
+    const [DocenteId, setDocenteId] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [apellido, setapellido] = useState('');
 
 
-	const url = 'https://localhost:5001/api/cursos';
-	const [cursos, setcursos] = useState([]);
+    useEffect(() => {
+        getCursos();
+    }, []);
 
-  const [cursosId, setcursosId] = useState('');
-  const [Codigo, setCodigo] = useState('');
-  const [description, setDescription] = useState('');
-  const [departamentoacademico, setdepartamentoacademico] = useState('');
-  const [profesorasignado, setprofesorasignado] = useState('');
-  const [operation, setOperations] = useState(1);
-  const [title, setTitle] = useState('');
+    useEffect(() => {
+      fetch(url2)
+      .then(response => response.json())
+      .then((data) => setDocente(data))
+      .catch((error) => console.error('Error fetching cursos:', error))
+  }, [url2]);
 
+    const getCursos = async () => {
+        const respuesta = await axios.get(url);
+        setCursos(respuesta.data);
+    };
 
-  useEffect(() => {
-	getcursos();
-  },[]);
+    const openModal = (op, curso) => {
+        setOperation(op);
+        if (op === 1) {
+            setTitle('Registrar curso');
+            setcursoId('');
+            setCodigo('');
+            setCursoSeleccionado('');
+            setdescripcion('');
+            setdepartamentoacademico('');
+            setprofesorasignado('');
+            setaulasAsignadas('');
+            setfechalimiteincripcion('');
+            setmetodosenseñanza('');
+        } if (op === 2) {
+            setTitle('Editar curso');
+            setcursoId(curso.cursosId);
+            setCodigo(curso.codigo);
+            setCursoSeleccionado(curso.cursoSeleccionado);
+            setdescripcion(curso.descripcion);
+            setdepartamentoacademico(curso.departamentoacademico);
+            setprofesorasignado(curso.profesorasignado);
+            setaulasAsignadas(curso.aulasAsignadas);
+            setfechalimiteincripcion(curso.fechalimiteincripcion);
+            setmetodosenseñanza(curso.metodosenseñanza);
+        }
+        window.setTimeout(function () {
+            document.getElementById('Curso').focus();
+        }, 500);
+    };
 
-  const getcursos = async () => {
-    const respuesta = await axios.get(url);
-    setcursos(respuesta.data);
-};
-
-  
-
-  const openModal = (op, curso) => {
-    setOperations(op);
-    if (op === 1) {
-      setTitle('Registrar curso');
-      setcursosId('');
-      setcursos('');
-	  setCodigo('');
-	  setDescription('');
-	  setdepartamentoacademico('');
-      setprofesorasignado('');
-    } else if (op === 2) {
-      setTitle('Editar curso');
-      setcursosId(curso.cursosId);
-      setcursos(curso.curso);
-	  setCodigo(curso.codigo);
-	  setDescription(curso.descripcion);
-	  setdepartamentoacademico(curso.departamentoacademico);
-      setprofesorasignado(curso.profesorasignado);
-    }
-    window.setTimeout(function () {
-      document.getElementById('Nombre').focus();
-    }, 500);
-  };
-
-  const validar = () => {
-    if (cursos.trim() === "") {
+  const validar = (function() {
+    if (cursos.cursoSeleccionado.trim() === "") {
       show_alert("Escribe el nuevo curso", "Escribe el nuevo curso");
-    } else if (profesorasignado === "") {
+    } else if (cursos.profesorasignado.trim() === "") {
       show_alert("Seleccione el docente", "Seleccione el docente");
-    } else if (Codigo.trim() === "") {
-		show_alert("Escribe el código del curso", "Escribe el código del curso");
-	}else if (description.trim() === "") {
-		show_alert("Escribe la descripción del curso", "Escribe la descripción del curso");
-	}else if (departamentoacademico.trim() === "") {
-		show_alert("Escribe el departamento academico del curso", "Escribe el departamento academico del curso");
-	}else {
+    }
+    else if (cursos.codigo.trim() === "") {
+      show_alert("Escribe el código del curso", "Escribe el código del curso");
+
+    }
+    else if (cursos.description.trim() === "") {
+      show_alert("Escribe la descripción del curso", "Escribe la descripción del curso");
+    }
+    else if (cursos.departamentoacademico.trim() === "") {
+      show_alert("Escribe el departamento academico del curso", "Escribe el departamento academico del curso");
+    }
+    else {
       let parametros;
       let metodo;
-
       if (operation === 1) {
-        parametros = { cursos: cursos, profesorasignado: profesorasignado, codigo: Codigo, descriccion: description, departamentoacademico: departamentoacademico}; 
+
+        parametros = { cursoSeleccionado: cursoSeleccionado, profesorasignado: profesorasignado, codigo: codigo, descriccion: cursoSeleccionado.description, departamentoacademico: departamentoacademico};
         metodo = "POST";
-        
-      } else {
-        parametros = { cursos: cursos, profesorasignado: profesorasignado, codigo: Codigo, descriccion: description, departamentoacademico: departamentoacademico };
-        metodo = "PUT";
-      }
+
+    }
+    else {
+      parametros = { cursoSeleccionado: cursoSeleccionado, profesorasignado: profesorasignado, codigo: codigo, descriccion: cursoSeleccionado.description, departamentoacademico: departamentoacademico};
+      metodo = "PUT";
+    }
 
       enviarSolicitud(metodo, parametros);
-    }
-  };
+  }
+  })  
+    
+    
 
   const enviarSolicitud = async (metodo, parametros) => {
     if (metodo === "POST") {
-      axios
-        .post(`${url}`, parametros)
-        .then(function (respuesta) {
-          show_alert("Curso añadido exitosamente", "success");
-          document.getElementById("btnCerrar").click();
-          getcursos();
-        })
-        .catch(function (error) {
-          show_alert("error", "Error de solucitud");
-          console.log(error);
-        });
-    } else if (metodo === "PUT") {
-      axios
-        .put(`${url}/${cursosId}`, parametros)
-        .then(function (respuesta) {
-          console.log("Solicitud PUT exitosa:", respuesta.data);
-          var tipo = respuesta.data[0];
-          var msj = respuesta.data[1];
-          show_alert("curso editado con éxito", "success");
-          document.getElementById("btnCerrar").click();
-          getcursos();
-        })
-        .catch(function (error) {
-          show_alert("Error de solucitud", "error");
-          console.log(error);
-        });
+      const respuesta = await axios.post(url, parametros);
+      setCursos(respuesta.data);
+      show_alert('Curso Registrado', 'El curso ha sido registrado correctamente');
     }
-  };
+    if (metodo === "PUT") {
+      const respuesta = await axios.put(url + '/' + cursoId, parametros);
+      setCursos(respuesta.data);
+      show_alert('Curso Editado', 'El curso ha sido editado correctamente');
+      
+    }
+};
 
-
-  const deleteCandidatoEstudiante = (cursoId, curso) => {
+  const deletecurso = (cursoId, cursoSeleccionado) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: "¿Seguro quieres eliminar el curso " + curso + "?",
+      title: "¿Seguro quieres eliminar el curso " + cursoSeleccionado + "?",
       icon: "question",
       text: "No se podra dar marcha atras",
       showCancelButton: true,
@@ -129,7 +136,7 @@ export default function Secretariacursoslista() {
         try {
           await axios.delete(`${url}/${cursoId}`);
           show_alert("Curso eliminado exitosamente", "success");
-          getcursos();
+          getCursos();
         } catch (error) {
           show_alert("Error al eliminar el curso", "error");
           console.error(error);
@@ -257,16 +264,26 @@ export default function Secretariacursoslista() {
             </div>
             <div className="container-fluid">
                 <ul className="full-box list-unstyled page-nav-tabs">
+                    <li>
+                      <div
+                        onClick={() => openModal(1)}
+                        data-toggle="modal"
+                        data-target="#modalcursos" // Corregido el target
+                    >
+                        <a ><i className="fas fa-plus fa-fw"></i>&nbsp;  Añadir Curso nuevo</a>
+                    </div>
+                    </li>
                    
                     <li>
                         <a className="active" href="curso-lista.html"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS</a>
                     </li>
                     <li>
-                        <a href="curso-buscar.html"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR CURSO</a>
+                        <a style={{color: 'black'}} href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR CURSO</a>
                     </li>
                     
                 </ul>
             </div>
+            
             
             
             
@@ -281,7 +298,7 @@ export default function Secretariacursoslista() {
 								<th>CURSOS</th>
 								<th>DOCENTE</th>
 								<th>ACTUALIZAR/ELIMINAR</th>
-								
+								 
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
@@ -290,16 +307,18 @@ export default function Secretariacursoslista() {
         <td>{i+1}</td>
         <td>{Cursos.cursoId}</td>
         <td>{Cursos.curso}</td>
-        <td>{Cursos.profesorasignado}</td>
+        <td>{Cursos.ProfesorAsignado}</td>
         <td>
-            <button onClick={() => openModal(2, Cursos)} className="btn btn-warning" data-bs-toggle='modal' data-bs-target='#modalCandidatoEstudiante'>
-                <i className="fa-solid fa-edit"></i>
-            </button>
-            &nbsp;
-            <button onClick={() => deleteCandidatoEstudiante(Cursos.cursoId, Cursos.curso, Cursos.profesorasignado)} className="btn btn-danger">
-                <i className="fa-solid fa-trash"></i>
-            </button>
-        </td>
+								<button onClick={() => openModal(2, cursos)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
+                          <i className="fas fa-edit"></i>
+                        </button>
+									 / &nbsp;
+									<button onClick={() => deletecurso(Docente.DocenteId, Docente.nombre, Docente.numeroTelefono, Docente.cursosAsignados, Docente.numeroIdentificacion)} className="btn btn-danger">
+                  <i className="far fa-trash-alt"></i>
+                        </button>
+
+
+								</td>
     </tr>
 ))}
 
@@ -325,12 +344,12 @@ export default function Secretariacursoslista() {
         </section>
     </main>
     
-	<div id="modalCandidatoEstudiante" className="modal fade" aria-hidden="true">
+	<div id="modalcursos" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <label className="h5">{title}</label>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="fas fa-times" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <input type="hidden" id="candidatoEstudianteId" />
@@ -339,25 +358,105 @@ export default function Secretariacursoslista() {
                 
               </div>
                     <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fa-solid fa-comment"></i></span>
+                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
                     <input
                         type="text"
                         id="Curso"
                         className="form-control"
                         placeholder="CURSO"
-                        value={cursos}
-                        onChange={(e) => setcursos(e.target.value)}
+                        value={cursoSeleccionado} 
+                        onChange={(e) => setCursoSeleccionado(e.target.value)}
                       />
                     </div>
                     <div className="input-group mb-3">
-                      <span className="input-group-text"><i className="fa-solid fa-comment"></i></span>
-                      <input
+                    <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
+                    <input
                         type="text"
-                        id="Apellido"
+                        id="codigo"
                         className="form-control"
-                        placeholder="APELLIDO"
-                        value={Codigo}
+                        placeholder="Codigo Curso"
+                        value={codigo} 
                         onChange={(e) => setCodigo(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="far fa-newspaper"></i></span>
+                    <input
+                        type="text"
+                        id="cursodescripcion"
+                        className="form-control"
+                        placeholder="Descripcion del curso"
+                        value={description} 
+                        onChange={(e) => setdescripcion(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-school"></i></span>
+                    <input
+                        type="text"
+                        id="departementoacademico"
+                        className="form-control"
+                        placeholder="Departamento Academico"
+                        value={departamentoacademico} 
+                        onChange={(e) => setdepartamentoacademico(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
+                      <select
+            className="form-control"
+            name="item_estado"
+            id="item_estado"
+            value={DocenteId}
+            onChange={(e) => setDocenteId(e.target.value)}
+          >
+            <option value="" disabled>
+              Seleccione el Docente
+            </option>
+            {Docente.length > 0 ? (
+              Docente.map((Docente) => (
+                <option key={Docente.DocenteId} value={Docente.nombre}>
+                  {Docente.Docente}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Cargando Docentes...
+              </option>
+            )}
+          </select>
+          
+                    </div>
+          
+                    
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-person-booth"></i></span>
+                    <input
+                        type="text"
+                        id="codigo"
+                        className="form-control"
+                        placeholder="Aulas Asignadas"
+                        value={aulasAsignadas} 
+                        onChange={(e) => setaulasAsignadas(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                            <div class="form-group">
+                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona la fecha limite: </span>
+                            
+                            
+                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechalimiteincripcion} onChange={(e)=>setfechalimiteincripcion(e.target.value)}/>
+                          </div>
+                        </div>
+                        <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="text"
+                        id="codigo"
+                        className="form-control"
+                        placeholder="Metodos de enseñanza..."
+                        value={metodosenseñanza}  
+                        onChange={(e) => setmetodosenseñanza(e.target.value)}
                       />
                     </div>
                     <div className='d-grid col-6 mx-auto'>
@@ -373,8 +472,8 @@ export default function Secretariacursoslista() {
                   </div>
                 </div>
               </div>
-			  </div>
-	
+			  
+	</div>
     </React.Fragment>
 
 			

@@ -65,9 +65,10 @@ export default function Docente() {
 									<input type="text" className="form-control" id="UserName" name="usuario" pattern="[a-zA-Z0-9]{1,35}" maxLength="35" value={username} onChange={handleUsernameChange}/>
 								</div>
 								<div className="form-group">
-									<label htmlFor="UserPassword" className="bmd-label-floating"><i className="fas fa-keyy"></i> &nbsp; Contraseña</label>
+									<label htmlFor="exampleInputPassword1" className="bmd-label-floating"><i className="fas fa-keyy"></i> &nbsp; Contraseña</label>
 									<input type="password" className="form-control" id="UserPassword" name="clave" maxLength="200" value={password} onChange={handlePasswordChange}/>
 								</div>
+								
 								<div className="form-group">
 									<label htmlFor="UserPassword" className="bmd-label-floating"> &nbsp; </label>
 									<select className="form-select" aria-label="Default select example" value={selectedOption} onChange={handleSelectChange}>

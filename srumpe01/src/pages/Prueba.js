@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { Modal } from 'bootstrap'; // Importa bootstrap
 
 export default function Secretariaestudiantelista() {
-    const url = 'https://localhost:5001/api/candidatoEstudiante';
+    const url = 'https://localhost:7284/api/candidatoEstudiante';
     const [candidatoEstudiante, setCandidatoEstudiante] = useState([]);
     const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
     const [nombre, setNombre] = useState('');

@@ -27,7 +27,7 @@ export default function EstudianteMaterias() {
 					</figcaption>
 					<img src="../assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
 					<figcaption className="roboto-medium text-center">
-					Yeison Andrey Gualteros Bernal <br/><small className="roboto-condensed-light"><p><span className="badge badge-dark">Estudiante</span></p></small>
+					Nombre del estudiante <br/><small className="roboto-condensed-light"><p><span className="badge badge-dark">Estudiante</span></p></small>
 					</figcaption>
 				</figure>
 				<div className="full-box nav-lateral-bar"></div>

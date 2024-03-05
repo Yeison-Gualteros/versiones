@@ -1,6 +1,146 @@
-import React from "react"
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { show_alert } from '../functions';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
-export default function Secretariadocentelista(){
+export default function Secretariadocentelista(){ 
+
+    const url = 'https://localhost:5001/api/Docente'
+    const [Docente, setDocente] = useState([]);
+    const [DocenteId, setDocenteId] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [numeroTelefono, setNumeroTelefono] = useState('');
+    const [cursosAsignados, setcursosAsignados]=useState('');
+    const [numeroIdentificacion, setNumeroIdentificacion]=useState('');
+    const [operation, setOperation] = useState(1);
+    const [title, setTitle] = useState('');
+    const [genero, setGenero]= useState('');
+    const [fechaNacimiento, setFechaNacimiento] = useState('');
+    const [direccion, setDireccion] = useState('');
+    const [correo, setCorreo] = useState('');
+    const [fechaContratacion, setfechacontratacion] = useState('');
+    const [estadolaboral, setestadolaboral] = useState('');
+    const [nivelExperiencia, setNivelExperiencia] = useState('');
+
+    const url2 = 'https://localhost:5001/api/cursos';
+  const [curso, setCursos] = useState([]);
+  const [selectedCursoID, setSelectedCursoID] = useState('');
+
+
+  useEffect(() => {
+    fetch(url2)
+      .then((response) => response.json())
+      .then((data) => setCursos(data))
+      .catch((error) => console.error('Error fetching cursos:', error));
+  }, [url2]);
+
+    useEffect(() => {
+        getDocente();
+    }, []);
+    
+    const getDocente = async () => {
+        const respuesta = await axios.get(url);
+        setDocente(respuesta.data);
+    }
+
+    const openModal = (op, Docente) => {
+        setOperation(op);
+        if (op === 1) {
+            setTitle('Registrar Docente');
+            setDocenteId('');
+            setNombre('');
+            setNumeroTelefono('');
+            setcursosAsignados('');
+            setNumeroIdentificacion('');
+            setGenero('');
+            setFechaNacimiento('');
+            setDireccion('');
+            setCorreo('');
+            setfechacontratacion('');
+            setestadolaboral('');
+            setNivelExperiencia('');
+        }
+        if (op === 2) {
+            setTitle('Editar Docente');
+            setDocenteId(Docente.DocenteId);
+            setNombre(Docente.nombre);
+            setNumeroTelefono(Docente.numeroTelefono);
+            setcursosAsignados(Docente.cursosAsignados);
+            setNumeroIdentificacion(Docente.numeroIdentificacion);
+            setGenero(Docente.genero);
+            setFechaNacimiento(Docente.fechaNacimiento);
+            setDireccion(Docente.direccion);
+            setCorreo(Docente.correo);
+            setfechacontratacion(Docente.fechaContratacion);
+            setestadolaboral(Docente.estadolaboral);
+            setNivelExperiencia(Docente.nivelExperiencia);
+        }
+        window.setTimeout(function () {
+            document.getElementById('Nombre').focus();
+        }, 500);
+    };
+
+    const validar = (function () {
+        if (nombre.trim() === '') {
+            show_alert('Escribe el nombre del Docente', 'Escribe el nombre del nombre');
+        }else if (numeroTelefono.trim() === '') {
+            show_alert('Escribe el teléfono del Docente', 'Escribe el teléfono');
+        }else if (numeroIdentificacion.trim() === ''){
+            show_alert('Escribe el número de identificación del Docente', 'Escribe el número de identificación');
+        }else {
+            let parametros;
+            let metodo;
+
+            if (operation === 1) {
+                parametros = { nombre: nombre, numeroTelefono: numeroTelefono, cursosAsignados: cursosAsignados, numeroIdentificacion: numeroIdentificacion};
+                metodo = "POST";
+            } else {
+                parametros = { nombre: nombre, numeroTelefono: numeroTelefono, cursosAsignados: cursosAsignados, numeroIdentificacion: numeroIdentificacion};
+                metodo = "PUT";
+            }
+            enviarSolicitud(metodo, parametros);
+        }
+
+    })
+
+    const enviarSolicitud = async (metodo, parametros) => {
+        if (metodo === "POST") {
+            const respuesta = await axios.post(url, parametros);
+            setDocente(respuesta.data);
+            show_alert('Docente Registrado', 'El Docente ha sido registrado correctamente');
+        }
+        if (metodo === "PUT") {
+            const respuesta = await axios.put(url + '/' + DocenteId, parametros);
+            setDocente(respuesta.data);
+            show_alert('Docente Editado', 'El Docente ha sido editado correctamente');
+        }
+    }
+
+    const deleteDocente = (DocenteId, nombre) => {
+        const MySwal = withReactContent(Swal);
+        MySwal.fire({
+            title:  `¿Seguro quieres eliminar el estudiante ${nombre}?`,
+            icon: 'question',
+            text: 'Esta acción no se puede deshacer',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axios.delete(`${url}/${DocenteId}`);
+                    show_alert('Estudiante eliminado exitosamente', 'info');
+                    getDocente();
+                } catch (error){
+                    show_alert('Error al eliminar al estudiante', 'error');
+                    console.error(error);
+                }}else {
+                    show_alert('El estudiante no fue eliminado', 'info');
+                };
+            });
+    };
+
     return(
         <React.Fragment>
 
@@ -115,16 +255,35 @@ export default function Secretariadocentelista(){
             </div>
             <div className="container-fluid">
                 <ul className="full-box list-unstyled page-nav-tabs">
-                    
+                    <li>
+                    <div
+                        onClick={() => openModal(1)}
+                        data-toggle="modal"
+                        data-target="#ModalCandidatoEstudiante" // Corregido el target
+                    >
+                        <a><i className="fas fa-plus fa-fw"></i> Añadir Estudiante nuevo</a>
+                    </div>
+                    </li>
                     <li>
                         <a className="active" href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PROFESORES</a>
                     </li>
                     <li>
-                        <a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR PROFESOR/A</a>
+                        <a style={{color: 'black'}} href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR PROFESOR/A</a>
                     </li>
                 </ul>
             </div>
-            
+            <div className="container-fluid">
+                            <div className="row mt-3">
+                                <div className="col-md-4 offset-4">
+                                    <div className="d-gris mx-auto">
+                                        <div className="d-flex justify-content-center align-items-center h-100">
+                                        
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
             
            <div className="container-fluid">
 				<div className="table-responsive">
@@ -132,86 +291,41 @@ export default function Secretariadocentelista(){
 						<thead>
 							<tr className="text-center roboto-medium">
 								<th>#</th>
-								<th>CÓDIGO</th>
+								<th>ID</th>
 								<th>NOMBRE</th>
-								<th>CURSO</th>
-								<th>ACTUALIZAR</th>
-								<th>ELIMINAR</th>
+								<th>NUMERO TELEFONO</th>
+                                <th>CURSOS ASIGNADOS</th>
+								<th>NUMERO IDENTIFICACION</th>
+                                <th>GENERO</th>
+								<th>ELIMINAR / ACTUALIZAR</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr className="text-center" >
-								<td>1</td>
-								<td>012342567</td>
-								<td>NOMBRE DEL PROFESOR</td>
-								<td>101</td>
+						<tbody className="table-group-divider">
+							{Docente.map((Docente, i) =>( 
+							<tr className="text-center"  key={Docente.DocenteId}>
+								<td>{i+1}</td>
+								<td>{Docente.DocenteId}</td>
+								<td>{Docente.nombre}</td>
+								<td>{Docente.numeroTelefono}</td>
+								<td>{Docente.cursosAsignados}</td>
+								<td>{Docente.numeroIdentificacion}</td>
+                                <td>{Docente.genero}</td>
 								<td>
-                                    <a href="actualizar-profesor.html" className="btn btn-success">
-                                        <i className="fas fa-sync-alt"></i> 
-                                    </a>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <button type="button" className="btn btn-warning">
-                                            <i className="far fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
+								<button onClick={() => openModal(2, Docente)} className="btn btn-success" data-toggle='modal' data-target='#ModalCandidatoEstudiante'>
+                          <i className="fas fa-edit"></i>
+                        </button>
+									 / &nbsp;
+									<button onClick={() => deleteDocente(Docente.DocenteId, Docente.nombre, Docente.numeroTelefono, Docente.cursosAsignados, Docente.numeroIdentificacion)} className="btn btn-danger">
+                  <i className="far fa-trash-alt"></i>
+                        </button>
+
+
+								</td>
+								
 							</tr>
-							<tr className="text-center" >
-								<td>2</td>
-								<td>012342567</td>
-								<td>NOMBRE DEL PROFESOR</td>
-								<td>102</td>
-								<td>
-                                    <a href="actualizar-profesor.html" className="btn btn-success">
-                                        <i className="fas fa-sync-alt"></i> 
-                                    </a>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <button type="button" className="btn btn-warning">
-                                            <i className="far fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
-							</tr>
-							<tr className="text-center" >
-								<td>3</td>
-								<td>012342567</td>
-								<td>NOMBRE DEL PROFESOR</td>
-								<td>201</td>
-								<td>
-                                    <a href="actualizar-profesor.html" className="btn btn-success">
-                                        <i className="fas fa-sync-alt"></i> 
-                                    </a>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <button type="button" className="btn btn-warning">
-                                            <i className="far fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
-							</tr>
-							<tr className="text-center" >
-								<td>4</td>
-								<td>012342567</td>
-								<td>NOMBRE DEL PROFESOR</td>
-								<td>301</td>
-								<td>
-                                    <a href="actualizar-profesor.html" className="btn btn-success">
-                                        <i className="fas fa-sync-alt"></i> 
-                                    </a>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <button type="button" className="btn btn-warning">
-                                            <i className="far fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
-							</tr>
+							))}
+							
+							
 						</tbody>
 					</table>
 				</div>
@@ -235,9 +349,181 @@ export default function Secretariadocentelista(){
 
 
     </main>
+    <div id="ModalCandidatoEstudiante" className="modal fade " aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="fas fa-times" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="candidatoEstudianteId" />
+              <div className="input-group mb-3">
+                
+                
+              </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-signature"></i></span>
+                    <input
+                        type="text"
+                        id="Nombre"
+                        className="form-control"
+                        placeholder="NOMBRE"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                      />
+                    </div>
+                   
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <input
+                        type="text"
+                        id="numeroTelefono"
+                        className="form-control"
+                        placeholder="Numero de Telefono"
+                        value={numeroTelefono}
+                        onChange={(e) => setNumeroTelefono(e.target.value)}
+                      />
+                    </div>
+                     {/*<fieldset>
+                  
+
+                 <div className="input-group mb-3"> 
+                    <div className="form-group">
+                    <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> Cursos</span>
+                      
+                        
+                      
+                      <select
+            className="form-control"
+            name="item_estado"
+            id="item_estado"
+            value={selectedCursoID}
+            onChange={(e) => setSelectedCursoID(e.target.value)}
+          >
+            <option value="" disabled>
+              Seleccione un Curso
+            </option>
+            {curso.length > 0 ? (
+              curso.map((curso) => (
+                <option key={curso.cursoID} value={curso.cursoID}>
+                  {curso.curso}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Cargando cursos...
+              </option>
+            )}
+          </select>
+                    </div>
+                  </div>
+                </fieldset>*/}
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-map-marker-alt"></i></span>
+                      <input
+                        type="text"
+                        id="Direccion"
+                        className="form-control"
+                        placeholder="DIRECCION"
+                        value={direccion}
+                        onChange={(e) => setDireccion(e.target.value)}
+                      />
+                    </div>
+
+                    <div class="input-group mb-3">
+                    <span className="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email"
+                     className="form-control"
+                      id="correo" 
+                      placeholder="Dirección de correo electrónico"
+                      value={correo}
+                      onChange={ (e) => setCorreo (e.target.value)}/>
+                   
+                    </div>
+
+                    
+                    <div className="input-group mb-3">
+                          <span > <i class="fas fa-venus-mars"></i> Genero</span>
+                          <select 
+                                className="form-select" 
+                                value={genero} 
+                                onChange={(e) => setGenero(e.target.value)}
+                            >
+                                <option value="">Seleccione Genero</option>
+                                <option value="Male">Masculino</option>
+                                <option value="Female">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                          <span > <i class="fas fa-chalkboard-teacher"></i> Nivel de Experiencia</span>
+                          <select 
+                                className="form-select" 
+                                value={nivelExperiencia} 
+                                onChange={(e) => setNivelExperiencia(e.target.value)}
+                            >
+                                <option value="">Seleccione nivel</option>
+                                <option value="Grado 1">Grado 1</option>
+                                <option value="Grado 2">Grado 2</option>
+                                <option value="Grado 3">Grado 3</option>
+                            </select>
+                        </div>
+
+                        <div className="input-group mb-3">
+                        <div class="form-group">
+                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona fecha de nacimiento: </span>        
+                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechaNacimiento}/>
+                          </div>
+                        </div>
+
+                        <div className="input-group mb-3">
+                          <span > <i class="fas fa-chalkboard-teacher"></i> Estado Laboral</span>
+                            <select className="form-select" value={nivelExperiencia} onChange={(e) => setestadolaboral(e.target.value)}>
+                                <option value="">Seleccione Estado</option>
+                                <option value="Active">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <input
+                        type="text"
+                        id="numeroIdentificacion"
+                        className="form-control"
+                        placeholder="Numero de identificacion"
+                        value={numeroIdentificacion}
+                        onChange={(e) => setNumeroIdentificacion(e.target.value)}
+                      />
+                    </div>
+                       
+
+                    
+                    
+                       
+                    <div className='modal-footer'>
+                    <div className='d-grid '>
+                    <div className="d-flex justify-content-center  ">
+                      <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
+                    </div>
+                    </div>
+
+
+                  
+                  
+                  <div className="d-flex justify-content-center ">
+                    <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            
+
+		</div>
+    
     
     	
-	
+	</div>
             
 
 
