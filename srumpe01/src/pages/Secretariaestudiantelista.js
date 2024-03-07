@@ -4,153 +4,151 @@ import { show_alert } from '../functions';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import 'react-datepicker/dist/react-datepicker.css';
- 
 
 export default function Secretariaestudiantelista() {
-    const url = 'https://localhost:5001/api/candidatoEstudiante';
-    const [candidatoEstudiante, setCandidatoEstudiante] = useState([]);
-    const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [numeroContacto, setNumeroContacto] = useState();
-    const [direccion, setDireccion] = useState('');
-    const [tipo, setTipo] = useState('');
-    const [fechaNacimiento, setFechaNacimiento] = useState(null);
-    const [tipoDocumento, settipoDocumento] = useState('');
-    const [cargadocumento, setcargadaDocumento] = useState('');
-    const [genero, setGenero] = useState('');
-    const [operation, setOperation] = useState(1);
-    const [title, setTitle] = useState('');
+  const url = 'https://localhost:7284/api/candidatoEstudiante';
 
-
-    useEffect(() => {
-        getCandidatoEstudiante();
-    }, []);
-
-    const getCandidatoEstudiante = async () => {
-        const respuesta = await axios.get(url);
-        setCandidatoEstudiante(respuesta.data);
-    };
-
-    const openModal = (op, candidatoEstudiante) => {
-        setOperation(op);
-        if (op === 1) {
-            setTitle('Registrar Estudiante');
-            setCandidatoEstudianteId('');
-            setNombre('');
-            setApellido('');
-            setNumeroContacto('');
-            setDireccion('');
-            setFechaNacimiento('');
-            setTipo('');
-            settipoDocumento('');
-            setcargadaDocumento(''); 
-            setGenero('');
-        } else if (op === 2) {
-            setTitle('Editar Estudiante');
-            setCandidatoEstudianteId(candidatoEstudiante.candidatoEstudianteId);
-            setNombre(candidatoEstudiante.nombre);
-            setApellido(candidatoEstudiante.apellido);
-            setNumeroContacto(candidatoEstudiante.NumeroContacto);
-            setDireccion(candidatoEstudiante.direccion);
-            setFechaNacimiento(candidatoEstudiante.fechaNacimiento);
-            setTipo(candidatoEstudiante.tipo);
-            settipoDocumento(candidatoEstudiante.tipoDocumento);
-            setcargadaDocumento(candidatoEstudiante.cargadocumento);
-            setGenero(candidatoEstudiante.genero);
-        }
-        
-        window.setTimeout(function () {
-            document.getElementById('Nombre').focus();
-        }, 500);
-    };
-
-    const validar = () => {
-      if (nombre.trim() === "") {
-        show_alert("Escribe el nombre del estudiante", "Escribe el nombre del nombre");
-      } else if (apellido === "") {
-        show_alert("Escribe el apellido del estudiante", "Escribe el estado del apellido");
-      }else if (numeroContacto === "") {
-        show_alert("Escribe el numero de contacto del estudiante", "Escribe el estado del apellido");
-      }else if (direccion === "") {
-        show_alert("Escribe la direccion del estudiante", "Escribe el estado del apellido");
-      }
-      else if (fechaNacimiento === null) {
-        show_alert("Escribe la fecha de nacimiento del estudiante", "Escribe el estado del apellido");
-      } else {
-        let parametros;
-        let metodo;
+  const [candidatoEstudiantes, setCandidatoEstudiantes] = useState([]);
+  const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [numeroContacto, setNumeroContacto] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [genero, setGenero] = useState('');
+  const [tipoPersona, setTipoPersona] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
+  const [tipoDocumento, setTipoDocumento] = useState('');
+  const [adjuntarDocumentos, setAdjuntarDocumentos] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [numeroIdentificacionAcudiente, setNumeroIdentificacionAcudiente] = useState('');
+  const [operation, setOperation] = useState(1);
+  const [title, setTitle] = useState('');
   
-        if (operation === 1) {
-          parametros = { nombre: nombre, apellido: apellido, NumeroContacto: numeroContacto, direccion: direccion, tipo: tipo, fechaNacimiento: fechaNacimiento, tipoDocumento: tipoDocumento, cargadocumento: cargadocumento, genero: genero};
-          metodo = "POST";
-          
-        } else {
-          parametros = { nombre: nombre, apellido: apellido, NumeroContacto: numeroContacto, direccion: direccion, tipo: tipo, fechaNacimiento: fechaNacimiento, tipoDocumento: tipoDocumento, cargadocumento: cargadocumento, genero: genero};
-          metodo = "PUT";
-        }
+  useEffect(() => {
+    getCandidatoEstudiantes();
+  }, []);
   
-        enviarSolicitud(metodo, parametros);
-      }
-    };
-  
-  
-
-  const enviarSolicitud = async (metodo, parametros) => {
-    if (metodo === "POST") {
-      axios
-        .post(`${url}`, parametros)
-        .then(function (respuesta) {
-          show_alert("Estudiante añadido exitosamente", "success");
-          document.getElementById("btnCerrar").click();
-          getCandidatoEstudiante();
-        })
-        .catch(function (error) {
-          show_alert("error", "Error de solucitud");
-          console.log(error);
-        });
-    } else if (metodo === "PUT") {
-      axios
-        .put(`${url}/${candidatoEstudianteId}`, parametros)
-        .then(function (respuesta) {
-          console.log("Solicitud PUT exitosa:", respuesta.data);
-          var tipo = respuesta.data[0];
-          var msj = respuesta.data[1];
-          show_alert("Cargo editado con éxito", "success");
-          document.getElementById("btnCerrar").click();
-          getCandidatoEstudiante();
-        })
-        .catch(function (error) {
-          show_alert("Error de solucitud", "error");
-          console.log(error);
-        });
+  const getCandidatoEstudiantes = async () => {
+    try {
+      const response = await axios.get(url);
+      setCandidatoEstudiantes(response.data);
+    } catch (error) {
+      console.error('Error fetching candidatoEstudiantes:', error);
     }
   };
   
-    const deleteCandidatoEstudiante = (candidatoEstudianteId, nombre) => {
-        const MySwal = withReactContent(Swal);
-        MySwal.fire({
-            title: `¿Seguro quieres eliminar el estudiante ${nombre}?`,
-            icon: 'question',
-            text: 'Esta acción no se puede deshacer',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    await axios.delete(`${url}/${candidatoEstudianteId}`);
-                    show_alert('Estudiante eliminado exitosamente', 'success');
-                    getCandidatoEstudiante();
-                } catch (error) {
-                    show_alert('Error al eliminar al estudiante', 'error');
-                    console.error(error);
-                }} else {
-                show_alert('El estudiante no fue eliminado', 'info');
-            }
-        });
-    };
+  const openModal = (op, candidatoEstudiante) => {
+    setOperation(op);
+    if (op === 1) {
+      setTitle('Registrar Estudiante');
+      // Restablecer los valores de los campos al abrir el modal para registrar
+      setCandidatoEstudianteId('');
+      setNombre('');
+      setApellido('');
+      setNumeroContacto('');
+      setDireccion('');
+      setGenero('');
+      setTipoPersona('');
+      setFechaNacimiento('');
+      setTipoDocumento('');
+      setNumeroDocumento('');
+      setAdjuntarDocumentos('');
+      
+    } else if (op === 2) {
+      setTitle('Editar Estudiante');
+      // Establecer los valores de los campos al abrir el modal para editar
+      setCandidatoEstudianteId(candidatoEstudiante.candidatoEstudianteId);
+      setNombre(candidatoEstudiante.nombre);
+      setApellido(candidatoEstudiante.apellido);
+      setNumeroContacto(candidatoEstudiante.numeroContacto);
+      setDireccion(candidatoEstudiante.direccion);
+      setGenero(candidatoEstudiante.genero);
+      setTipoPersona(candidatoEstudiante.tipoPersona);
+      setFechaNacimiento(candidatoEstudiante.fechaNacimiento);
+      setTipoDocumento(candidatoEstudiante.tipoDocumento);
+      setNumeroDocumento(candidatoEstudiante.numeroDocumento);
+      setAdjuntarDocumentos(candidatoEstudiante.adjuntarDocumentos);
 
+    }
+    // Enfocar el primer campo después de un breve retraso para asegurar que el enfoque ocurra después de que el modal esté completamente abierto
+    window.setTimeout(function () {
+      document.getElementById('Nombre').focus();
+    }, 500);
+  };
+  
+  const validar = () => {
+    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '') {
+      show_alert('Todos los campos son obligatorios', 'error');
+    } else {
+      const parametros = {
+        nombre,
+        apellido,
+        numeroContacto: parseInt(numeroContacto),
+        direccion,
+        genero,
+        tipoPersona,
+        fechaNacimiento,
+        tipoDocumento,
+        numeroDocumento,
+        adjuntarDocumentos
+      };
+      const metodo = operation === 1 ? 'post' : 'put';
+      enviarSolicitud(metodo, parametros);
+    }
+  };
+  
+  const enviarSolicitud = async (metodo, parametros) => {
+    try {
+      let respuesta;
+      if (metodo === 'post') {
+        respuesta = await axios.post(url, parametros);
+      } else if (metodo === 'put') {
+        respuesta = await axios.put(`${url}/${candidatoEstudianteId}`, parametros);
+      }
+      console.log(`Solicitud ${metodo.toUpperCase()} exitosa:`, respuesta.data);
+      const mensajeExito = operation === 1 ? 'Estudiante añadido exitosamente' : 'Estudiante editado con éxito';
+      show_alert(mensajeExito, 'success');
+      document.getElementById('btnCerrar').click();
+      getCandidatoEstudiantes();
+    } catch (error) {
+      show_alert('Error de solicitud', 'error');
+      console.error(error);
+    }
+  };
+  
+  // El resto del componente...
+  
+      
+      
+      
+      
+    const deleteCandidatoEstudiante = (candidatoEstudianteId, nombre) => {
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        title: '¿Está seguro que desea eliminar el estudiante?',
+        text: `No se podra dar marcha atras`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: "Cancelar",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await axios.delete(`${url}/${candidatoEstudianteId}`);
+            show_alert("Estudiante eliminado con éxito", "success");
+            document.getElementById("btnCerrar").click();
+            getCandidatoEstudiantes();
+          }catch (error){
+            show_alert("Error de solucitud", "error");
+            console.log(error);
+          }
+        }else {
+          show_alert("el estudiante no fue eliminado", "info");
+        }
+      });
+    };
     return(
         
             <React.Fragment>
@@ -305,13 +303,13 @@ export default function Secretariaestudiantelista() {
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
-							{candidatoEstudiante.map((CandidatoEstudiante, i) =>( 
-							<tr className="text-center"  key={CandidatoEstudiante.candidatoEstudianteId}>
+							{candidatoEstudiantes.map((CandidatoEstudiante, i) =>( 
+							<tr   key={CandidatoEstudiante.candidatoEstudianteId}>
 								<td>{i+1}</td>
 								<td>{CandidatoEstudiante.candidatoEstudianteId}</td>
 								<td>{CandidatoEstudiante.nombre}</td>
 								<td>{CandidatoEstudiante.apellido}</td>
-								<td>{CandidatoEstudiante.NumeroContacto}</td>
+								<td>{CandidatoEstudiante.numeroContacto}</td>
 								<td>{CandidatoEstudiante.direccion}</td>
 								<td>
 								<button onClick={() => openModal(2, CandidatoEstudiante)} className="btn btn-success" data-toggle='modal' data-target='#ModalCandidatoEstudiante'>
@@ -335,7 +333,8 @@ export default function Secretariaestudiantelista() {
 				</div>
 				</section>
 				</main>
-				<div id="ModalCandidatoEstudiante" className="modal fade " aria-hidden="true">
+			
+<div id="ModalCandidatoEstudiante" className="modal fade " aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -370,10 +369,47 @@ export default function Secretariaestudiantelista() {
                         onChange={(e) => setApellido(e.target.value)}
                       />
                     </div>
-                    <div className="input-group mb-3">
+                    
+                    
+                        <div className="input-group mb-3">
+                            <div class="form-group">
+                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de nacimiento: </span>
+                            
+                            
+                            <input type="date" id="fecha" name="fecha" class="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
+                          </div>
+                        </div>
+                        <div className="input-group mb-3">
+                            <select className="form-select" value={tipoPersona} onChange={(e) => setTipoPersona(e.target.value)}>
+                                <option value="">Seleccione Estudiante:</option>
+                                <option value="Estudiante Nuevo">Estudiante Nuevo</option>
+                                <option value="Estudiante Antiguo">Estudiante Antiguo</option>
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                        <span ><i class="fas fa-id-card"></i> Tipo Documento</span>
+                            <select className="form-select" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>
+                                <option value="">Seleccione Tipo Documento</option>
+                                <option value="cedula">C.C</option>
+                                <option value="Targeta de Identidad">T.I</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
                       <input
-                        type="text"
+                        type="number"
+                        id="NumeroContacto"
+                        className="form-control"
+                        placeholder="Numero Documento"
+                        value={numeroDocumento} 
+                        onChange={(e) => setNumeroDocumento(e.target.value)}
+                      />
+                    </div>
+                        <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <input
+                        type="number"
                         id="NumeroContacto"
                         className="form-control"
                         placeholder="Numero Contacto"
@@ -381,6 +417,7 @@ export default function Secretariaestudiantelista() {
                         onChange={(e) => setNumeroContacto(e.target.value)}
                       />
                     </div>
+                   
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-map-marker-alt"></i></span>
                       <input
@@ -392,22 +429,8 @@ export default function Secretariaestudiantelista() {
                         onChange={(e) => setDireccion(e.target.value)}
                       />
                     </div>
-                    <input type="hidden" id="candidatoEstudianteId" />
-                        <div className="input-group mb-3">
-                            <select className="form-select" value={tipo} onChange={(e) => setTipo(e.target.value)}>
-                                <option value="">Seleccione tipo de rol</option>
-                                <option value="Estudiante">Estudiante</option>
-                                <option value="Docente">Docente</option>
-                            </select>
-                        </div>
-                        <div className="input-group mb-3">
-                            <div class="form-group">
-                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona una fecha: </span>
-                            
-                            
-                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
-                          </div>
-                        </div>
+                    
+                        
                         <div className="input-group mb-3">
                           <span > <i class="fas fa-venus-mars"></i> Genero</span>
                             <select className="form-select" value={genero} onChange={(e) => setGenero(e.target.value)}>
@@ -417,49 +440,40 @@ export default function Secretariaestudiantelista() {
                                 <option value="Otro">Otro</option>
                             </select>
                         </div>
-                        <div className="input-group mb-3">
-                        <span ><i class="fas fa-id-card"></i> Tipo Documento</span>
-                            <select className="form-select" value={tipoDocumento} onChange={(e) => settipoDocumento(e.target.value)}>
-                                <option value="">Seleccione Tipo Documento</option>
-                                <option value="cedula">C.C</option>
-                                <option value="Targeta de Identidad">T.I</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                        </div>
+                        
                         <div class="mb-3">
-                        <label for="formFileSm" class="form-label">Inserte el Documento</label>
-                        <input class="form-control form-control-sm" id="formFileSm" type="file"/>
+                        
                         <input
                         type="text"
                         id="cargadaDocumento"
                         className="form-control"
                         placeholder="Inserto documento (SI O NO)"
-                        value={cargadocumento}
-                        onChange={(e) => setcargadaDocumento(e.target.value)}
+                        value={adjuntarDocumentos}
+                        onChange={(e) => setAdjuntarDocumentos(e.target.value)}
                       />
 </div>
-                        
+<div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <input
+                        type="number"
+                        id="NumeroContacto"
+                        className="form-control"
+                        placeholder="Numero de identificacion del acudiente"
+                        value={numeroIdentificacionAcudiente} 
+                        onChange={(e) => setNumeroIdentificacionAcudiente(e.target.value)}
+                      />
                     </div>
-                    <div className='modal-footer'>
-                    <div className='d-grid '>
-                    <div className="d-flex justify-content-center  ">
-                      <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
-                    </div>
-                    </div>
-                  
-                  
-                  <div className="d-flex justify-content-center ">
+                    <div class="modal-footer">
+                    <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
                     <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
-                  </div>
-                  </div>
-                </div>
-              </div>
-            
+      </div>
+</div>
 
-		</div>
-    
-    </div>
-    
+</div>
+</div>
+</div>
+</div>
+
 	</React.Fragment>
 	
           

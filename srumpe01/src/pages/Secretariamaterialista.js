@@ -7,7 +7,7 @@ import withReactContent from 'sweetalert2-react-content';
 export default function Secretariamaterialista() {
 
 
-	const url = 'https://localhost:5001/api/materia';
+	const url = 'https://localhost:7284/api/materia';
 	const [materia, setMateria] = useState([]);
 	const [materiaId, setMateriaId] = useState('');
 	const [nombre, setNombre] = useState('');
@@ -20,7 +20,7 @@ export default function Secretariamaterialista() {
 	const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
 
-	const url2 = 'https://localhost:5001/api/Docente'
+	const url2 = 'https://localhost:7284/api/Docente'
     const [Docente, setDocente] = useState([]);
     const [DocenteId, setDocenteId] = useState('');
 
@@ -402,7 +402,7 @@ export default function Secretariamaterialista() {
             {Docente.length > 0 ? (
               Docente.map((Docente) => (
                 <option key={Docente.DocenteId} value={Docente.nombre}>
-                  {Docente.Docente}
+                  {Docente.nombre}
                 </option>
               ))
             ) : (

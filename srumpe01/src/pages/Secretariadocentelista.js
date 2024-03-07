@@ -6,26 +6,47 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentelista(){ 
 
-    const url = 'https://localhost:5001/api/Docente'
+    const url = 'https://localhost:7284/api/Docente'
     const [Docente, setDocente] = useState([]);
-    const [DocenteId, setDocenteId] = useState('');
+    const [docenteId, setDocenteId] = useState('');
     const [nombre, setNombre] = useState('');
-    const [numeroTelefono, setNumeroTelefono] = useState('');
-    const [cursosAsignados, setcursosAsignados]=useState('');
-    const [numeroIdentificacion, setNumeroIdentificacion]=useState('');
-    const [operation, setOperation] = useState(1);
-    const [title, setTitle] = useState('');
-    const [genero, setGenero]= useState('');
+    const [apellido, setApellido] = useState('');
     const [fechaNacimiento, setFechaNacimiento] = useState('');
+    const [genero, setGenero]= useState('');
     const [direccion, setDireccion] = useState('');
     const [correo, setCorreo] = useState('');
-    const [fechaContratacion, setfechacontratacion] = useState('');
-    const [estadolaboral, setestadolaboral] = useState('');
+    const [numeroTelefono, setNumeroTelefono] = useState('');
+    const [cursosAsignados, setcursosAsignados]=useState('');
+    const [horarioclase, setHorarioclase] = useState('');
+    const [estadolaboral, setestadolaboral] = useState(''); 
+    const [numeroIdentificacion, setNumeroIdentificacion]=useState('');
+    const [ComentariosNotas, setComentariosNotas] = useState('');
+   const [fechaContratacion, setfechacontratacion] = useState('');
+   const [adjuntardocumentos, setadjuntardocumentos] = useState('');
     const [nivelExperiencia, setNivelExperiencia] = useState('');
+    const [tipoPersona, setTipoPersona] = useState('');
+    const [tipoDocumento, setTipoDocumento] = useState('');
+    const [Aula, setAula] = useState('');
 
-    const url2 = 'https://localhost:5001/api/cursos';
+    const [operation, setOperation] = useState(1);
+    const [title, setTitle] = useState('');
+    
+    
+    
+    
+    
+    
+    
+    const url1 = `https://localhost:7284/api/candidatoEstudiante/${docenteId}`
+    const url2 = 'https://localhost:7284/api/cursos';
   const [curso, setCursos] = useState([]);
-  const [selectedCursoID, setSelectedCursoID] = useState('');
+  const [cursoId, setCursoId] = useState('');
+  
+
+  const url3 = 'https://localhost:7284/api/materia'
+  const [materia, setMateria] = useState([]);
+  const [materiaId, setMateriaId] = useState('');
+  
 
 
   useEffect(() => {
@@ -33,7 +54,15 @@ export default function Secretariadocentelista(){
       .then((response) => response.json())
       .then((data) => setCursos(data))
       .catch((error) => console.error('Error fetching cursos:', error));
-  }, [url2]);
+  }, []);
+
+  useEffect(() => {
+    fetch(url3)
+      .then((response) => response.json())
+      .then((data) => setMateria(data))
+      .catch((error) => console.error('Error fetching materias:', error));
+  }, []);
+  
 
     useEffect(() => {
         getDocente();
@@ -42,6 +71,18 @@ export default function Secretariadocentelista(){
     const getDocente = async () => {
         const respuesta = await axios.get(url);
         setDocente(respuesta.data);
+        getCursos(respuesta.data);
+        getMateria(respuesta.data);
+    }
+
+    const getCursos = async () => {
+        const response = await axios.get('https://localhost:7284/api/cursos');
+        setCursos(response.data);
+    }
+
+    const getMateria = async () => {
+        const response = await axios.get('https://localhost:7284/api/materia');
+        setMateria(response.data);
     }
 
     const openModal = (op, Docente) => {
@@ -50,6 +91,7 @@ export default function Secretariadocentelista(){
             setTitle('Registrar Docente');
             setDocenteId('');
             setNombre('');
+            setApellido('');
             setNumeroTelefono('');
             setcursosAsignados('');
             setNumeroIdentificacion('');
@@ -60,11 +102,22 @@ export default function Secretariadocentelista(){
             setfechacontratacion('');
             setestadolaboral('');
             setNivelExperiencia('');
+            setHorarioclase('');
+            setComentariosNotas('');
+            setTipoPersona('');
+            setAula('');
+            setCursoId('');
+            setMateriaId('');
+            setadjuntardocumentos('');
+            setTipoDocumento('');
+            
+            
         }
         if (op === 2) {
             setTitle('Editar Docente');
-            setDocenteId(Docente.DocenteId);
+            setDocenteId(Docente.docenteId);
             setNombre(Docente.nombre);
+            setApellido(Docente.apellido);
             setNumeroTelefono(Docente.numeroTelefono);
             setcursosAsignados(Docente.cursosAsignados);
             setNumeroIdentificacion(Docente.numeroIdentificacion);
@@ -75,34 +128,92 @@ export default function Secretariadocentelista(){
             setfechacontratacion(Docente.fechaContratacion);
             setestadolaboral(Docente.estadolaboral);
             setNivelExperiencia(Docente.nivelExperiencia);
+            setHorarioclase(Docente.horarioclase);
+            setComentariosNotas(Docente.comentariosNotas);
+            setTipoPersona(Docente.tipoPersona);
+            setAula(Docente.aula);
+            setCursoId(Docente.cursoId);
+            setMateriaId(Docente.materiaId);
+            setadjuntardocumentos(Docente.adjuntardocumentos);
+            setTipoDocumento(Docente.tipoDocumento);
         }
         window.setTimeout(function () {
             document.getElementById('Nombre').focus();
         }, 500);
     };
 
-    const validar = (function () {
-        if (nombre.trim() === '') {
-            show_alert('Escribe el nombre del Docente', 'Escribe el nombre del nombre');
-        }else if (numeroTelefono.trim() === '') {
-            show_alert('Escribe el teléfono del Docente', 'Escribe el teléfono');
-        }else if (numeroIdentificacion.trim() === ''){
-            show_alert('Escribe el número de identificación del Docente', 'Escribe el número de identificación');
-        }else {
+    const validar = () => {
+        if (
+            !nombre || nombre.trim() === '' ||
+        !apellido || apellido.trim() === '' ||
+        !numeroTelefono || numeroTelefono.trim() === '' ||
+        !numeroIdentificacion || numeroIdentificacion.trim() === '' ||
+        !genero || genero.trim() === '' ||
+        !cursoId || cursoId.trim() === '' ||
+        !direccion || direccion.trim() === '' ||
+        !estadolaboral || estadolaboral.trim() === '' ||
+        !adjuntardocumentos || adjuntardocumentos.trim() === '' ||
+        !tipoDocumento || tipoDocumento.trim() === '' ||
+        !tipoPersona || tipoPersona.trim() === '' ||
+        !ComentariosNotas || ComentariosNotas.trim() === '' ||
+        !nivelExperiencia || nivelExperiencia.trim() === '' ||
+        !correo || correo.trim() === ''
+        ) {
+            show_alert('Por favor completa todos los campos.', 'Campos incompletos');
+        } else {
             let parametros;
             let metodo;
-
+    
             if (operation === 1) {
-                parametros = { nombre: nombre, numeroTelefono: numeroTelefono, cursosAsignados: cursosAsignados, numeroIdentificacion: numeroIdentificacion};
+                parametros = { 
+                    nombre: nombre, 
+                    numeroTelefono: numeroTelefono, 
+                    cursosAsignados: cursosAsignados, 
+                    numeroIdentificacion: numeroIdentificacion,
+                    genero: genero,
+                    cursoIds: [cursoId], // Asegurémonos de enviar un array de cursoIds
+                    direccion: direccion,
+                    estadoLaboral: estadolaboral,
+                    horarioClases: horarioclase,
+                    comentariosNotas: ComentariosNotas,
+                    nivelExperiencia: nivelExperiencia,
+                    correoElectronico: correo,
+                    materiaIds: [materiaId],
+                    apellido: apellido,
+                    tipoDocumento: tipoDocumento,
+                    tipoPersona: tipoPersona,
+                    fechaContratacion: fechaContratacion,
+                    adjuntardocumentos: adjuntardocumentos,
+                    
+                };
                 metodo = "POST";
             } else {
-                parametros = { nombre: nombre, numeroTelefono: numeroTelefono, cursosAsignados: cursosAsignados, numeroIdentificacion: numeroIdentificacion};
+                parametros = { 
+                    nombre: nombre, 
+                    numeroTelefono: numeroTelefono, 
+                    cursosAsignados: cursosAsignados, 
+                    numeroIdentificacion: numeroIdentificacion,
+                    genero: genero,
+                    cursoIds: [cursoId], // Asegurémonos de enviar un array de cursoIds
+                    direccion: direccion,
+                    estadoLaboral: estadolaboral,
+                    horarioClases: horarioclase,
+                    comentariosNotas: ComentariosNotas,
+                    nivelExperiencia: nivelExperiencia,
+                    correoElectronico: correo,
+                    materiaIds: [materiaId],
+                    apellido: apellido,
+                    tipoDocumento: tipoDocumento,
+                    tipoPersona: tipoPersona,
+                    fechaContratacion: fechaContratacion,
+                    adjuntardocumentos: adjuntardocumentos,
+                };
                 metodo = "PUT";
             }
             enviarSolicitud(metodo, parametros);
         }
-
-    })
+    };
+    
 
     const enviarSolicitud = async (metodo, parametros) => {
         if (metodo === "POST") {
@@ -111,13 +222,18 @@ export default function Secretariadocentelista(){
             show_alert('Docente Registrado', 'El Docente ha sido registrado correctamente');
         }
         if (metodo === "PUT") {
-            const respuesta = await axios.put(url + '/' + DocenteId, parametros);
+            if (!docenteId) {
+                console.error("DocenteId no está definida");
+                return;
+            }
+            const respuesta = await axios.put(url1, parametros);
             setDocente(respuesta.data);
             show_alert('Docente Editado', 'El Docente ha sido editado correctamente');
         }
     }
+    
 
-    const deleteDocente = (DocenteId, nombre) => {
+    const deleteDocente = (docenteId, nombre) => {
         const MySwal = withReactContent(Swal);
         MySwal.fire({
             title:  `¿Seguro quieres eliminar el estudiante ${nombre}?`,
@@ -129,7 +245,7 @@ export default function Secretariadocentelista(){
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`${url}/${DocenteId}`);
+                    await axios.delete(url1);
                     show_alert('Estudiante eliminado exitosamente', 'info');
                     getDocente();
                 } catch (error){
@@ -259,7 +375,7 @@ export default function Secretariadocentelista(){
                     <div
                         onClick={() => openModal(1)}
                         data-toggle="modal"
-                        data-target="#ModalCandidatoEstudiante" // Corregido el target
+                        data-target="#ModalDocente" // Corregido el target
                     >
                         <a><i className="fas fa-plus fa-fw"></i> Añadir Estudiante nuevo</a>
                     </div>
@@ -304,14 +420,14 @@ export default function Secretariadocentelista(){
 							{Docente.map((Docente, i) =>( 
 							<tr className="text-center"  key={Docente.DocenteId}>
 								<td>{i+1}</td>
-								<td>{Docente.DocenteId}</td>
+								<td>{Docente.docenteId}</td>
 								<td>{Docente.nombre}</td>
 								<td>{Docente.numeroTelefono}</td>
 								<td>{Docente.cursosAsignados}</td>
 								<td>{Docente.numeroIdentificacion}</td>
                                 <td>{Docente.genero}</td>
 								<td>
-								<button onClick={() => openModal(2, Docente)} className="btn btn-success" data-toggle='modal' data-target='#ModalCandidatoEstudiante'>
+								<button onClick={() => openModal(2, Docente)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'>
                           <i className="fas fa-edit"></i>
                         </button>
 									 / &nbsp;
@@ -349,7 +465,7 @@ export default function Secretariadocentelista(){
 
 
     </main>
-    <div id="ModalCandidatoEstudiante" className="modal fade " aria-hidden="true">
+    <div id="ModalDocente" cursos={curso} className="modal fade " aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -373,11 +489,29 @@ export default function Secretariadocentelista(){
                         onChange={(e) => setNombre(e.target.value)}
                       />
                     </div>
-                   
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-signature"></i></span>
+                      <input
+                        type="text"
+                        id="Apellido"
+                        className="form-control"
+                        placeholder="APELLIDO"
+                        value={apellido}
+                        onChange={(e) => setApellido(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="input-group mb-3">
+                        <div class="form-group">
+                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de nacimiento: </span>
+                        <input type="date" id="fecha" name="fecha" class="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
+                        </div>
+                    </div>
+
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
                       <input
-                        type="text"
+                        type="number"
                         id="numeroTelefono"
                         className="form-control"
                         placeholder="Numero de Telefono"
@@ -385,40 +519,7 @@ export default function Secretariadocentelista(){
                         onChange={(e) => setNumeroTelefono(e.target.value)}
                       />
                     </div>
-                     {/*<fieldset>
-                  
 
-                 <div className="input-group mb-3"> 
-                    <div className="form-group">
-                    <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> Cursos</span>
-                      
-                        
-                      
-                      <select
-            className="form-control"
-            name="item_estado"
-            id="item_estado"
-            value={selectedCursoID}
-            onChange={(e) => setSelectedCursoID(e.target.value)}
-          >
-            <option value="" disabled>
-              Seleccione un Curso
-            </option>
-            {curso.length > 0 ? (
-              curso.map((curso) => (
-                <option key={curso.cursoID} value={curso.cursoID}>
-                  {curso.curso}
-                </option>
-              ))
-            ) : (
-              <option value="" disabled>
-                Cargando cursos...
-              </option>
-            )}
-          </select>
-                    </div>
-                  </div>
-                </fieldset>*/}
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-map-marker-alt"></i></span>
                       <input
@@ -430,6 +531,71 @@ export default function Secretariadocentelista(){
                         onChange={(e) => setDireccion(e.target.value)}
                       />
                     </div>
+                    <div className="input-group mb-3">
+                        <span ><i class="fas fa-id-card"></i> Tipo Documento</span>
+                            <select className="form-select" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>
+                                <option value="">Seleccione Tipo Documento</option>
+                                <option value="cedula">C.C</option>
+                                <option value="Targeta de Identidad">T.I</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <input
+                        type="number"
+                        id="numeroIdentificacion"
+                        className="form-control"
+                        placeholder="Numero de identificacion"
+                        value={numeroIdentificacion}
+                        onChange={(e) => setNumeroIdentificacion(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                            <select className="form-select" value={tipoPersona} onChange={(e) => setTipoPersona(e.target.value)}>
+                                <option value="">Seleccione Docente:</option>
+                                <option value="Docente Nuevo">Docente Nuevo</option>
+                                <option value="Docente Antiguo">Docente Antiguo</option>
+                            </select>
+                        </div>
+
+                        <div className="input-group mb-3">
+                        <div class="form-group">
+                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de contratacion: </span>
+                        <input type="date" id="fecha" name="fecha" class="form-control" value={fechaContratacion} onChange={(e)=>setfechacontratacion(e.target.value)}/>
+                        </div>
+                    </div>
+
+                     <fieldset>
+                  
+
+                 <div className="input-group mb-3"> 
+                    <div className="form-group">
+                    <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> Cursos</span>
+                      
+                        
+                      
+                    <select
+  className="form-control"
+  name="item_estado"
+  id="item_estado"
+  value={cursoId} // Aquí debes utilizar selectedCursoID en lugar de descripcion
+  onChange={(e) => setCursoId(e.target.value)}
+>
+  <option value="" disabled>
+    Seleccione un Curso
+  </option>
+  {curso.map((curso) => (
+    <option key={curso.cursoId} value={curso.cursoId}>
+      {curso.descripcion}
+    </option>
+  ))}
+</select>
+|
+                    </div>
+                  </div>
+                </fieldset>
+                
 
                     <div class="input-group mb-3">
                     <span className="input-group-text"><i class="fas fa-envelope"></i></span>
@@ -445,14 +611,10 @@ export default function Secretariadocentelista(){
                     
                     <div className="input-group mb-3">
                           <span > <i class="fas fa-venus-mars"></i> Genero</span>
-                          <select 
-                                className="form-select" 
-                                value={genero} 
-                                onChange={(e) => setGenero(e.target.value)}
-                            >
+                            <select className="form-select" value={genero} onChange={(e) => setGenero(e.target.value)}>
                                 <option value="">Seleccione Genero</option>
-                                <option value="Male">Masculino</option>
-                                <option value="Female">Femenino</option>
+                                <option value="Maculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
                                 <option value="Otro">Otro</option>
                             </select>
                         </div>
@@ -470,32 +632,64 @@ export default function Secretariadocentelista(){
                             </select>
                         </div>
 
-                        <div className="input-group mb-3">
-                        <div class="form-group">
-                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona fecha de nacimiento: </span>        
-                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechaNacimiento}/>
-                          </div>
-                        </div>
+                        
 
                         <div className="input-group mb-3">
                           <span > <i class="fas fa-chalkboard-teacher"></i> Estado Laboral</span>
-                            <select className="form-select" value={nivelExperiencia} onChange={(e) => setestadolaboral(e.target.value)}>
+                            <select className="form-select" value={estadolaboral} onChange={(e) => setestadolaboral(e.target.value)}>
                                 <option value="">Seleccione Estado</option>
                                 <option value="Active">Activo</option>
                                 <option value="Inactivo">Inactivo</option>
                             </select>
                         </div>
-                        <div className="input-group mb-3">
-                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
-                      <input
+
+                        
+
+                    <fieldset>
+                  <div class="mb-3">
+                        
+                        <input
                         type="text"
-                        id="numeroIdentificacion"
+                        id="cargadaDocumento"
                         className="form-control"
-                        placeholder="Numero de identificacion"
-                        value={numeroIdentificacion}
-                        onChange={(e) => setNumeroIdentificacion(e.target.value)}
+                        placeholder="Comentarios"
+                        value={ComentariosNotas}
+                        onChange={(e) => setComentariosNotas(e.target.value)}
                       />
+                      </div>
+                      <div class="mb-3">
+                        
+                        <input
+                        type="text"
+                        id="cargadaDocumento"
+                        className="form-control"
+                        placeholder="Inserto documento (SI O NO)"
+                        value={adjuntardocumentos}
+                        onChange={(e) => setadjuntardocumentos(e.target.value)}
+                      />
+</div>
+                 <div className="input-group mb-3"> 
+                    <div className="form-group">
+                    <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> horarios</span>
+                    <select
+                        className="form-control"
+                        name="item_estado"
+                        id="item_estado"
+                        value={materiaId} // Aquí debes utilizar selectedCursoID en lugar de descripcion
+                        onChange={(e) => setMateriaId(e.target.value)}
+                        >
+                        <option value="" disabled>
+                            Seleccione un Curso
+                        </option>
+                        {materia.map((materia) => (
+                            <option key={materia.materiaId} value={materia.materiaId}>
+                            {materia.nombre}
+                            </option>
+                        ))}
+                        </select>
                     </div>
+                  </div>
+                </fieldset>
                        
 
                     
@@ -504,7 +698,8 @@ export default function Secretariadocentelista(){
                     <div className='modal-footer'>
                     <div className='d-grid '>
                     <div className="d-flex justify-content-center  ">
-                      <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
+                    <button onClick={validar} className="btn btn-outline-success">Guardar</button>
+
                     </div>
                     </div>
 

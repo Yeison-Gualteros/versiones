@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariacursoslista() {
-    const url = 'https://localhost:5001/api/cursos';
+    const url = 'https://localhost:7284/api/cursos';
     const [cursos, setCursos] = useState([]);
     const [cursoId, setcursoId] = useState('');
     const [codigo, setCodigo] = useState('');
@@ -19,7 +19,7 @@ export default function Secretariacursoslista() {
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
 
-    const url2 = 'https://localhost:5001/api/Docente'
+    const url2 = 'https://localhost:7284/api/Docente'
     const [Docente, setDocente] = useState([]);
     const [DocenteId, setDocenteId] = useState('');
     const [nombre, setNombre] = useState('');
@@ -210,7 +210,7 @@ export default function Secretariacursoslista() {
 								<li>
 									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
 								</li>
-								<li>
+								<li> 
 									<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
 								</li>
 							</ul>
@@ -302,12 +302,12 @@ export default function Secretariacursoslista() {
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
-						{cursos.map((Cursos, i) => ( 
-    <tr className="text-center" key={Cursos.cursosId}> 
+						{cursos.map((cursos, i) => ( 
+    <tr className="text-center" key={cursos.cursosId}> 
         <td>{i+1}</td>
-        <td>{Cursos.cursoId}</td>
-        <td>{Cursos.curso}</td>
-        <td>{Cursos.ProfesorAsignado}</td>
+        <td>{cursos.cursoId}</td>
+        <td>{cursos.cursoSeleccionado}</td>
+        <td>{cursos.profesorasignado}</td>
         <td>
 								<button onClick={() => openModal(2, cursos)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
                           <i className="fas fa-edit"></i>

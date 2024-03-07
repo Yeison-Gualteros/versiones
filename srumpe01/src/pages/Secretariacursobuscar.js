@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariacursobuscar() {
     
-	const url = 'https://localhost:5001/api/cursos';
+	const url = 'https://localhost:7284/api/cursos';
 	const [curso, setCursos] = useState([]);
 	const [cursoID, setCursoID] = useState('');
 	const [codigo, setCodigo] = useState('');
@@ -27,7 +27,7 @@ export default function Secretariacursobuscar() {
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
 
-    const url2 = 'https://localhost:5001/api/Docente'
+    const url2 = 'https://localhost:7284/api/Docente'
     const [Docente, setDocente] = useState([]);
     const [DocenteId, setDocenteId] = useState('');
     const [nombre, setNombre] = useState('');

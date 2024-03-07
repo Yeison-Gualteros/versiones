@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentebuscar() {
-    const url = 'https://localhost:5001/api/Docente'
+    const url = 'https://localhost:7284/api/Docente'
     const [Docente, setDocente] = useState([]);
     const [DocenteId, setDocenteId] = useState('');
     const [nombre, setNombre] = useState('');
@@ -22,7 +22,7 @@ export default function Secretariadocentebuscar() {
     const [estadolaboral, setestadolaboral] = useState('');
     const [nivelExperiencia, setNivelExperiencia] = useState('');
     
-    const url2 = 'https://localhost:5001/api/cursos';
+    const url2 = 'https://localhost:7284/api/cursos';
     const [curso, setCursos] = useState([]);
     const [selectedCursoID, setSelectedCursoID] = useState('');
   
