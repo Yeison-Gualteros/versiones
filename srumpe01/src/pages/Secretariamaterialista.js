@@ -16,6 +16,9 @@ export default function Secretariamaterialista() {
 	const [profesorasignado, setProfesorasignado] = useState('');
 	const [modalidadenseñanza, setModalidadenseñanza] = useState('');
 	const [notasadicionales, setNotasadicionales] = useState('');
+	const [nivel, setNivel] = useState('');
+	const [estado, setEstado] = useState('');
+	const [gruposeccionmateria, setgruposeccionmateria] = useState('');
 	const [metodosenseñanza, setMetodosenseñanza] = useState('');
 	const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
@@ -53,6 +56,13 @@ export default function Secretariamaterialista() {
             setModalidadenseñanza('');
             setNotasadicionales('');
             setMetodosenseñanza('');
+			setNivel('');
+			setEstado('');
+			setgruposeccionmateria('');
+			
+			
+			
+			
         }
 		if (op === 2) {
 
@@ -62,9 +72,14 @@ export default function Secretariamaterialista() {
             setDescripcion(materia.descripcion);
             setDepartamentamentament(materia.departamentoacademico);
             setProfesorasignado(materia.profesorasignado);
-            setModalidadenseñanza(materia.modalidadenseñanza);
+            setModalidadenseñanza(materia.modalidadenseñanza); 
             setNotasadicionales(materia.notasadicionales);
             setMetodosenseñanza(materia.metodosenseñanza);
+			setNivel(materia.nivel);
+			setEstado(materia.estado);
+			setgruposeccionmateria(materia.gruposeccionmateria);
+			setMateriaId(materia.materiaId);
+
 			
 		}
 		window.setTimeout(function(){
@@ -73,7 +88,7 @@ export default function Secretariamaterialista() {
 	};
 
 	const validar = (function(){
-		if (nombre.trim() === "") {
+		if (nombre && nombre.trim() === "") {
 			show_alert('Escribe el nombre de la materia nueva', 'error');
 		}
 		else if (descripcion.trim() === "") {
@@ -82,7 +97,7 @@ export default function Secretariamaterialista() {
 		else if (departamentoacademico.trim() === "") {
             show_alert('Escribe el departamento academico de la materia nueva', 'error');
         }
-		else if (profesorasignado.trim() === "") {
+		else if (profesorasignado.trim() === '') {
             show_alert('Escribe el profesor asignado de la materia nueva', 'error');
         }
 		else if (modalidadenseñanza.trim() === "") {
@@ -99,11 +114,34 @@ export default function Secretariamaterialista() {
 			let parametros;
 			let metodo;
 			if (operation === 1) {
-				parametros = { nombre: nombre, descripcion: descripcion, departamentoacademico: departamentoacademico, profesorasignado: profesorasignado, modalidadenseñanza: modalidadenseñanza, notasadicionales: notasadicionales, metodosenseñanza: metodosenseñanza };
+				parametros = { 
+					nombre: nombre, 
+					descripcion: descripcion, 
+					departamentoacademico: departamentoacademico, 
+					profesorasignado: profesorasignado, 
+					modalidadenseñanza: modalidadenseñanza, 
+					notasadicionales: notasadicionales, 
+					metodosenseñanza: metodosenseñanza, 
+					nivel: nivel, 
+					estado: estado, 
+                    gruposeccionmateria: gruposeccionmateria,
+					materiaId:[materiaId]
+				};
                 metodo = "POST";
 			}
 			else {
-				parametros = { materiaId: materiaId, nombre: nombre, descripcion: descripcion, departamentoacademico: departamentoacademico, profesorasignado: profesorasignado, modalidadenseñanza: modalidadenseñanza, notasadicionales: notasadicionales, metodosenseñanza: metodosenseñanza };
+				parametros = { materiaId: [materiaId], 
+					nombre: nombre, 
+					descripcion: descripcion, 
+					departamentoacademico: departamentoacademico, 
+					profesorasignado: profesorasignado, 
+					modalidadenseñanza: modalidadenseñanza, 
+					notasadicionales: notasadicionales, 
+					metodosenseñanza: metodosenseñanza,
+					nivel: nivel, 
+                    estado: estado, 
+                    gruposeccionmateria: gruposeccionmateria	
+				};
                 metodo = "PUT";
 			}
 			enviarSolicitud(metodo, parametros);
@@ -257,40 +295,40 @@ export default function Secretariamaterialista() {
 				</a>
 			</nav>
             
-			<div class="full-box page-header">
-				<h3 class="text-left">
-					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MATERIAS
+			<div className="full-box page-header">
+				<h3 className="text-left">
+					<i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MATERIAS
 				</h3>
-				<p class="text-justify">
+				<p className="text-justify">
 					
 				</p>
 			</div>
 
-			<div class="container-fluid">
-				<ul class="full-box list-unstyled page-nav-tabs">
+			<div className="container-fluid">
+				<ul className="full-box list-unstyled page-nav-tabs">
 					<li>                
 						<div
 							onClick={() => openModal(1)}
 							data-toggle="modal"
 							data-target="#modalmateria" // Corregido el target
-						><a ><i class="fas fa-plus fa-fw"></i> 
+						><a ><i className="fas fa-plus fa-fw"></i> 
 								Añadir Curso nuevo
 								</a>
 						</div>
 					</li>
 					<li>
-						<a class="active" href="materia-lista.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MATERIAS</a>
+						<a className="active" href="materia-lista.html"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MATERIAS</a>
 					</li>
 					
 				</ul>	
 			</div>
 			
 			
-			<div class="container-fluid">
-				<div class="table-responsive">
-					<table class="table table-dark table-sm">
+			<div className="container-fluid">
+				<div className="table-responsive">
+					<table className="table table-dark table-sm">
 						<thead>
-							<tr class="text-center roboto-medium">
+							<tr className="text-center roboto-medium">
 								<th>ID</th>								
 								<th>MATERIAS</th>
 								<th>DOCENTES</th>
@@ -299,24 +337,23 @@ export default function Secretariamaterialista() {
 							</tr>
 						</thead>
 						<tbody>
-							{materia.map((materias, i)=>(
-							<tr class="text-center" >
-							<td>{i+1}</td>
-							<td>{materia.nombre}</td>
-							<td>{materia.profesorasignado}</td>
-							
-							
-							<td>
-								<button onClick={() => openModal(2, materia)} className="btn btn-success" data-toggle='modal' data-target='#modalmateria'>
-                          		<i className="fas fa-edit"></i>
-                        		</button>
+						{materia.map((materia, i) => (
+							<tr className="text-center">
+								<td>{i + 1}</td>
+								<td>{materia.nombre}</td>
+								<td>{materia.profesorasignado}</td>
+								<td>
+									<button onClick={() => openModal(2, materia)} className="btn btn-success" data-toggle='modal' data-target='#modalmateria'>
+										<i className="fas fa-edit"></i>
+									</button>
 									/ &nbsp;
 									<button onClick={() => deletemateria(materia.materiaId, materia.nombre, materia.descripcion, materia.departamentoacademico, materia.profesorasignado, materia.modalidadenseñanza, materia.notasadicionales, materia.metodosenseñanza)} className="btn btn-danger">
-                  <i className="far fa-trash-alt"></i>
-                        </button>
+										<i className="far fa-trash-alt"></i>
+									</button>
 								</td>
-						</tr>
-							))}
+							</tr>
+						))}
+
 							</tbody>
 					</table>
 							
@@ -325,15 +362,15 @@ export default function Secretariamaterialista() {
 						
 				</div>
 				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled">
-							<a class="page-link" href="#" tabindex="-1">Anterior</a>
+					<ul className="pagination justify-content-center">
+						<li className="page-item disabled">
+							<a className="page-link" href="#" tabIndex="-1">Anterior</a>
 						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#">Siguiente</a>
+						<li className="page-item"><a className="page-link" href="#">1</a></li>
+						<li className="page-item"><a className="page-link" href="#">2</a></li>
+						<li className="page-item"><a className="page-link" href="#">3</a></li>
+						<li className="page-item">
+							<a className="page-link" href="#">Siguiente</a>
 						</li>
 					</ul>
 				</nav>
@@ -390,72 +427,104 @@ export default function Secretariamaterialista() {
 					<div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
                       <select
-            className="form-control"
-            name="item_estado"
-            id="item_estado"
-            value={DocenteId}
-            onChange={(e) => setDocenteId(e.target.value)}
-          >
-            <option value="" disabled>
-              Seleccione el Docente
-            </option>
-            {Docente.length > 0 ? (
-              Docente.map((Docente) => (
-                <option key={Docente.DocenteId} value={Docente.nombre}>
-                  {Docente.nombre}
-                </option>
-              ))
-            ) : (
-              <option value="" disabled>
-                Cargando Docentes...
-              </option>
-            )}
-          </select>
+							className="form-control"
+							name="item_estado"
+							id="item_estado"
+							value={profesorasignado}
+							onChange={(e) => setProfesorasignado(e.target.value)}
+						>
+							<option value="" disabled>
+								Seleccione el Docente
+							</option>
+							{Docente.length > 0 ? (
+								Docente.map((docente) => (
+									<option key={docente.DocenteId} value={docente.nombre}>
+										{docente.nombre}
+									</option>
+								))
+							) : (
+								<option value="" disabled>
+									Cargando Docentes...
+								</option>
+							)}
+						</select>
+
 		  
                     </div>
+					<div className="input-group mb-3">
+                          <span > <i className="fas fa-level-up-alt"></i> Nivel</span>
+                            <select className="form-select" value={nivel} onChange={(e) => setNivel(e.target.value)}>
+                                <option value="">Seleccione Nivel</option>
+                                <option value="Intermedio">Intermedio</option>
+                                <option value="Avanzado">Avanzado</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+						<div className="input-group mb-3">
+                          <span className="input-group-text"> <i className="fas fa-laptop-code"></i> Modalidad de Enseñanza</span>
+						  <input
+							type="text"
+							id="codigo"
+							className="form-control"
+							placeholder="Metodos de enseñanza..."
+							value={modalidadenseñanza}  
+							onChange={(e) => setModalidadenseñanza(e.target.value)}
+						/>
+                        </div>
+						<div className="input-group mb-3">
+                          <span > <i className="fas fa-stream"></i> Estado</span>
+                            <select className="form-select" value={estado} onChange={(e) => setEstado(e.target.value)}>
+                                <option value="">Seleccione Estado</option>
+                                <option value="En progreso">En progreso</option>
+                                <option value="Inscripciones abiertas">Inscripciones abiertas</option>
+                                <option value="Completo">Completo</option>
+								<option value="Inscripciones abiertas">Inscripciones abiertas</option>
+								<option value="Otro">Otro</option>
+                            </select>
+                        </div>
 
-		  <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
-                    <input
-                        type="text"
-                        id="madalidaddeenseñanza"
-                        className="form-control"
-                        placeholder="Metodos de enseñanza..."
-                        value={modalidadenseñanza}  
-                        onChange={(e) => setModalidadenseñanza(e.target.value)}
-                      />
-                    </div>
+						<div className="input-group mb-3">
+                          <span > <i className="fas fa-laptop-code"></i> Grupo seccion materia</span>
+                            <select className="form-select" value={gruposeccionmateria} onChange={(e) => setgruposeccionmateria(e.target.value)}>
+                                <option value="">Seleccione </option>
+                                <option value="Grupo A">Grupo A</option>
+                                <option value="Grupo B">Grupo B</option>
+                                <option value="Grupo C">Grupo C</option>
+								<option value="Grupo D">Grupo D</option>
+								<option value="Grupo E">Grupo E</option>
+								<option value="Grupo F">Grupo F</option>
+								<option value="Grupo G">Grupo G</option>
+                            </select>
+                        </div>
                     <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
+                    <span className="input-group-text"><i className="fas fa-comment"></i></span>
                     <input
                         type="text"
                         id="notasadicionales"
                         className="form-control"
-                        placeholder="Cnotas adicionales..."
+                        placeholder="Notas adicionales..."
                         value={notasadicionales} 
                         onChange={(e) => setNotasadicionales(e.target.value)}
                       />
                     </div>
                     
-                    
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="text"
+                        id="codigo"
+                        className="form-control"
+                        placeholder="Metodos de enseñanza..."
+                        value={metodosenseñanza}  
+                        onChange={(e) => setMetodosenseñanza(e.target.value)}
+                      />
+                    </div>
                     
           
                     
           
                     
-					<div className="input-group mb-3">
-                          <span > <i class="fas fa-venus-mars"></i> Genero</span>
-                          <select 
-                                className="form-select" 
-                                value={modalidadenseñanza.value} 
-                                onChange={(e) => setModalidadenseñanza(e.target.value)}
-                            >
-                                <option value="">Seleccione modalidad</option>
-                                <option value="virtual">Virtual</option>
-                                <option value="presencial">Presencial</option>
-                                <option value="Otro">Otro</option>
-                            </select>
-                        </div>
+					
                     
                         
                     <div className='d-grid col-6 mx-auto'>

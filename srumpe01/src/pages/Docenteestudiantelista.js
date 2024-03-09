@@ -21,23 +21,36 @@ export default function Docenteestudiantelista() {
   const [titulo, setTitulo] = useState('');
   const [valor, setValor] = useState('');
   const [fechaCreacion, setFechaCreacion] = useState('');
-  const [materia, setMateria] = useState('');
+  
   const [periodo, setPeriodo] = useState('');
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
 
+  const url3 = 'https://localhost:7284/api/materia'
+  const [materia, setMateria] = useState([]);
+  const [materiaId, setMateriaId] = useState('');
+
+  
+
   useEffect(() => {
-    getCandidatoEstudiante();
-    getNotas() 
-  },[])
+    fetch(url3)
+      .then((response) => response.json())
+      .then((data) => setMateria(data))
+      .catch((error) => console.error('Error fetching materias:', error));
+  }, []);
+
+  useEffect(() => {
+      getCandidatoEstudiante();
+      
+    },[])
 
   const getCandidatoEstudiante = async () =>{
-    try{
-      const response = await axios.get(url);
-      setCandidatoEstudiante(response.data);
-    }catch (error){
-      console.error('Error getting', error);
-    }
+    
+      const respuesta = await axios.get(url);
+      setCandidatoEstudiante(respuesta.data);
+      getMateria(respuesta.data);
+    
+    
   }
 
   const getNotas = async () =>{
@@ -48,6 +61,11 @@ export default function Docenteestudiantelista() {
       console.error('Error getting', error);
     }
   }
+
+  const getMateria = async () => {
+    const response = await axios.get('https://localhost:7284/api/materia');
+    setMateria(response.data);
+}
 
 const openModal = (op, candidatoEstudiante) => {
   setOperation(op);
@@ -62,6 +80,7 @@ const openModal = (op, candidatoEstudiante) => {
     setFechaCreacion('');
     setMateria('');
     setPeriodo('');
+    setMateriaId('');
   }else if (op === 2) {
     setTitle('Editar Estudiante');
     // Establecer los valores de los campos al abrir el modal para editar
@@ -73,11 +92,14 @@ const openModal = (op, candidatoEstudiante) => {
     setFechaCreacion(candidatoEstudiante.fechaCreacion);
     setMateria(candidatoEstudiante.materia);
     setPeriodo(candidatoEstudiante.periodo);
+    setMateriaId(candidatoEstudiante.materiaId);
   }
-  window.setTimeout(function(){
-    document.getElementById('Nombre').focus();
-  }, 500)
-}
+  const nombreInput = document.getElementById('Nombre');
+  if (nombreInput) {
+    window.setTimeout(function(){
+      nombreInput.focus();
+    }, 500);
+}}
 
 const validar = () => {
   if (valor.trim() === '') {
@@ -85,20 +107,42 @@ const validar = () => {
   }
   else if (titulo.trim() === '') {
     show_alert('Escribe el apellido del estudiante', 'Escribe el estado del apellido');
-  }else {
-    const parametros = { 
-      titulo, 
-      valor, 
-      fechaCreacion, 
-      materia, 
-      periodo, 
-      notasId 
-    };
-    const metodo = operation === 1? 'POST' : 'PUT';
+  }else{
+    let parametros;
+    let metodo;
+
+    if (operation === 1) {
+      parametros = { 
+        nombre: nombre, 
+        apellido: apellido, 
+        titulo: titulo, 
+        valor: valor, 
+        fechaCreacion: fechaCreacion, 
+        materia: materia, 
+        periodo: periodo,
+        materiaIds: [materiaId],
+      };
+      metodo = "POST";
+      
+    }else{
+      parametros = { 
+        nombre: nombre, 
+        apellido: apellido, 
+        titulo: titulo, 
+        valor: valor, 
+        fechaCreacion: fechaCreacion, 
+        materia: materia, 
+        periodo: periodo,
+        notasId: notasId,
+        materiaIds: [materiaId],
+      };
+      metodo = "PUT";
+    }
     enviarSolicitud(metodo, parametros);
   }
+}
 
-};
+
 
 const enviarSolicitud = async (metodo, parametros) => {
   try {
@@ -261,97 +305,25 @@ const deletenota = (notasId, titulo) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {candidatoEstudiante.length > 0 &&
-                    candidatoEstudiante.map((candidatoEstudiante, i) => (
-                      <tr key={candidatoEstudiante.candidatoEstudianteId} className="text-center">
-                        <td className="#">{i + 1}</td>
-                        <td className="ID">{candidatoEstudiante.candidatoEstudianteId}</td>
-                        <td className="nombre">{candidatoEstudiante.nombre}</td>
-                        <td className="apellido">{candidatoEstudiante.apellido}</td>
-                        <td className="asistencia">
-                          {/*<div className="d-flex justify-content-center align-items-center">
-                            <select
-                              className="form-select"
-                              value={asistencias[candidatoEstudiante.candidatoEstudianteId] || ''}
-                              onChange={(e) =>
-                                setAsistencias({
-                                  ...asistencias,
-                                  [candidatoEstudiante.candidatoEstudianteId]: e.target.value,
-                                })
-                              }
-                            >
-                              <option value="" disabled>
-                                Elige una opción
-                              </option>
-                              <option value="Asistencia">Asistencia</option>
-                              <option value="Inasistencia">Inasistencia</option>
-                            </select>
-                            </div>*/}
-                        </td>
-
-                        <td className="nota">
-                        
-								        <button onClick={() => openModal(2, notas)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'/>
-
-                          <div className="d-flex justify-content-center align-items-center">
-                            <input
-                              type="text"
-                              pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}"
-                              className="form-control"
-                              name={`nota-${candidatoEstudiante.candidatoEstudianteId}`}
-                              id={`nota-${candidatoEstudiante.candidatoEstudianteId}`}
-                              maxLength="40"
-                              value={notas[candidatoEstudiante.candidatoEstudianteId] || ''}
-                              onChange={(e) =>
-                                setNotas({
-                                  ...notas,
-                                  [candidatoEstudiante.candidatoEstudianteId]: e.target.value,
-                                })
-                              }
-                            />
-                            </div>
-                        </td>
-                        <td>
-                          <button
-                            onClick={() => {
-                              if (editandoNota) {
-                                console.log(
-                                  'Guardar asistencia existente:',
-                                  asistencias[candidatoEstudiante.candidatoEstudianteId]
-                                );
-                                console.log(
-                                  'Guardar nota existente:',
-                                  notas[candidatoEstudiante.candidatoEstudianteId]
-                                );
-                              } else {
-                                console.log(
-                                  'Guardar nueva asistencia:',
-                                  asistencias[candidatoEstudiante.candidatoEstudianteId]
-                                );
-                                console.log(
-                                  'Guardar nueva nota:',
-                                  notas[candidatoEstudiante.candidatoEstudianteId]
-                                );
-                              }
-                              setAsistencias({
-                                ...asistencias,
-                                [candidatoEstudiante.candidatoEstudianteId]: '',
-                              });
-                              setNotas({
-                                ...notas,
-                                [candidatoEstudiante.candidatoEstudianteId]: '',
-                              });
-                              setEditandoNota(false);
-                            }}
-                            className="btn btn-success"
-                            type="button"
-                          >
-                            Guardar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
+        {candidatoEstudiante.length > 0 &&
+          candidatoEstudiante.map((estudiante, index) => (
+            <tr key={estudiante.candidatoEstudianteId} className="text-center">
+              <td className="#">{index + 1}</td>
+              <td className="ID">{estudiante.candidatoEstudianteId}</td>
+              <td className="nombre">{estudiante.nombre}</td>
+              <td className="apellido">{estudiante.apellido}</td>
+              <td className="asistencia">
+                {/* Aquí puedes mostrar la asistencia si es necesario */}
+              </td>
+              <td className="nota">
+                {/* Botón para abrir el modal y editar las notas */}
+                <button onClick={() => openModal(1,estudiante.candidatoEstudianteId, estudiante.notasId)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'>
+                  Editar Notas
+                </button>
+              </td>
+            </tr>
+          ))}
+      </tbody>
               </table>
             </div>
           </div>
@@ -367,7 +339,7 @@ const deletenota = (notasId, titulo) => {
                   <input type="hidden" id="candidatoEstudianteId" />
                   <div className="input-group mb-3">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-comment"></i>
+                      <i className="fas fa-text-width"></i>
                     </span>
                     <input
                       type="text"
@@ -380,59 +352,43 @@ const deletenota = (notasId, titulo) => {
                   </div>
                   <div className="input-group mb-3">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-comment"></i>
+                      <i className="fas fa-sort-numeric-up-alt"></i>
                     </span>
                     <input
-                      type="text"
-                      id="Apellido"
+                      type="number"
+                      id="Valor"
                       className="form-control"
-                      placeholder="APELLIDO"
-                      value={apellido}
-                      onChange={(e) => setApellido(e.target.value)}
+                      placeholder="Valor de la Nota"
+                      value={valor}
+                      onChange={(e) => setValor(e.target.value)}
                     />
                   </div>
-                  {operation === 1 && (
-                    <div className="input-group mb-3">
-                      <span className="input-group-text">
-                        <i className="fa-solid fa-calendar-check"></i>
-                      </span>
-                      <input
-                        type="text"
-                        id="Asistencia"
-                        className="form-control"
-                        placeholder="ASISTENCIA"
-                        value={asistencia}
-                        onChange={(e) => setAsistencia(e.target.value)}
-                      />
-                    </div>
-                  )}
-                  {operation === 2 && (
-                    <div className="input-group mb-3">
-                      <span className="input-group-text">
-                        <i className="fa-solid fa-calendar-check"></i>
-                      </span>
-                      <input
-                        type="text"
-                        id="Asistencia"
-                        className="form-control"
-                        placeholder="ASISTENCIA"
-                        value={asistencia}
-                        onChange={(e) => setAsistencia(e.target.value)}
-                      />
-                    </div>
-                  )}
                   <div className="input-group mb-3">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-clipboard"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="Nota"
-                      className="form-control"
-                      placeholder="NOTA"
-                      value={notas[candidatoEstudianteId] || ''}
-                      onChange={(e) => setNotas({ ...notas, [candidatoEstudianteId]: e.target.value })}
-                    />
+                        <div class="form-group">
+                            <span className="input-group-text"><i className="far fa-calendar-alt center">  </i> Fecha de creaccion de nota: </span>
+                        <input type="date" id="fecha" name="fecha" class="form-control" value={fechaCreacion} onChange={(e)=>setFechaCreacion(e.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="input-group mb-3"> 
+                    <div className="form-group">
+                    <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> horarios</span>
+                    <select
+                        className="form-control"
+                        name="item_estado"
+                        id="item_estado"
+                        value={materiaId} // Aquí debes utilizar selectedCursoID en lugar de descripcion
+                        onChange={(e) => setMateriaId(e.target.value)}
+                        >
+                        <option value="" disabled>
+                            Seleccione un Curso
+                        </option>
+                        {materia.map((materia) => (
+                            <option key={materia.materiaId} value={materia.materiaId}>
+                            {materia.nombre}
+                            </option>
+                        ))}
+                        </select>
+                    </div>
                   </div>
                   <div className="d-grid col-6 mx-auto">
                     <div className="d-flex justify-content-center align-items-center h-100">

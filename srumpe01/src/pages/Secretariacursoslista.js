@@ -55,6 +55,11 @@ export default function Secretariacursoslista() {
             setaulasAsignadas('');
             setfechalimiteincripcion('');
             setmetodosenseñanza('');
+            setDocenteId('');
+            setNombre('');
+            setapellido('');
+            setDocente([]);
+
         } if (op === 2) {
             setTitle('Editar curso');
             setcursoId(curso.cursosId);
@@ -66,6 +71,11 @@ export default function Secretariacursoslista() {
             setaulasAsignadas(curso.aulasAsignadas);
             setfechalimiteincripcion(curso.fechalimiteincripcion);
             setmetodosenseñanza(curso.metodosenseñanza);
+            setDocenteId(curso.DocenteId);
+            setNombre(curso.nombre);
+            setapellido(curso.apellido);
+            setDocente(curso.Docente);
+            console.log(curso.Docente);
         }
         window.setTimeout(function () {
             document.getElementById('Curso').focus();
@@ -93,12 +103,30 @@ export default function Secretariacursoslista() {
       let metodo;
       if (operation === 1) {
 
-        parametros = { cursoSeleccionado: cursoSeleccionado, profesorasignado: profesorasignado, codigo: codigo, descriccion: cursoSeleccionado.description, departamentoacademico: departamentoacademico};
+        parametros = { 
+          cursoSeleccionado: cursoSeleccionado, 
+          profesorasignado: profesorasignado, 
+          codigo: codigo, 
+          descriccion: cursoSeleccionado.description, 
+          departamentoacademico: departamentoacademico,
+          aulasAsignadas: aulasAsignadas,
+          fechalimiteincripcion: fechalimiteincripcion,
+          metodosenseñanza: metodosenseñanza
+        };
         metodo = "POST";
 
     }
     else {
-      parametros = { cursoSeleccionado: cursoSeleccionado, profesorasignado: profesorasignado, codigo: codigo, descriccion: cursoSeleccionado.description, departamentoacademico: departamentoacademico};
+      parametros = { cursoSeleccionado: cursoSeleccionado, 
+        profesorasignado: profesorasignado, 
+        codigo: codigo, 
+        descriccion: cursoSeleccionado, 
+        departamentoacademico: departamentoacademico,
+        aulasAsignadas: aulasAsignadas,
+        fechalimiteincripcion: fechalimiteincripcion,
+        metodosenseñanza: metodosenseñanza
+
+      };
       metodo = "PUT";
     }
 
@@ -404,28 +432,29 @@ export default function Secretariacursoslista() {
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
                       <select
-            className="form-control"
-            name="item_estado"
-            id="item_estado"
-            value={DocenteId}
-            onChange={(e) => setDocenteId(e.target.value)}
-          >
-            <option value="" disabled>
-              Seleccione el Docente
-            </option>
-            {Docente.length > 0 ? (
-              Docente.map((Docente) => (
-                <option key={Docente.DocenteId} value={Docente.nombre}>
-                  {Docente.Docente}
-                </option>
-              ))
-            ) : (
-              <option value="" disabled>
-                Cargando Docentes...
-              </option>
-            )}
-          </select>
-          
+							className="form-control"
+							name="item_estado"
+							id="item_estado"
+							value={profesorasignado}
+							onChange={(e) => setprofesorasignado(e.target.value)}
+						>
+							<option value="" disabled>
+								Seleccione el Docente
+							</option>
+							{Docente.length > 0 ? (
+								Docente.map((docente) => (
+									<option key={docente.DocenteId} value={docente.nombre}>
+										{docente.nombre}
+									</option>
+								))
+							) : (
+								<option value="" disabled>
+									Cargando Docentes...
+								</option>
+							)}
+						</select>
+
+		  
                     </div>
           
                     
