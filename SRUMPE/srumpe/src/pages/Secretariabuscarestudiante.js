@@ -28,6 +28,7 @@ export default function Secretariabuscarestudiante() {
   const [numeroIdentificacionAcudiente, setNumeroIdentificacionAcudiente] = useState('');
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
+  const [showModal, setShowModal] = useState(false);
   
   useEffect(() => {
     getCandidatoEstudiantes();
@@ -41,6 +42,17 @@ export default function Secretariabuscarestudiante() {
       console.error('Error fetching candidatoEstudiantes:', error);
     }
   };
+  const cerrarModal = () => {
+    const modal = document.getElementById('ModalCandidatoEstudiante');
+    modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
+    modal.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté marcado como oculto para accesibilidad
+    document.body.classList.remove('modal-open'); // Eliminar la clase 'modal-open' del body para permitir el scroll nuevamente
+    const modalBackdrop = document.querySelector('.modal-backdrop'); // Eliminar el backdrop del modal si existe
+    if (modalBackdrop) {
+        document.body.removeChild(modalBackdrop);
+    }
+    setShowModal(false);
+};
   
   const openModal = (op, candidatoEstudiante) => {
     setOperation(op);
@@ -79,6 +91,7 @@ export default function Secretariabuscarestudiante() {
     window.setTimeout(function () {
       document.getElementById('Nombre').focus();
     }, 500);
+    setShowModal(true);
   };
   
   const validar = () => {
@@ -100,6 +113,8 @@ export default function Secretariabuscarestudiante() {
       const metodo = operation === 1 ? 'post' : 'put';
       enviarSolicitud(metodo, parametros);
     }
+    cerrarModal();
+
   };
   
   const enviarSolicitud = async (metodo, parametros) => {
@@ -389,7 +404,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
           <div className="modal-content">
             <div className="modal-header">
               <label className="h5">{title}</label>
-              <button type="button" className="fas fa-times" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="fas fa-times-circle" aria-label="Close" onClick={cerrarModal}></button>
             </div>
             <div className="modal-body">
               <input type="hidden" id="candidatoEstudianteId" />
@@ -515,7 +530,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                     </div>
                     <div class="modal-footer">
                     <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
-                    <button type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                    <button onClick={()=> cerrarModal()} type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
       </div>
 </div>
 

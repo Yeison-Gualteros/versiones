@@ -14,12 +14,12 @@ export default function Secretariamaterialista() {
 	const [descripcion, setDescripcion] = useState('');
 	const [departamentoacademico, setDepartamentamentament] = useState('');
 	const [profesorasignado, setProfesorasignado] = useState('');
-	const [modalidadenseñanza, setModalidadenseñanza] = useState('');
+	const [modalidadensenanza, setModalidadensenanza] = useState('');
 	const [notasadicionales, setNotasadicionales] = useState('');
 	const [nivel, setNivel] = useState('');
 	const [estado, setEstado] = useState('');
 	const [gruposeccionmateria, setgruposeccionmateria] = useState('');
-	const [metodosenseñanza, setMetodosenseñanza] = useState('');
+	const [metodosensenanza, setmetodosensenanza] = useState('');
 	const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
 	const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
@@ -40,10 +40,20 @@ export default function Secretariamaterialista() {
 		.catch((error) => console.error('Error fetching cursos:', error))
 	}, [url2]);
 
-	const getmateria = async () =>{
-		const respuesta = await axios.get(url);
-		setMateria(respuesta.data)
-	}
+	const getmateria = async () => {
+		try {
+			const respuesta = await axios.get(url);
+			// Asegurarse de que respuesta.data sea un array
+			if (Array.isArray(respuesta.data)) {
+				setMateria(respuesta.data);
+			} else {
+				// Si no es un array, muestra un mensaje de error o realiza otra acción adecuada
+				console.error('La respuesta no es un array:', respuesta.data);
+			}
+		} catch (error) {
+			console.error('Error al obtener datos de materia:', error);
+		}
+	};
 
 
 	const openModal = (op, materia)=>{
@@ -55,16 +65,12 @@ export default function Secretariamaterialista() {
             setDescripcion('');
             setDepartamentamentament('');
             setProfesorasignado('');
-            setModalidadenseñanza('');
+            setModalidadensenanza('');
             setNotasadicionales('');
-            setMetodosenseñanza('');
+            setmetodosensenanza('');
 			setNivel('');
 			setEstado('');
 			setgruposeccionmateria('');
-			
-			
-			
-			
         }
 		if (op === 2) {
 
@@ -74,15 +80,13 @@ export default function Secretariamaterialista() {
             setDescripcion(materia.descripcion);
             setDepartamentamentament(materia.departamentoacademico);
             setProfesorasignado(materia.profesorasignado);
-            setModalidadenseñanza(materia.modalidadenseñanza); 
+            setModalidadensenanza(materia.modalidadensenanza); 
             setNotasadicionales(materia.notasadicionales);
-            setMetodosenseñanza(materia.metodosenseñanza);
+            setmetodosensenanza(materia.metodosensenanza);
 			setNivel(materia.nivel);
 			setEstado(materia.estado);
 			setgruposeccionmateria(materia.gruposeccionmateria);
 			setMateriaId(materia.materiaId);
-
-			
 		}
 		window.setTimeout(function(){
 			document.getElementById('Nombre').focus();
@@ -103,13 +107,13 @@ export default function Secretariamaterialista() {
 		else if (profesorasignado.trim() === '') {
             show_alert('Escribe el profesor asignado de la materia nueva', 'error');
         }
-		else if (modalidadenseñanza.trim() === "") {
+		else if (modalidadensenanza.trim() === "") {
             show_alert('Escribe la modalidad de la materia nueva', 'error');
         }
 		else if (notasadicionales.trim() === "") {
             show_alert('Escribe las notas adicionales de la materia nueva', 'error');
         }
-		else if (metodosenseñanza.trim() === "") {
+		else if (metodosensenanza.trim() === "") {
             show_alert('Escribe el metodo de la materia nueva', 'error');
         }
 
@@ -122,9 +126,9 @@ export default function Secretariamaterialista() {
 					descripcion: descripcion, 
 					departamentoacademico: departamentoacademico, 
 					profesorasignado: profesorasignado, 
-					modalidadenseñanza: modalidadenseñanza, 
+					modalidadensenanza: modalidadensenanza, 
 					notasadicionales: notasadicionales, 
-					metodosenseñanza: metodosenseñanza, 
+					metodosensenanza: metodosensenanza, 
 					nivel: nivel, 
 					estado: estado, 
                     gruposeccionmateria: gruposeccionmateria,
@@ -139,9 +143,9 @@ export default function Secretariamaterialista() {
 					descripcion: descripcion, 
 					departamentoacademico: departamentoacademico, 
 					profesorasignado: profesorasignado, 
-					modalidadenseñanza: modalidadenseñanza, 
+					modalidadensenanza: modalidadensenanza, 
 					notasadicionales: notasadicionales, 
-					metodosenseñanza: metodosenseñanza,
+					metodosensenanza: metodosensenanza,
 					nivel: nivel, 
                     estado: estado, 
                     gruposeccionmateria: gruposeccionmateria	
@@ -168,15 +172,15 @@ export default function Secretariamaterialista() {
 
 	const enviarSolicitud = async (metodo, parametros) => {
 		if (metodo === "POST") {
-			const respuesta = await axios.post(url, parametros);
-			setMateria(respuesta.data);
+			await axios.post(url, parametros);
 			show_alert('Materia Registrada', 'La materia ha sido registrada correctamente');
 		}
 		if (metodo === "PUT") {
-            const respuesta = await axios.put(url + '/' + materiaId, parametros);
-            setMateria(respuesta.data);
-            show_alert('Materia Editada', 'La materia ha sido editada correctamente');
-        }
+			await axios.put(url + '/' + materiaId, parametros);
+			show_alert('Materia Editada', 'La materia ha sido editada correctamente');
+		}
+		// Obtener nuevamente los datos de todas las materias después de la operación
+		getmateria();
 	};
 
 	const deletemateria = (materiaId, nombre) => {
@@ -342,56 +346,51 @@ export default function Secretariamaterialista() {
 			
 			
 			<div className="container-fluid">
-				<div className="table-responsive">
-					<table className="table table-dark table-sm">
-						<thead>
-							<tr className="text-center roboto-medium">
-								<th>#</th>								
-								<th>MATERIAS</th>
-								<th>DOCENTES</th>
-								<th>ACTUALIZAR / ELIMINAR</th>
-								
-							</tr>
-						</thead>
-						<tbody>
-						{materia.map((materia, i) => (
-							<tr className="text-center">
-								<td>{i + 1}</td>
-								<td>{materia.nombre}</td>
-								<td>{materia.profesorasignado}</td>
-								<td>
-									<button onClick={() => openModal(2, materia)} className="btn btn-success" data-toggle='modal' data-target='#modalmateria'>
-										<i className="fas fa-edit"></i>
-									</button>
-									/ &nbsp;
-									<button onClick={() => deletemateria(materia.materiaId, materia.nombre, materia.descripcion, materia.departamentoacademico, materia.profesorasignado, materia.modalidadenseñanza, materia.notasadicionales, materia.metodosenseñanza)} className="btn btn-danger">
-										<i className="far fa-trash-alt"></i>
-									</button>
-								</td>
-							</tr>
-						))}
+    <div className="table-responsive">
+        <table className="table table-dark table-sm">
+            <thead>
+                <tr className="text-center roboto-medium">
+                    <th>#</th>                                
+                    <th>MATERIAS</th>
+                    <th>DOCENTES</th>
+                    <th>ACTUALIZAR / ELIMINAR</th>
+                </tr>
+            </thead>
+            <tbody>
+                {Array.isArray(materia) && materia.length > 0 && materia.map((materia, i) => (
+                    <tr key={i} className="text-center">
+                        <td>{i + 1}</td>
+                        <td>{materia.nombre}</td>
+                        <td>{Docente.find(docente => docente.DocenteId === materia.profesorasignado)?.nombres}</td>
+                        <td>
+                            <button onClick={() => openModal(2, materia)} className="btn btn-success" data-toggle='modal' data-target='#modalmateria'>
+                                <i className="fas fa-edit"></i>
+                            </button>
+                            / &nbsp;
+                            <button onClick={() => deletemateria(materia.materiaId, materia.nombre, materia.descripcion, materia.departamentoacademico, materia.profesorasignado, materia.modalidadensenanza, materia.notasadicionales, materia.metodosensenanza)} className="btn btn-danger">
+                                <i className="far fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul className="pagination justify-content-center">
+            <li className="page-item disabled">
+                <a className="page-link" href="#" tabIndex="-1">Anterior</a>
+            </li>
+            <li className="page-item"><a className="page-link" href="#">1</a></li>
+            <li className="page-item"><a className="page-link" href="#">2</a></li>
+            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            <li className="page-item">
+                <a className="page-link" href="#">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
-							</tbody>
-					</table>
-							
-							
-							
-						
-				</div>
-				<nav aria-label="Page navigation example">
-					<ul className="pagination justify-content-center">
-						<li className="page-item disabled">
-							<a className="page-link" href="#" tabIndex="-1">Anterior</a>
-						</li>
-						<li className="page-item"><a className="page-link" href="#">1</a></li>
-						<li className="page-item"><a className="page-link" href="#">2</a></li>
-						<li className="page-item"><a className="page-link" href="#">3</a></li>
-						<li className="page-item">
-							<a className="page-link" href="#">Siguiente</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
 
 		</section>
 	</main>
@@ -444,27 +443,27 @@ export default function Secretariamaterialista() {
 					<div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
                       <select
-							className="form-control"
-							name="item_estado"
-							id="item_estado"
-							value={profesorasignado}
-							onChange={(e) => setProfesorasignado(e.target.value)}
-						>
-							<option value="" disabled>
-								Seleccione el Docente
-							</option>
-							{Docente.length > 0 ? (
-								Docente.map((docente) => (
-									<option key={docente.DocenteId} value={docente.nombre}>
-										{docente.nombre}
-									</option>
-								))
-							) : (
-								<option value="" disabled>
-									Cargando Docentes...
+						className="form-control"
+						name="item_estado"
+						id="item_estado"
+						value={profesorasignado}
+						onChange={(e) => setProfesorasignado(e.target.value)}
+					>
+						<option value="" disabled>
+							Seleccione el Docente
+						</option>
+						{Docente.length > 0 ? (
+							Docente.map((docente) => (
+								<option key={docente.DocenteId} value={docente.DocenteId}>
+									{docente.nombres}
 								</option>
-							)}
-						</select>
+							))
+						) : (
+							<option value="" disabled>
+								Cargando Docentes...
+							</option>
+						)}
+					</select>
 
 		  
                     </div>
@@ -484,8 +483,8 @@ export default function Secretariamaterialista() {
 							id="codigo"
 							className="form-control"
 							placeholder="Metodos de enseñanza..."
-							value={modalidadenseñanza}  
-							onChange={(e) => setModalidadenseñanza(e.target.value)}
+							value={modalidadensenanza}  
+							onChange={(e) => setModalidadensenanza(e.target.value)}
 						/>
                         </div>
 						<div className="input-group mb-3">
@@ -532,8 +531,8 @@ export default function Secretariamaterialista() {
                         id="codigo"
                         className="form-control"
                         placeholder="Metodos de enseñanza..."
-                        value={metodosenseñanza}  
-                        onChange={(e) => setMetodosenseñanza(e.target.value)}
+                        value={metodosensenanza}  
+                        onChange={(e) => setmetodosensenanza(e.target.value)}
                       />
                     </div>
                     

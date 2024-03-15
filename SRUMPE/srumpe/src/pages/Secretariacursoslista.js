@@ -7,15 +7,19 @@ import withReactContent from 'sweetalert2-react-content';
 export default function Secretariacursoslista() {
     const url = 'https://localhost:7284/api/cursos';
     const [cursos, setCursos] = useState([]);
-    const [cursoId, setcursoId] = useState('');
-    const [codigo, setCodigo] = useState('');
-    const [description, setdescripcion] = useState('');
+    const [cursosId, setcursosId] = useState('');
+    const [codigo, setcodigo] = useState('');
+    const [description, setdescritcion] = useState('');
     const [departamentoacademico, setdepartamentoacademico] = useState('');
     const [profesorasignado, setprofesorasignado] = useState('');
     const [cursoSeleccionado, setCursoSeleccionado] = useState('');
     const [aulasAsignadas, setaulasAsignadas] = useState('');
     const [fechalimiteincripcion, setfechalimiteincripcion] = useState('');
-    const [metodosenseñanza, setmetodosenseñanza] = useState('');
+    const [metodosensenanza, setmetodosensenanza] = useState('');
+    const [nivel, setnivel] = useState('');
+    const [estado, setestado] = useState('');
+    const [modalidad, setmodalidad] = useState('');
+    const [descripcion, setdescripcion] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
     const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
@@ -58,58 +62,54 @@ export default function Secretariacursoslista() {
         setOperation(op);
         if (op === 1) {
             setTitle('Registrar curso');
-            setcursoId('');
-            setCodigo('');
+            setcursosId('');
+            setcodigo('');
             setCursoSeleccionado('');
-            setdescripcion('');
+            setdescritcion('');
             setdepartamentoacademico('');
             setprofesorasignado('');
             setaulasAsignadas('');
             setfechalimiteincripcion('');
-            setmetodosenseñanza('');
+            setmetodosensenanza('');
             setDocenteId('');
             setNombre('');
             setapellido('');
             setDocente([]);
+            setdescripcion('');
+            setnivel('');
+            setestado('');
+            setmodalidad('');
 
         } if (op === 2) {
             setTitle('Editar curso');
-            setcursoId(curso.cursosId);
-            setCodigo(curso.codigo);
+            setcursosId(curso.cursosId);
+            setcodigo(curso.codigo);
             setCursoSeleccionado(curso.cursoSeleccionado);
-            setdescripcion(curso.descripcion);
+            setdescritcion(curso.descripcion);
             setdepartamentoacademico(curso.departamentoacademico);
             setprofesorasignado(curso.profesorasignado);
             setaulasAsignadas(curso.aulasAsignadas);
             setfechalimiteincripcion(curso.fechalimiteincripcion);
-            setmetodosenseñanza(curso.metodosenseñanza);
+            setmetodosensenanza(curso.metodosensenanza);
             setDocenteId(curso.DocenteId);
             setNombre(curso.nombre);
             setapellido(curso.apellido);
             setDocente(curso.Docente);
+            setdescripcion(curso.descripcion);
+            setnivel(curso.nivel);
+            setestado(curso.estado);
+            setmodalidad(curso.modalidad);
             console.log(curso.Docente);
         }
         window.setTimeout(function () {
-            document.getElementById('Curso').focus();
+            document.getElementById('codigo').focus();
         }, 500);
         setShowModal(true);
     };
 
   const validar = (function() {
-    if (cursos.cursoSeleccionado.trim() === "") {
-      show_alert("Escribe el nuevo curso", "Escribe el nuevo curso");
-    } else if (cursos.profesorasignado.trim() === "") {
-      show_alert("Seleccione el docente", "Seleccione el docente");
-    }
-    else if (cursos.codigo.trim() === "") {
-      show_alert("Escribe el código del curso", "Escribe el código del curso");
-
-    }
-    else if (cursos.description.trim() === "") {
-      show_alert("Escribe la descripción del curso", "Escribe la descripción del curso");
-    }
-    else if (cursos.departamentoacademico.trim() === "") {
-      show_alert("Escribe el departamento academico del curso", "Escribe el departamento academico del curso");
+    if ( codigo.trim() === '' ||  description.trim() === '' || departamentoacademico.trim() === '') {
+      show_alert('Todos los campos son obligatorios', 'error');
     }
     else {
       let parametros;
@@ -121,10 +121,15 @@ export default function Secretariacursoslista() {
           profesorasignado: profesorasignado, 
           codigo: codigo, 
           descriccion: cursoSeleccionado.description, 
+          description: description,
           departamentoacademico: departamentoacademico,
           aulasAsignadas: aulasAsignadas,
           fechalimiteincripcion: fechalimiteincripcion,
-          metodosenseñanza: metodosenseñanza
+          metodosensenanza: metodosensenanza,
+          nivel: nivel,
+          estado: estado,
+          modalidad: modalidad,
+          descripcion: descripcion,
         };
         metodo = "POST";
 
@@ -137,7 +142,13 @@ export default function Secretariacursoslista() {
         departamentoacademico: departamentoacademico,
         aulasAsignadas: aulasAsignadas,
         fechalimiteincripcion: fechalimiteincripcion,
-        metodosenseñanza: metodosenseñanza
+        metodosensenanza: metodosensenanza,
+        description: description,
+        nivel: nivel,
+        estado: estado,
+        modalidad: modalidad,
+        descripcion: descripcion,
+
 
       };
       metodo = "PUT";
@@ -157,17 +168,17 @@ export default function Secretariacursoslista() {
       show_alert('Curso Registrado', 'El curso ha sido registrado correctamente');
     }
     if (metodo === "PUT") {
-      const respuesta = await axios.put(url + '/' + cursoId, parametros);
+      const respuesta = await axios.put(url + '/' + cursosId, parametros);
       setCursos(respuesta.data);
       show_alert('Curso Editado', 'El curso ha sido editado correctamente');
       
     }
 };
 
-  const deletecurso = (cursoId, cursoSeleccionado) => {
+  const deletecurso = (cursosId, codigo) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: "¿Seguro quieres eliminar el curso " + cursoSeleccionado + "?",
+      title: "¿Seguro quieres eliminar el curso " + codigo + "?",
       icon: "question",
       text: "No se podra dar marcha atras",
       showCancelButton: true,
@@ -176,7 +187,7 @@ export default function Secretariacursoslista() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`${url}/${cursoId}`);
+          await axios.delete(`${url}/${cursosId}`);
           show_alert("Curso eliminado exitosamente", "success");
           getCursos();
         } catch (error) {
@@ -336,7 +347,6 @@ export default function Secretariacursoslista() {
 						<thead>
 							<tr className="text-center roboto-medium">
 								<th>#</th>
-								
 								<th>CURSOS</th>
 								<th>DOCENTE</th>
 								<th>ACTUALIZAR/ELIMINAR</th>
@@ -344,29 +354,24 @@ export default function Secretariacursoslista() {
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
-						{cursos.map((cursos, i) => ( 
-    <tr className="text-center" key={cursos.cursosId}> 
-        <td>{i+1}</td>
-        
-        <td>{cursos.cursoSeleccionado}</td>
-        <td>{cursos.profesorasignado}</td>
-        <td>
-								<button onClick={() => openModal(2, cursos)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
-                          <i className="fas fa-edit"></i>
-                        </button>
-									 / &nbsp;
-									<button onClick={() => deletecurso(Docente.DocenteId, Docente.nombre, Docente.numeroTelefono, Docente.cursosAsignados, Docente.numeroIdentificacion)} className="btn btn-danger">
-                  <i className="far fa-trash-alt"></i>
-                        </button>
+              {cursos.map((curso, i) => (
+                  <tr className="text-center" key={curso.cursosId}> 
+                      <td>{i + 1}</td>
+                      <td>{curso.codigo}</td>
+                      <td>{curso.descripcion}</td>
+                      <td>
+                          <button onClick={() => openModal(2, curso)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
+                              <i className="fas fa-edit"></i>
+                          </button>
+                          / &nbsp;
+                          <button onClick={() => deletecurso(curso.cursosId, curso.cursoSeleccionado)} className="btn btn-danger">
+                              <i className="far fa-trash-alt"></i>
+                          </button>
+                      </td>
+                  </tr>
+              ))}
+          </tbody>
 
-
-								</td>
-    </tr>
-))}
-
-
-							
-						</tbody>
 					</table>
 				</div>
 				<nav aria-label="Page navigation example">
@@ -399,26 +404,16 @@ export default function Secretariacursoslista() {
                 
                 
               </div>
-                    <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
-                    <input
-                        type="text"
-                        id="Curso"
-                        className="form-control"
-                        placeholder="CURSO"
-                        value={cursoSeleccionado} 
-                        onChange={(e) => setCursoSeleccionado(e.target.value)}
-                      />
-                    </div>
+                    
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
                     <input
                         type="text"
                         id="codigo"
                         className="form-control"
-                        placeholder="Codigo Curso"
+                        placeholder="codigo Curso"
                         value={codigo} 
-                        onChange={(e) => setCodigo(e.target.value)}
+                        onChange={(e) => setcodigo(e.target.value)}
                       />
                     </div>
                     <div className="input-group mb-3">
@@ -428,7 +423,7 @@ export default function Secretariacursoslista() {
                         id="cursodescripcion"
                         className="form-control"
                         placeholder="Descripcion del curso"
-                        value={description} 
+                        value={descripcion} 
                         onChange={(e) => setdescripcion(e.target.value)}
                       />
                     </div>
@@ -444,29 +439,62 @@ export default function Secretariacursoslista() {
                       />
                     </div>
                     <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
+                    <input
+                        type="text"
+                        id="nilvel"
+                        className="form-control"
+                        placeholder="nivel"
+                        value={nivel} 
+                        onChange={(e) => setnivel(e.target.value)}
+                      />
+              </div>
+              <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
+                    <input
+                        type="text"
+                        id="estado"
+                        className="form-control"
+                        placeholder="estado"
+                        value={estado} 
+                        onChange={(e) => setestado(e.target.value)}
+                      />
+              </div>
+              <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
+                    <input
+                        type="text"
+                        id="modalida"
+                        className="form-control"
+                        placeholder="modalidad"
+                        value={modalidad} 
+                        onChange={(e) => setmodalidad(e.target.value)}
+                      />
+              </div>
+                    <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
                       <select
-							className="form-control"
-							name="item_estado"
-							id="item_estado"
-							value={profesorasignado}
-							onChange={(e) => setprofesorasignado(e.target.value)}
-						>
-							<option value="" disabled>
-								Seleccione el Docente
-							</option>
-							{Docente.length > 0 ? (
-								Docente.map((docente) => (
-									<option key={docente.DocenteId} value={docente.nombre}>
-										{docente.nombre}
-									</option>
-								))
-							) : (
-								<option value="" disabled>
-									Cargando Docentes...
+						className="form-control"
+						name="item_estado"
+						id="item_estado"
+						value={profesorasignado}
+						onChange={(e) => setprofesorasignado(e.target.value)}
+					>
+						<option value="" disabled>
+							Seleccione el Docente
+						</option>
+						{Docente.length > 0 ? (
+							Docente.map((docente) => (
+								<option key={docente.DocenteId} value={docente.DocenteId}>
+									{docente.nombres}
 								</option>
-							)}
-						</select>
+							))
+						) : (
+							<option value="" disabled>
+								Cargando Docentes...
+							</option>
+						)}
+					</select>
 
 		  
                     </div>
@@ -498,8 +526,8 @@ export default function Secretariacursoslista() {
                         id="codigo"
                         className="form-control"
                         placeholder="Metodos de enseñanza..."
-                        value={metodosenseñanza}  
-                        onChange={(e) => setmetodosenseñanza(e.target.value)}
+                        value={metodosensenanza}  
+                        onChange={(e) => setmetodosensenanza(e.target.value)}
                       />
                     </div>
                     <div className='d-grid col-6 mx-auto'>

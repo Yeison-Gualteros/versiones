@@ -23,7 +23,9 @@ export default function Secretariaestudiantelista() {
   const [numeroIdentificacionAcudiente, setNumeroIdentificacionAcudiente] = useState('');
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
+  const [NombreAcudienteRelacionado, setNombreAcudienteRelacionado] = useState('');
   const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
+  
   
   
   useEffect(() => {
@@ -66,6 +68,8 @@ export default function Secretariaestudiantelista() {
       setTipoDocumento('');
       setNumeroDocumento('');
       setAdjuntarDocumentos('');
+      setNumeroIdentificacionAcudiente('');
+      setNombreAcudienteRelacionado('');
       
     } else if (op === 2) {
       setTitle('Editar Estudiante');
@@ -81,6 +85,8 @@ export default function Secretariaestudiantelista() {
       setTipoDocumento(candidatoEstudiante.tipoDocumento);
       setNumeroDocumento(candidatoEstudiante.numeroDocumento);
       setAdjuntarDocumentos(candidatoEstudiante.adjuntarDocumentos);
+      setNumeroIdentificacionAcudiente(candidatoEstudiante.numeroIdentificacionAcudiente);
+      setNombreAcudienteRelacionado(candidatoEstudiante.NombreAcudienteRelacionado); 
 
     }
     // Enfocar el primer campo después de un breve retraso para asegurar que el enfoque ocurra después de que el modal esté completamente abierto
@@ -94,26 +100,50 @@ export default function Secretariaestudiantelista() {
   
 
   const validar = () => {
-    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '') {
+    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '' ) {
       show_alert('Todos los campos son obligatorios', 'error');
-    } else {
-      const parametros = {
-        nombre,
-        apellido,
-        numeroContacto: parseInt(numeroContacto),
-        direccion,
-        genero,
-        tipoPersona,
-        fechaNacimiento,
-        tipoDocumento,
-        numeroDocumento,
-        adjuntarDocumentos
-      };
-      const metodo = operation === 1 ? 'post' : 'put';
+    }else {
+      let parametros;
+      let metodo;
+      if (operation === 1) {
+        parametros = {
+          nombre,
+          apellido,
+          numeroContacto: parseInt(numeroContacto),
+          direccion,
+          genero,
+          tipoPersona,
+          fechaNacimiento,
+          tipoDocumento,
+          numeroDocumento,
+          adjuntarDocumentos,
+          numeroIdentificacionAcudiente,
+          NombreAcudienteRelacionado
+        };
+        metodo = 'post';
+      }else{
+        parametros = {
+          nombre,
+          apellido,
+          numeroContacto: parseInt(numeroContacto),
+          direccion,
+          genero,
+          tipoPersona,
+          fechaNacimiento,
+          tipoDocumento,
+          numeroDocumento,
+          adjuntarDocumentos,
+          numeroIdentificacionAcudiente,
+          NombreAcudienteRelacionado
+        };
+        metodo = 'put';
+      }
       enviarSolicitud(metodo, parametros);
+    }    
+      cerrarModal();
     }
-    cerrarModal();
-  };
+    
+  
   
   const enviarSolicitud = async (metodo, parametros) => {
     try {
@@ -479,6 +509,17 @@ export default function Secretariaestudiantelista() {
                         placeholder="Numero de identificacion del acudiente"
                         value={numeroIdentificacionAcudiente} 
                         onChange={(e) => setNumeroIdentificacionAcudiente(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-signature"></i></span>
+                    <input
+                        type="text"
+                        id="Nombre"
+                        className="form-control"
+                        placeholder="Nombre del Acudiente"
+                        value={NombreAcudienteRelacionado}
+                        onChange={(e) => setNombreAcudienteRelacionado(e.target.value)}
                       />
                     </div>
                     <div class="modal-footer">
