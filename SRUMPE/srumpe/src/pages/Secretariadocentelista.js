@@ -10,7 +10,8 @@ export default function Secretariadocentelista(){
     const [docente, setDocente] = useState([]);
     const [docenteId, setDocenteId] = useState('');
     const [nombres, setNombre] = useState('');
-    const [nombrenumero, setNombrenumero] = useState('');
+    
+    const [nombreNumero, setNombreNumero] = useState('');
     const [apellidos, setApellido] = useState('');
     const [fechaNacimiento, setFechaNacimiento] = useState('');
     const [genero, setGenero]= useState('');
@@ -31,14 +32,14 @@ export default function Secretariadocentelista(){
     
     const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
     const url4 = 'https://localhost:7284/api/aula';
-    const [Aulas, setAula] = useState([]);
+    const [aulas, setAula] = useState([]);
     const [aulaId, setAulaId] = useState('');
 
     
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
     
-    const url1 = 'https://localhost:7284/api/docente/'+ docenteId+''
+    const url1 = `https://localhost:7284/api/docente/${docenteId}`
     const url2 = 'https://localhost:7284/api/cursos';
   const [curso, setCursos] = useState([]);
   const [cursoId, setCursoId] = useState('');
@@ -90,7 +91,7 @@ export default function Secretariadocentelista(){
         const response = await axios.get('https://localhost:7284/api/aula');
         setAula(response.data);
     }
-    const openModal = (op, docente, Aulas) => {
+    const openModal = (op, docente, aulas) => {
         setOperation(op);
         if (op === 1) {
             setTitle('Registrar Docente');
@@ -115,7 +116,7 @@ export default function Secretariadocentelista(){
             setMateriaId('');
             setadjuntardocumentos('');
             setTipoDocumento('');
-            setNombrenumero('');
+            setNombreNumero('');
             setTituloAcademico('');
         }
         if (op === 2) {
@@ -141,7 +142,7 @@ export default function Secretariadocentelista(){
             setMateriaId(docente.materiaId);
             setadjuntardocumentos(docente.adjuntardocumentos);
             setTipoDocumento(docente.tipoDocumento);
-            //nombrenumero(docente.nombrenumero);
+            setNombreNumero(docente.nombreNumero);
             setTituloAcademico(docente.tituloAcademico);
         }
         window.setTimeout(function () {
@@ -196,14 +197,14 @@ export default function Secretariadocentelista(){
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    cursoIds: cursoId, // Asegurémonos de enviar un array de cursoIds
+                    cursoIds: [cursoId], // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
                     estadoLaboral: estadolaboral,
                     horarioClases: horarioclase,
                     comentariosNotas: ComentariosNotas,
                     nivelExperiencia: nivelExperiencia,
                     correoElectronico: correo,
-                    materiaIds: materiaId,
+                    materiaIds: [materiaId],
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
@@ -211,7 +212,7 @@ export default function Secretariadocentelista(){
                     adjuntardocumentos: adjuntardocumentos,
                     aulaId:aulaId,
 
-                    //nombrenumero: nombrenumero,
+                    nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
                     
                 };
@@ -237,7 +238,7 @@ export default function Secretariadocentelista(){
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
                     aulaId:aulaId,
-                    //nombrenumero: nombrenumero,
+                    nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
                     
                 };
@@ -621,9 +622,9 @@ export default function Secretariadocentelista(){
                         <option value="" disabled>
                             Seleccione una Aulas 
                         </option>
-                        {Aulas.map((Aula) => (
-                            <option key={Aula.aulaId} value={Aula.aulaId}>
-                            {Aula.NombreNumero}
+                        {aulas.map((aulas) => (
+                            <option key={aulas.aulaId} value={aulas.aulaId}>
+                            {aulas.nombreNumero}
                             </option>
                         ))}
                         </select>
