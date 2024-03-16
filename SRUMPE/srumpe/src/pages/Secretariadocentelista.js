@@ -9,45 +9,64 @@ export default function Secretariadocentelista(){
     const url = 'https://localhost:7284/api/Docente'
     const [docente, setDocente] = useState([]);
     const [docenteId, setDocenteId] = useState('');
-    const [nombres, setNombre] = useState('');
+    
     
     const [nombreNumero, setNombreNumero] = useState('');
-    const [apellidos, setApellido] = useState('');
-    const [fechaNacimiento, setFechaNacimiento] = useState('');
-    const [genero, setGenero]= useState('');
-    const [direccion, setDireccion] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [numeroTelefono, setNumeroTelefono] = useState('');
+    
     const [cursosAsignados, setcursosAsignados]=useState('');
     const [horarioclase, setHorarioclase] = useState('');
-    const [estadolaboral, setestadolaboral] = useState(''); 
-    const [numeroIdentificacion, setNumeroIdentificacion]=useState('');
-    const [ComentariosNotas, setComentariosNotas] = useState('');
-   const [fechaContratacion, setfechacontratacion] = useState('');
+
+    
+    
+   
    const [adjuntardocumentos, setadjuntardocumentos] = useState('');
-    const [nivelExperiencia, setNivelExperiencia] = useState('');
+    
     const [tipoPersona, setTipoPersona] = useState('');
     const [tipoDocumento, setTipoDocumento] = useState('');
-    const [tituloAcademico, setTituloAcademico] = useState('');
+    
+
+    const [nombres, setNombres] = useState('');
+  const [apellidos, setApellidos] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
+  const [genero, setGenero] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [correoElectronico, setCorreoElectronico] = useState('');
+  const [tituloAcademico, setTituloAcademico] = useState('');
+  const [numeroTelefono, setNumeroTelefono] = useState('');
+  const [fechaContratacion, setFechaContratacion] = useState('');
+  const [estadoLaboral, setEstadoLaboral] = useState('');
+  const [numeroIdentificacion, setNumeroIdentificacion] = useState('');
+  const [comentariosNotas, setComentariosNotas] = useState('');
+  const [nivelExperiencia, setNivelExperiencia] = useState('');
+  const [error, setError] = useState('');
     
     const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
-    const url4 = 'https://localhost:7284/api/aula';
-    const [aulas, setAula] = useState([]);
-    const [aulaId, setAulaId] = useState('');
+    //const url4 = 'https://localhost:7284/api/aula';
+    //const [aulas, setAula] = useState([]);
+    //const [aulaId, setAulaId] = useState('');
 
     
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
     
-    const url1 = `https://localhost:7284/api/docente/${docenteId}`
+    
     const url2 = 'https://localhost:7284/api/cursos';
   const [curso, setCursos] = useState([]);
-  const [cursoId, setCursoId] = useState('');
+const [cursoId, setCursoId] = useState('');
   
   const url3 = 'https://localhost:7284/api/materia'
   const [materia, setMateria] = useState([]);
-  const [materiaId, setMateriaId] = useState('');
-  
+const [MateriaId, setMateriaId] = useState('');
+  useEffect(() => {
+        getDocente();
+    }, []);
+    const getDocente = async () => {
+        const respuesta = await axios.get(url);
+        setDocente(respuesta.data);
+        getCursos(respuesta.data);
+        getMateria(respuesta.data);
+        //getAula(respuesta.data);
+    }
   useEffect(() => {
     fetch(url2)
       .then((response) => response.json())
@@ -55,30 +74,19 @@ export default function Secretariadocentelista(){
       .catch((error) => console.error('Error fetching cursos:', error));
   }, []);
 
-  useEffect(() => {
+  {/*useEffect(() => {
     fetch(url4)
       .then((response) => response.json())
       .then((data) => setAula(data))
       .catch((error) => console.error('Error fetching cursos:', error));
-  }, []);
+  }, []);*/}
   useEffect(() => {
     fetch(url3)
       .then((response) => response.json())
       .then((data) => setMateria(data))
       .catch((error) => console.error('Error fetching materias:', error));
   }, []);
-  
-    useEffect(() => {
-        getDocente();
-    }, []);
     
-    const getDocente = async () => {
-        const respuesta = await axios.get(url);
-        setDocente(respuesta.data);
-        getCursos(respuesta.data);
-        getMateria(respuesta.data);
-        getAula(respuesta.data);
-    }
     const getCursos = async () => {
         const response = await axios.get('https://localhost:7284/api/cursos');
         setCursos(response.data);
@@ -87,70 +95,10 @@ export default function Secretariadocentelista(){
         const response = await axios.get('https://localhost:7284/api/materia');
         setMateria(response.data);
     }
-    const getAula = async () => {
+    {/*const getAula = async () => {
         const response = await axios.get('https://localhost:7284/api/aula');
         setAula(response.data);
-    }
-    const openModal = (op, docente, aulas) => {
-        setOperation(op);
-        if (op === 1) {
-            setTitle('Registrar Docente');
-            setDocenteId('');
-            setNombre('');
-            setApellido('');
-            setNumeroTelefono('');
-            setcursosAsignados('');
-            setNumeroIdentificacion('');
-            setGenero('');
-            setFechaNacimiento('');
-            setDireccion('');
-            setCorreo('');
-            setfechacontratacion('');
-            setestadolaboral('');
-            setNivelExperiencia('');
-            setHorarioclase('');
-            setComentariosNotas('');
-            setTipoPersona('');
-            setAulaId('');
-            setCursoId('');
-            setMateriaId('');
-            setadjuntardocumentos('');
-            setTipoDocumento('');
-            setNombreNumero('');
-            setTituloAcademico('');
-        }
-        if (op === 2) {
-            setTitle('Editar Docente');
-            setDocenteId(docente.docenteId);
-            setNombre(docente.nombre);
-            setApellido(docente.apellidos);
-            setNumeroTelefono(docente.numeroTelefono);
-            setcursosAsignados(docente.cursosAsignados);
-            setNumeroIdentificacion(docente.numeroIdentificacion);
-            setGenero(docente.genero);
-            setFechaNacimiento(docente.fechaNacimiento);
-            setDireccion(docente.direccion);
-            setCorreo(docente.correo);
-            setfechacontratacion(docente.fechaContratacion);
-            setestadolaboral(docente.estadolaboral);
-            setNivelExperiencia(docente.nivelExperiencia);
-            setHorarioclase(docente.horarioclase);
-            setComentariosNotas(docente.comentariosNotas);
-            setTipoPersona(docente.tipoPersona);
-            setAulaId(docente.aulaId);
-            setCursoId(docente.cursoId);
-            setMateriaId(docente.materiaId);
-            setadjuntardocumentos(docente.adjuntardocumentos);
-            setTipoDocumento(docente.tipoDocumento);
-            setNombreNumero(docente.nombreNumero);
-            setTituloAcademico(docente.tituloAcademico);
-        }
-        window.setTimeout(function () {
-            document.getElementById('Nombre').focus();
-        }, 500);
-        setShowModal(true);
-        
-    };
+    }*/}
     const cerrarModal = () => {
         const modal = document.getElementById('ModalDocente');
         modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
@@ -163,30 +111,131 @@ export default function Secretariadocentelista(){
         setShowModal(false);
     };
     
+    const openModal = (op, docente) => {
+        setOperation(op);
+        if (op === 1) {
+            setTitle('Registrar Docente');
+            setDocenteId('');
+            setNombres('');
+            setApellidos('');
+            setNumeroTelefono('');
+            setcursosAsignados('');
+            setNumeroIdentificacion('');
+            setGenero('');
+            setFechaNacimiento('');
+            setDireccion('');
+            setCorreoElectronico('');
+            setFechaContratacion('');
+            setEstadoLaboral('');
+            setNivelExperiencia('');
+            setHorarioclase('');
+            setComentariosNotas('');
+            setTipoPersona('');
+            //setAulaId('');
+            setCursoId('');
+            setMateriaId('');
+            setadjuntardocumentos('');
+            setTipoDocumento('');
+            setNombreNumero('');
+            setTituloAcademico('');
+        }
+        if (op === 2) {
+            setTitle('Editar Docente');
+            setDocenteId(docente.docenteId);
+            setNombres(docente.nombres);
+            setApellidos(docente.apellidos);
+            setNumeroTelefono(docente.numeroTelefono);
+            setcursosAsignados(docente.cursosAsignados);
+            setNumeroIdentificacion(docente.numeroIdentificacion);
+            setGenero(docente.genero);
+            setFechaNacimiento(docente.fechaNacimiento);
+            setDireccion(docente.direccion);
+            setCorreoElectronico(docente.correoElectronico);
+            setFechaContratacion(docente.fechaContratacion);
+            setEstadoLaboral(docente.estadoLaboral);
+            setNivelExperiencia(docente.nivelExperiencia);
+            setHorarioclase(docente.horarioclase);
+            setComentariosNotas(docente.comentariosNotas);
+            setTipoPersona(docente.tipoPersona);
+            //setAulaId(docente.aulaId);
+            setCursoId(docente.cursoId);
+            setMateriaId(docente.MateriaId);
+            setadjuntardocumentos(docente.adjuntardocumentos);
+            setTipoDocumento(docente.tipoDocumento);
+            setNombreNumero(docente.nombreNumero);
+            setTituloAcademico(docente.tituloAcademico);
+        }
+        window.setTimeout(function () {
+            document.getElementById('Nombre').focus();
+        }, 500);
+        setShowModal(true);
+        
+    };
+    
     
     const validar = () => {
         
 
-        if (
-            nombres === '' ||
-    apellidos === '' ||
-    numeroTelefono === '' ||
-    direccion === '' ||
-    correo === '' ||
-    estadolaboral === '' ||
-    numeroIdentificacion === '' ||
-    genero === '' ||
-    fechaNacimiento === '' ||
-    
-    tipoPersona === '' ||
-    tipoDocumento === '' ||
-    tituloAcademico === ''
-        ) {
-            // Realiza alguna acción si hay campos vacíos
-            // Por ejemplo, mostrar un mensaje de error
-            show_alert('Por favor complete todos los campos', 'error');
+        if ( nombres === '') {
+            show_alert('porfavor escribe el nombre del docente', 'error');
         }
-        else{
+        if (apellidos === '') {
+            show_alert('porfavor escribe el apellido del docente', 'error');
+        }
+        if (!fechaNacimiento) {
+            setError('Por favor, seleccione la fecha de nacimiento del docente.');
+        } else {
+            const fechaSeleccionada = new Date(fechaNacimiento);
+            const fechaHace18Anios = new Date();
+            fechaHace18Anios.setFullYear(fechaHace18Anios.getFullYear() - 18);
+
+            if (fechaSeleccionada > fechaHace18Anios) {
+                setError('El docente debe ser mayor de 18 años.');
+            } else {
+                setError('');
+                // Aquí puedes realizar cualquier otra acción de envío o procesamiento
+            }
+        }
+        if (numeroTelefono === '') {
+            show_alert('porfavor escribe el numero de telefono del docente', 'error');
+        }
+        if (direccion === '') {
+            show_alert('porfavor escribe la direccion del docente', 'error');
+        }
+        if (tituloAcademico === '' ) {
+            show_alert('porfavor escribe el titulo académico del docente', 'error');
+        }
+        if (correoElectronico === '') {
+            show_alert('porfavor escribe el correo electronico del docente', 'error');
+        }
+        if (tipoPersona === '') {
+            show_alert('porfavor escribe el tipo de persona del docente', 'error');
+        }
+        if (fechaContratacion === '0') {
+            show_alert('porfavor seleccione la fecha de contratacion del docente', 'error');
+        }  
+        if (cursosAsignados === '') { 
+            show_alert('porfavor seleccione al menos un curso del docente', 'error');           
+        }
+        if (genero === '') {
+            show_alert('porfavor seleccione el genero del docente', 'error');
+        }
+        if (nivelExperiencia === '') {
+            show_alert('porfavor seleccione el nivel de experiencia del docente', 'error');
+        }
+        if (estadoLaboral === '') {
+            show_alert('porfavor seleccione el estado laboral del docente', 'error');
+        }
+        if (comentariosNotas === ''){
+            show_alert('porfavor escribe un comentario sobre el docente', 'error');
+        }
+        if (adjuntardocumentos === '') {
+            show_alert('porfavor escribe si adjunto documnetos', 'error');
+        }
+        if (MateriaId === '') {
+            show_alert('porfavor seleccione una materia del docente', 'error');
+        }
+    else{
             let parametros;
             let metodo;
     
@@ -197,20 +246,20 @@ export default function Secretariadocentelista(){
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    cursoIds: [cursoId], // Asegurémonos de enviar un array de cursoIds
+                    cursoIds:cursoId, // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
-                    estadoLaboral: estadolaboral,
+                    estadoLaboral: estadoLaboral,
                     horarioClases: horarioclase,
-                    comentariosNotas: ComentariosNotas,
+                    comentariosNotas: comentariosNotas,
                     nivelExperiencia: nivelExperiencia,
-                    correoElectronico: correo,
-                    materiaIds: [materiaId],
+                    correoElectronico: correoElectronico,
+                    MateriaIds: MateriaId,
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
-                    aulaId:aulaId,
+                    //aulaId:aulaId,
 
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
@@ -224,20 +273,20 @@ export default function Secretariadocentelista(){
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    cursoIds: cursoId, // Asegurémonos de enviar un array de cursoIds
+                    //cursoIds: cursoId, // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
-                    estadoLaboral: estadolaboral,
+                    estadoLaboral: estadoLaboral,
                     horarioClases: horarioclase,
-                    comentariosNotas: ComentariosNotas,
+                    comentariosNotas: comentariosNotas,
                     nivelExperiencia: nivelExperiencia,
-                    correoElectronico: correo,
-                    materiaIds: materiaId,
+                    correoElectronico: correoElectronico,
+                    //MateriaIds: MateriaId,
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
-                    aulaId:aulaId,
+                    //aulaId:aulaId,
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
                     
@@ -246,17 +295,24 @@ export default function Secretariadocentelista(){
             }
             enviarSolicitud(metodo, parametros);
             cerrarModal();
-        }
+    }
         
     };
-    
+    const handleDelete = async (docenteId) => {
+        try {
+          await axios.delete(`https://localhost:7284/api/docente/${docenteId}`);
+          setDocente((prevDocentes) => prevDocentes.filter((d) => d.docenteId !== docenteId));
+        } catch (error) {
+          console.error('Error al eliminar docente', error);
+        }
+      };
     const enviarSolicitud = async (metodo, parametros) => {
         try{
         let respuesta;
         if (metodo === "POST") {
             respuesta = await axios.post(url, parametros);
         }else if (metodo === "PUT") {
-            respuesta = await axios.put(url1, parametros);
+            respuesta = await axios.put(`${url}/${docenteId}`, parametros);
         }
         console.log(`Solicitud ${metodo.toUpperCase()} exitosa:`, respuesta.data);
       const mensajeExito = operation === 1 ? 'Docente añadido exitosamente' : 'Docente editado con éxito';
@@ -424,8 +480,8 @@ export default function Secretariadocentelista(){
 							<tr className="text-center roboto-medium">
 								<th>#</th>
 								<th>NOMBRE</th>
+                                <th>APELLIDOS</th>
 								<th>NUMERO TELEFONO</th>
-                                <th>CURSOS ASIGNADOS</th>
 								<th>NUMERO IDENTIFICACION</th>
                                 <th>GENERO</th>
 								<th>ELIMINAR / ACTUALIZAR</th>
@@ -436,8 +492,8 @@ export default function Secretariadocentelista(){
 							<tr className="text-center"  key={docente.DocenteId}>
 								<td>{i+1}</td>
 								<td>{docente.nombres}</td>
+                                <td>{docente.apellidos}</td>
 								<td>{docente.numeroTelefono}</td>
-								<td>{docente.cursosAsignados}</td>
 								<td>{docente.numeroIdentificacion}</td>
                                 <td>{docente.genero}</td>
 								<td>
@@ -445,7 +501,7 @@ export default function Secretariadocentelista(){
                           <i className="fas fa-edit"></i>
                         </button>
 									 / &nbsp;
-									<button onClick={() => deleteDocente(docente.DocenteId, docente.nombre, docente.numeroTelefono, docente.cursosAsignados, docente.numeroIdentificacion)} className="btn btn-danger">
+									<button onPress={() => handleDelete(docente.docenteId)} onClick={() => deleteDocente(docente.docenteId, docente.nombres, docente.numeroTelefono, docente.cursosAsignados, docente.numeroIdentificacion, docente.apellidos)} className="btn btn-danger">
                   <i className="far fa-trash-alt"></i>
                         </button>
 								</td>
@@ -490,7 +546,13 @@ export default function Secretariadocentelista(){
                         className="form-control"
                         placeholder="NOMBRE"
                         value={nombres}
-                        onChange={(e) => setNombre(e.target.value)}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            const regex = /^[a-zA-Z\s]*$/; // Expresión regular para letras y espacios
+                            if (regex.test(inputValue)) {
+                              setNombres(inputValue);
+                            }
+                          }}
                       />
                     </div>
                     <div className="input-group mb-3">
@@ -501,14 +563,29 @@ export default function Secretariadocentelista(){
                         className="form-control"
                         placeholder="APELLIDO"
                         value={apellidos}
-                        onChange={(e) => setApellido(e.target.value)}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            const regex = /^[a-zA-Z\s]*$/; // Expresión regular para letras y espacios
+                            if (regex.test(inputValue)) {
+                              setApellidos(inputValue);
+                            }
+                          }}
                       />
                     </div>
                     <div className="input-group mb-3">
-                        <div className="form-group">
-                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de nacimiento: </span>
-                        <input type="date" id="fecha" name="fecha" className="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
-                        </div>
+                    <div className="form-group">
+                        <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Fecha de nacimiento: </span>
+                        <input 
+                        type="date" 
+                        id="fecha" 
+                        name="fecha" 
+                        className="form-control" 
+                        value={fechaNacimiento} 
+                        max={(new Date()).toISOString().split("T")[0]} // Establecer la fecha máxima como la fecha actual
+                        min={(new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate())).toISOString().split("T")[0]} // Establecer la fecha mínima como hace 18 años
+                        onChange={(e)=>setFechaNacimiento(e.target.value)}
+                        />
+                    </div>
                     </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
@@ -532,7 +609,7 @@ export default function Secretariadocentelista(){
                         onChange={(e) => setDireccion(e.target.value)}
                       />
                     </div>
-                    <div className="input-group mb-3">
+                    {/*<div className="input-group mb-3">
                         <span ><i className="far fa-id-card"></i> Tipo Documento</span>
                             <select className="form-select" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>
                                 <option value="">Seleccione Tipo Documento</option>
@@ -540,7 +617,7 @@ export default function Secretariadocentelista(){
                                 <option value="Targeta de Identidad">T.I</option>
                                 <option value="otro">Otro</option>
                             </select>
-                        </div>
+                        </div>*/}
                         <div className="input-group mb-3">
                       <span className="input-group-text"><i className="far fa-id-card"></i></span>
                       <input
@@ -551,7 +628,7 @@ export default function Secretariadocentelista(){
                         value={numeroIdentificacion}
                         onChange={(e) => setNumeroIdentificacion(e.target.value)}
                       />
-                    </div>
+                        </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-scroll"></i></span>
                       <input
@@ -560,17 +637,23 @@ export default function Secretariadocentelista(){
                         className="form-control"
                         placeholder="Titulo academico"
                         value={tituloAcademico}
-                        onChange={(e) => setTituloAcademico(e.target.value)}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            const regex = /^[a-zA-Z\s]*$/; // Expresión regular para letras y espacios
+                            if (regex.test(inputValue)) {
+                              setTituloAcademico(inputValue);
+                            }
+                          }}
                       />
                     </div>
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-envelope"></i></span>
                     <input type="email"
                      className="form-control"
-                      id="correo" 
-                      placeholder="Dirección de correo electrónico"
-                      value={correo}
-                      onChange={ (e) => setCorreo (e.target.value)}/>
+                      id="correoElectronico" 
+                      placeholder="Dirección de Electrónico"
+                      value={correoElectronico}
+                      onChange={ (e) => setCorreoElectronico (e.target.value)}/>
                     </div>
                     <div className="input-group mb-3">
                             <select className="form-select" value={tipoPersona} onChange={(e) => setTipoPersona(e.target.value)}>
@@ -581,12 +664,20 @@ export default function Secretariadocentelista(){
                         </div>
                         <div className="input-group mb-3">
                         <div className="form-group">
-                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de contratacion: </span>
-                        <input type="date" id="fecha" name="fecha" className="form-control" value={fechaContratacion} onChange={(e)=>setfechacontratacion(e.target.value)}/>
+                            <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Fecha de contratación: </span>
+                            <input 
+                            type="date" 
+                            id="fecha" 
+                            name="fecha" 
+                            className="form-control" 
+                            value={fechaContratacion} 
+                            max={(new Date()).toISOString().split("T")[0]} // Establecer la fecha máxima como la fecha actual
+                            onChange={(e)=>setFechaContratacion(e.target.value)}
+                            />
                         </div>
-                    </div>
+                        </div>
                      
-                 <div className="input-group mb-3"> 
+                <div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i className="fas fa-clipboard-list fa-fw"></i> <span> </span> Cursos</span>
                     <select
@@ -606,10 +697,10 @@ export default function Secretariadocentelista(){
   ))}
 </select>
                     </div>
-                  </div>
+  </div>
                 
                 
-                 <div className="input-group mb-3"> 
+                {/*} <div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i> <span> </span> Aulas</span>
                     <select
@@ -629,7 +720,7 @@ export default function Secretariadocentelista(){
                         ))}
                         </select>
                     </div>
-                  </div>
+                        </div>*/}
                 
                     
                     <div className="input-group mb-3">
@@ -656,7 +747,7 @@ export default function Secretariadocentelista(){
                         </div>
                         <div className="input-group mb-3">
                           <span > <i className="fas fa-chalkboard-teacher"></i> Estado Laboral</span>
-                            <select className="form-select" value={estadolaboral} onChange={(e) => setestadolaboral(e.target.value)}>
+                            <select className="form-select" value={estadoLaboral} onChange={(e) => setEstadoLaboral(e.target.value)}>
                                 <option value="">Seleccione Estado</option>
                                 <option value="Active">Activo</option>
                                 <option value="Inactivo">Inactivo</option>
@@ -670,7 +761,7 @@ export default function Secretariadocentelista(){
                         id="cargadaDocumento"
                         className="form-control"
                         placeholder="Comentarios"
-                        value={ComentariosNotas}
+                        value={comentariosNotas}
                         onChange={(e) => setComentariosNotas(e.target.value)}
                       />
                       </div>
@@ -692,20 +783,20 @@ export default function Secretariadocentelista(){
                         className="form-control"
                         name="item_estado"
                         id="item_estado"
-                        value={materiaId} // Aquí debes utilizar selectedCursoID en lugar de descripcion
+                        value={MateriaId} // Aquí debes utilizar selectedCursoID en lugar de descripcion
                         onChange={(e) => setMateriaId(e.target.value)}
                         >
                         <option value="" disabled>
                             Seleccione un Curso
                         </option>
                         {materia.map((materia) => (
-                            <option key={materia.materiaId} value={materia.materiaId}>
+                            <option key={materia.MateriaId} value={materia.MateriaId}>
                             {materia.nombre}
                             </option>
                         ))}
                         </select>
                     </div>
-                  </div>
+                        </div>
                 
                     <div className='modal-footer'>
                     <div className='d-grid '>

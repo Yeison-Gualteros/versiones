@@ -23,6 +23,7 @@ import Secretariacursobuscar from './Secretariacursobuscar'
 import Secretariamaterialista from './Secretariamaterialista'
 import Secretariareclamos from './Secretariareclamos'
 import Secretariaactualizar from './Secretariaactualizar'
+import Secretariaulalista from './Secretariaulalista'
 
 import Prueba from './Prueba'
 
@@ -54,6 +55,7 @@ export default function RouterPage() {
                     <Route path='/Secretariamaterialista' exact Component={Secretariamaterialista}/>
                     <Route path='/Secretariareclamos' exact Component={Secretariareclamos}/>
                     <Route path='/Secretariaactualizar' exact Component={Secretariaactualizar}/>
+                    <Route path='/Secretariaulalista' exact Component={Secretariaulalista}/>
 
                     <Route path='/Prueba' exact Component={Prueba}/>
 

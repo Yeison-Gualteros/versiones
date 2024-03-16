@@ -46,9 +46,7 @@ export default function Secretaria() {
 						<li>
 							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								{/*<li>
-									<a href="nuevo-profesor.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Docentes</a>
-	</li>*/}
+								
 								<li>
 									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
 								</li>
@@ -61,9 +59,7 @@ export default function Secretaria() {
 						<li>
 							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								{/*<li>
-									<a href="curso-nuevo.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Curso</a>
-								</li>*/}
+								
 								<li>
 									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
 								</li>
@@ -75,21 +71,26 @@ export default function Secretaria() {
 						<li>
 							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								{/*<li>
-									<a href="materia-nueva.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Materias</a>
-								</li>*/}
+								
 								<li>
 									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
 								</li>
 								
 							</ul>
 						</li>
-
+						<li>
+							<a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
 						
 
-						{/*<li>
-							<a href="/Secretariareclamos"><i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos</a>
-							</li>*/}
+						
 					</ul>
 				</nav>
 			</div>

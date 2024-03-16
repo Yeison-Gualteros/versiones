@@ -489,7 +489,7 @@ export default function Secretariamaterialista() {
 							{Docente.length > 0 ? (
 								Docente.map((docente) => (
 									<option key={docente.DocenteId} value={docente.DocenteId}>
-										{docente.nombre}
+										{docente.nombres}
 									</option>
 								))
 							) : (
