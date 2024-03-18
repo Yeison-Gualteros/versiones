@@ -11,7 +11,7 @@ export default function Secretariabuscarestudiante() {
 
   
     
-  const url = 'https://localhost:7284/api/candidatoEstudiante';
+  const url = 'https://localhost:5001/api/candidatoEstudiante';
 
   const [candidatoEstudiantes, setCandidatoEstudiantes] = useState([]);
   const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
@@ -28,7 +28,10 @@ export default function Secretariabuscarestudiante() {
   const [numeroIdentificacionAcudiente, setNumeroIdentificacionAcudiente] = useState('');
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  const [NombreAcudienteRelacionado, setNombreAcudienteRelacionado] = useState('');
+  const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
+  
+  
   
   useEffect(() => {
     getCandidatoEstudiantes();
@@ -42,6 +45,7 @@ export default function Secretariabuscarestudiante() {
       console.error('Error fetching candidatoEstudiantes:', error);
     }
   };
+
   const cerrarModal = () => {
     const modal = document.getElementById('ModalCandidatoEstudiante');
     modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
@@ -53,7 +57,6 @@ export default function Secretariabuscarestudiante() {
     }
     setShowModal(false);
 };
-  
   const openModal = (op, candidatoEstudiante) => {
     setOperation(op);
     if (op === 1) {
@@ -70,6 +73,8 @@ export default function Secretariabuscarestudiante() {
       setTipoDocumento('');
       setNumeroDocumento('');
       setAdjuntarDocumentos('');
+      setNumeroIdentificacionAcudiente('');
+      setNombreAcudienteRelacionado('');
       
     } else if (op === 2) {
       setTitle('Editar Estudiante');
@@ -85,6 +90,8 @@ export default function Secretariabuscarestudiante() {
       setTipoDocumento(candidatoEstudiante.tipoDocumento);
       setNumeroDocumento(candidatoEstudiante.numeroDocumento);
       setAdjuntarDocumentos(candidatoEstudiante.adjuntarDocumentos);
+      setNumeroIdentificacionAcudiente(candidatoEstudiante.numeroIdentificacionAcudiente);
+      setNombreAcudienteRelacionado(candidatoEstudiante.NombreAcudienteRelacionado); 
 
     }
     // Enfocar el primer campo después de un breve retraso para asegurar que el enfoque ocurra después de que el modal esté completamente abierto
@@ -94,28 +101,54 @@ export default function Secretariabuscarestudiante() {
     setShowModal(true);
   };
   
-  const validar = () => {
-    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '') {
-      show_alert('Todos los campos son obligatorios', 'error');
-    } else {
-      const parametros = {
-        nombre,
-        apellido,
-        numeroContacto: parseInt(numeroContacto),
-        direccion,
-        genero,
-        tipoPersona,
-        fechaNacimiento,
-        tipoDocumento,
-        numeroDocumento,
-        adjuntarDocumentos
-      };
-      const metodo = operation === 1 ? 'post' : 'put';
-      enviarSolicitud(metodo, parametros);
-    }
-    cerrarModal();
 
-  };
+  
+
+  const validar = () => {
+    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '' ) {
+      show_alert('Todos los campos son obligatorios', 'error');
+    }else {
+      let parametros;
+      let metodo;
+      if (operation === 1) {
+        parametros = {
+          nombre,
+          apellido,
+          numeroContacto: parseInt(numeroContacto),
+          direccion,
+          genero,
+          tipoPersona,
+          fechaNacimiento,
+          tipoDocumento,
+          numeroDocumento,
+          adjuntarDocumentos,
+          numeroIdentificacionAcudiente,
+          NombreAcudienteRelacionado
+        };
+        metodo = 'post';
+      }else{
+        parametros = {
+          nombre,
+          apellido,
+          numeroContacto: parseInt(numeroContacto),
+          direccion,
+          genero,
+          tipoPersona,
+          fechaNacimiento,
+          tipoDocumento,
+          numeroDocumento,
+          adjuntarDocumentos,
+          numeroIdentificacionAcudiente,
+          NombreAcudienteRelacionado
+        };
+        metodo = 'put';
+      }
+      enviarSolicitud(metodo, parametros);
+    }    
+      cerrarModal();
+    }
+    
+  
   
   const enviarSolicitud = async (metodo, parametros) => {
     try {
@@ -208,106 +241,107 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
             
 	
 	
-	<main className="full-box main-container">
+            <main className="full-box main-container">
 		
-	<section className="full-box nav-lateral">
-			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
-			<div className="full-box nav-lateral-content">
-				<figure className="full-box nav-lateral-avatar">
-					<i className="far fa-times-circle show-nav-lateral"></i>
-					<figcaption className="SRMNPE text-center">
-						SRUNPE <br/><small className="roboto-condensed-light"></small>
-					</figcaption>
-					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
-					<figcaption className="roboto-medium text-center">
-                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
-					</figcaption>
-				</figure>
-				<div className="full-box nav-lateral-bar"></div>
-				<nav className="full-box nav-lateral-menu">
-					<ul>
-						<li>
-							<a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
-						</li>
-
-						<li>
-							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
-							<ul>
-								
-								<li>
-									<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-								</li>
-								<li>
-									<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-								</li>
-							</ul>
-						</li>
-
-						<li>
-							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
-							<ul>
-								{/*<li>
-									<a href="nuevo-profesor.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Docentes</a>
-	</li>*/}
-								<li>
-									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
-								</li>
-								<li>
-									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
-								</li>
-							</ul>
-						</li>
-
-						<li>
-							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
-							<ul>
-								{/*<li>
-									<a href="curso-nuevo.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Curso</a>
-								</li>*/}
-								<li>
-									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
-								</li>
-								<li>
-									<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
-							<ul>
-								{/*<li>
-									<a href="materia-nueva.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Materias</a>
-								</li>*/}
-								<li>
-									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
-								</li>
-								
-							</ul>
-						</li>
-
-						
-
-						{/*<li>
-							<a href="/Secretariareclamos"><i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos</a>
-              </li>*/}
-					</ul>
-				</nav>
-			</div>
-		</section>
-
-		
-		<section className="full-box page-content">
-			<nav className="full-box navbar-info">
-				<a href="#" className="float-left show-nav-lateral">
-					<i className="fas fa-exchange-alt"></i>
-				</a>
-				<a href="/Secretariaactualizar">
-					<i className="fas fa-user-cog"></i>
-				</a>
-				<a href="#" className="btn-exit-system">
-					<i className="fas fa-power-off"></i>
-				</a>
-			</nav>
+    <section className="full-box nav-lateral">
+        <div className="full-box nav-lateral-bg show-nav-lateral"></div>
+        <div className="full-box nav-lateral-content">
+          <figure className="full-box nav-lateral-avatar">
+            <i className="far fa-times-circle show-nav-lateral"></i>
+            <figcaption className="SRMNPE text-center">
+              SRUNPE <br/><small className="roboto-condensed-light"></small>
+            </figcaption>
+            <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+            <figcaption className="roboto-medium text-center">
+                      Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+            </figcaption>
+          </figure>
+          <div className="full-box nav-lateral-bar"></div>
+          <nav className="full-box nav-lateral-menu">
+            <ul>
+              <li>
+                <a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
+              </li>
+  
+              <li>
+                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+                <ul>
+                  
+                  <li>
+                    <a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+                  </li>
+                  <li>
+                    <a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+                  </li>
+                </ul>
+              </li>
+  
+              <li>
+                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+                <ul>
+                  
+                  <li>
+                    <a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
+                  </li>
+                  <li>
+                    <a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+                  </li>
+                </ul>
+              </li>
+  
+              <li>
+                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+                <ul>
+                  
+                  <li>
+                    <a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
+                  </li>
+                  <li>
+                    <a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+                <ul>
+                  
+                  <li>
+                    <a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
+                  </li>
+                  
+                </ul>
+              </li>
+              <li>
+                <a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+                <ul>
+                  
+                  <li>
+                    <a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+                  </li>
+                  
+                </ul>
+              </li>
+              
+  
+              
+            </ul>
+          </nav>
+        </div>
+      </section>
+  
+      
+      <section className="full-box page-content">
+        <nav className="full-box navbar-info">
+          <a href="#" className="float-left show-nav-lateral">
+            <i className="fas fa-exchange-alt"></i>
+          </a>
+          <a href="/Secretariaactualizar">
+            <i className="fas fa-user-cog"></i>
+          </a>
+          <a href="#" className="btn-exit-system">
+            <i className="fas fa-power-off"></i>
+          </a>
+        </nav>
 
 			
 			
@@ -526,6 +560,17 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                         placeholder="Numero de identificacion del acudiente"
                         value={numeroIdentificacionAcudiente} 
                         onChange={(e) => setNumeroIdentificacionAcudiente(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-signature"></i></span>
+                    <input
+                        type="text"
+                        id="Nombre"
+                        className="form-control"
+                        placeholder="Nombre del Acudiente"
+                        value={NombreAcudienteRelacionado}
+                        onChange={(e) => setNombreAcudienteRelacionado(e.target.value)}
                       />
                     </div>
                     <div class="modal-footer">

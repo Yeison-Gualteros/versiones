@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Docenteelegircurso() {
 
-  const url = 'https://localhost:7284/api/cursos';
+  const url = 'https://localhost:5001/api/cursos';
   const [curso, setCursos] = useState([]);
   const [selectedCursoID, setSelectedCursoID] = useState('');
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);

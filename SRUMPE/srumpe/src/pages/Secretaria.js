@@ -5,7 +5,7 @@ export default function Secretaria() {
     return(
         
             <React.Fragment>
-            <div>
+            <div style={{ paddingBottom: '60px' }}>
 	
 	
 	<main className="full-box main-container">
@@ -125,52 +125,60 @@ export default function Secretaria() {
 			<div className="full-box tile-container">
 			
 				<a href='/Secretariaestudiantelista' className="tile">
-				
 					<div className="tile-tittle">Estudiantes</div>
 					<div className="tile-icon">
-						
 						<i className="fas fa-users fa-fw"></i>
-						
-						<p>1350 Registrados</p>
+						<p>2 Registrados</p>
 					</div>
 				</a>
-				
-				<a href="/Secretatiamateriaslista" className="tile">
+				<a href='/Secretariadocentelista' className="tile">
+					<div className="tile-tittle">Docentes</div>
+					<div className="tile-icon">
+						<i className="fas fa-chalkboard-user fa-fw"></i>
+						<p>5 Registrados</p>
+					</div>
+				</a>
+				<a href='/Secretariacursoslista' className="tile">
+					<div className="tile-tittle">Cursos</div>
+					<div className="tile-icon">
+						<i className="fas fa-layer-group fa-fw"></i>
+						<p>5 Registrados</p>
+					</div>
+				</a>
+				<a href="/Secretariamaterialista" className="tile">
 					<div className="tile-tittle">Materias</div>
 					<div className="tile-icon">
 						<i className="fas fa-pallet fa-fw"></i>
 						<p>12 Registradas</p>
 					</div>
 				</a>
-
-				
-
-				{/*<a href="usuario-lista.html" className="tile">
-					<div className="tile-tittle">Usuarios Registrados</div>
-					<div className="tile-icon">
-						<i className="fas fa-user-check"></i>
-						<p>50 Registrados</p>
-					</div>
-	</a>*/}
+			<a href='/Secretariaulalista' className="tile">
+				<div className="tile-tittle">Aulas</div>
+				<div className="tile-icon">
+					<i className="fas fa-kaaba"></i>
+					<p>5 Registrados</p>
+				</div>
+			</a>
+			
 				
 			</div>
 			
 
 		</section>
 	</main>
-	<footer className="footer">
-		<div className="footer-container">
-		  <div className="row">
-			<div className="col-12">
-			 	<p>Derechos de autor </p>
-				<p>&copy; Plantilla: https://designlopers.com/</p>
-			</div>
-		  </div>
-		</div>
-	</footer>
 	
+	
+	<footer style={{ position: "fixed", bottom: "0", width: "100%", backgroundColor: "#f8f9fa", padding: "20px 0", textAlign: "center" }}>
+    <div>
+        <p>Derechos de autor </p>
+        <p>&copy; Plantilla: https://designlopers.com/</p>
+    </div>
+</footer>
 	
 </div>
+
+
+
             </React.Fragment>
         
     )

@@ -6,25 +6,15 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentelista(){ 
 
-    const url = 'https://localhost:7284/api/Docente'
+    const url = 'https://localhost:5001/api/Docente'
     const [docente, setDocente] = useState([]);
     const [docenteId, setDocenteId] = useState('');
-    
-    
     const [nombreNumero, setNombreNumero] = useState('');
-    
     const [cursosAsignados, setcursosAsignados]=useState('');
     const [horarioclase, setHorarioclase] = useState('');
-
-    
-    
-   
    const [adjuntardocumentos, setadjuntardocumentos] = useState('');
-    
     const [tipoPersona, setTipoPersona] = useState('');
     const [tipoDocumento, setTipoDocumento] = useState('');
-    
-
     const [nombres, setNombres] = useState('');
   const [apellidos, setApellidos] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
@@ -39,66 +29,60 @@ export default function Secretariadocentelista(){
   const [comentariosNotas, setComentariosNotas] = useState('');
   const [nivelExperiencia, setNivelExperiencia] = useState('');
   const [error, setError] = useState('');
-    
     const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
-    //const url4 = 'https://localhost:7284/api/aula';
-    //const [aulas, setAula] = useState([]);
-    //const [aulaId, setAulaId] = useState('');
-
-    
+    const url4 = 'https://localhost:5001/api/aula';
+    const [aulas, setAula] = useState([]);
+    const [aulaId, setAulaId] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
-    
-    
-    const url2 = 'https://localhost:7284/api/cursos';
-  const [curso, setCursos] = useState([]);
-const [cursoId, setCursoId] = useState('');
-  
-  const url3 = 'https://localhost:7284/api/materia'
-  const [materia, setMateria] = useState([]);
-const [MateriaId, setMateriaId] = useState('');
+    //const url2 = 'https://localhost:5001/api/cursos';
+  //const [curso, setCursos] = useState([]);
+//const [cursoId, setCursoId] = useState('');
+  //const url3 = 'https://localhost:5001/api/materia'
+  //const [materia, setMateria] = useState([]);
+//const [MateriaId, setMateriaId] = useState('');
   useEffect(() => {
         getDocente();
     }, []);
     const getDocente = async () => {
         const respuesta = await axios.get(url);
         setDocente(respuesta.data);
-        getCursos(respuesta.data);
-        getMateria(respuesta.data);
-        //getAula(respuesta.data);
+        //getCursos(respuesta.data);
+        //getMateria(respuesta.data);
+        getAula(respuesta.data);
     }
-  useEffect(() => {
+  /*useEffect(() => {
     fetch(url2)
       .then((response) => response.json())
       .then((data) => setCursos(data))
       .catch((error) => console.error('Error fetching cursos:', error));
-  }, []);
+  }, []);*/
 
-  {/*useEffect(() => {
+  useEffect(() => {
     fetch(url4)
       .then((response) => response.json())
       .then((data) => setAula(data))
       .catch((error) => console.error('Error fetching cursos:', error));
-  }, []);*/}
-  useEffect(() => {
+  }, []);
+  /*useEffect(() => {
     fetch(url3)
       .then((response) => response.json())
       .then((data) => setMateria(data))
       .catch((error) => console.error('Error fetching materias:', error));
-  }, []);
+  }, []);*/
     
-    const getCursos = async () => {
-        const response = await axios.get('https://localhost:7284/api/cursos');
+    /*const getCursos = async () => {
+        const response = await axios.get('https://localhost:5001/api/cursos');
         setCursos(response.data);
     }
     const getMateria = async () => {
-        const response = await axios.get('https://localhost:7284/api/materia');
+        const response = await axios.get('https://localhost:5001/api/materia');
         setMateria(response.data);
-    }
-    {/*const getAula = async () => {
-        const response = await axios.get('https://localhost:7284/api/aula');
+    }*/
+    const getAula = async () => {
+        const response = await axios.get('https://localhost:5001/api/aula');
         setAula(response.data);
-    }*/}
+    }
     const cerrarModal = () => {
         const modal = document.getElementById('ModalDocente');
         modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
@@ -131,9 +115,9 @@ const [MateriaId, setMateriaId] = useState('');
             setHorarioclase('');
             setComentariosNotas('');
             setTipoPersona('');
-            //setAulaId('');
-            setCursoId('');
-            setMateriaId('');
+            setAulaId('');
+            //setCursoId('');
+            //setMateriaId('');
             setadjuntardocumentos('');
             setTipoDocumento('');
             setNombreNumero('');
@@ -157,9 +141,9 @@ const [MateriaId, setMateriaId] = useState('');
             setHorarioclase(docente.horarioclase);
             setComentariosNotas(docente.comentariosNotas);
             setTipoPersona(docente.tipoPersona);
-            //setAulaId(docente.aulaId);
-            setCursoId(docente.cursoId);
-            setMateriaId(docente.MateriaId);
+            setAulaId(docente.aulaId);
+            //setCursoId(docente.cursoId);
+            //setMateriaId(docente.MateriaId);
             setadjuntardocumentos(docente.adjuntardocumentos);
             setTipoDocumento(docente.tipoDocumento);
             setNombreNumero(docente.nombreNumero);
@@ -232,9 +216,7 @@ const [MateriaId, setMateriaId] = useState('');
         if (adjuntardocumentos === '') {
             show_alert('porfavor escribe si adjunto documnetos', 'error');
         }
-        if (MateriaId === '') {
-            show_alert('porfavor seleccione una materia del docente', 'error');
-        }
+        
     else{
             let parametros;
             let metodo;
@@ -246,21 +228,17 @@ const [MateriaId, setMateriaId] = useState('');
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    cursoIds:cursoId, // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
                     estadoLaboral: estadoLaboral,
                     horarioClases: horarioclase,
                     comentariosNotas: comentariosNotas,
                     nivelExperiencia: nivelExperiencia,
                     correoElectronico: correoElectronico,
-                    MateriaIds: MateriaId,
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
-                    //aulaId:aulaId,
-
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
                     
@@ -273,20 +251,17 @@ const [MateriaId, setMateriaId] = useState('');
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    //cursoIds: cursoId, // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
                     estadoLaboral: estadoLaboral,
                     horarioClases: horarioclase,
                     comentariosNotas: comentariosNotas,
                     nivelExperiencia: nivelExperiencia,
                     correoElectronico: correoElectronico,
-                    //MateriaIds: MateriaId,
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
-                    //aulaId:aulaId,
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
                     
@@ -300,7 +275,7 @@ const [MateriaId, setMateriaId] = useState('');
     };
     const handleDelete = async (docenteId) => {
         try {
-          await axios.delete(`https://localhost:7284/api/docente/${docenteId}`);
+          await axios.delete(`https://localhost:5001/api/docente/${docenteId}`);
           setDocente((prevDocentes) => prevDocentes.filter((d) => d.docenteId !== docenteId));
         } catch (error) {
           console.error('Error al eliminar docente', error);
@@ -356,87 +331,105 @@ const [MateriaId, setMateriaId] = useState('');
 
 <main className="full-box main-container">
 		
-        <section className="full-box nav-lateral">
-                <div className="full-box nav-lateral-bg show-nav-lateral"></div>
-                <div className="full-box nav-lateral-content">
-                    <figure className="full-box nav-lateral-avatar">
-                        <i className="far fa-times-circle show-nav-lateral"></i>
-                        <figcaption className="SRMNPE text-center">
-                            SRUNPE <br/><small className="roboto-condensed-light"></small>
-                        </figcaption>
-                        <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
-                        <figcaption className="roboto-medium text-center">
-                        Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
-                        </figcaption>
-                    </figure>
-                    <div className="full-box nav-lateral-bar"></div>
-                    <nav className="full-box nav-lateral-menu">
-                        <ul>
-                            <li>
-                                <a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
-                            </li>
-    
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    
-                                    <li>
-                                        <a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                                    </li>
-                                </ul>
-                            </li>
-    
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    <li>
-                                        <a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
-                                    </li>
-                                </ul>
-                            </li>
-    
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    <li>
-                                        <a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    <li>
-                                        <a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
-                                    </li>
-                                    
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </section>
-            <section className="full-box page-content">
-                <nav className="full-box navbar-info">
-                    <a href="#" className="float-left show-nav-lateral">
-                        <i className="fas fa-exchange-alt"></i>
-                    </a>
-                    <a href="/Secretariaactualizar">
-                        <i className="fas fa-user-cog"></i>
-                    </a>
-                    <a href="#" className="btn-exit-system">
-                        <i className="fas fa-power-off"></i>
-                    </a>
-                </nav>
+	<section className="full-box nav-lateral">
+			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div className="full-box nav-lateral-content">
+				<figure className="full-box nav-lateral-avatar">
+					<i className="far fa-times-circle show-nav-lateral"></i>
+					<figcaption className="SRMNPE text-center">
+						SRUNPE <br/><small className="roboto-condensed-light"></small>
+					</figcaption>
+					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+					<figcaption className="roboto-medium text-center">
+                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+					</figcaption>
+				</figure>
+				<div className="full-box nav-lateral-bar"></div>
+				<nav className="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
+								</li>
+								<li>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
+								</li>
+								<li>
+									<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+
+						
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		
+		<section className="full-box page-content">
+			<nav className="full-box navbar-info">
+				<a href="#" className="float-left show-nav-lateral">
+					<i className="fas fa-exchange-alt"></i>
+				</a>
+				<a href="/Secretariaactualizar">
+					<i className="fas fa-user-cog"></i>
+				</a>
+				<a href="#" className="btn-exit-system">
+					<i className="fas fa-power-off"></i>
+				</a>
+			</nav>
             <div className="full-box page-header">
                 <h3 className="text-left">
                     <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PROFESORES
@@ -511,6 +504,7 @@ const [MateriaId, setMateriaId] = useState('');
 						</tbody>
 					</table>
 				</div>
+                </div>
 				<nav aria-label="Page navigation example">
 					<ul className="pagination justify-content-center">
 						<li className="page-item disabled">
@@ -524,7 +518,7 @@ const [MateriaId, setMateriaId] = useState('');
 						</li>
 					</ul>
 				</nav>
-			</div>
+			
         </section>
     </main>
     <div id="ModalDocente"  className="modal fade " aria-hidden="true">
@@ -677,7 +671,7 @@ const [MateriaId, setMateriaId] = useState('');
                         </div>
                         </div>
                      
-                <div className="input-group mb-3"> 
+                {/*<div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i className="fas fa-clipboard-list fa-fw"></i> <span> </span> Cursos</span>
                     <select
@@ -697,10 +691,10 @@ const [MateriaId, setMateriaId] = useState('');
   ))}
 </select>
                     </div>
-  </div>
+  </div>*/}
                 
                 
-                {/*} <div className="input-group mb-3"> 
+                 <div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i> <span> </span> Aulas</span>
                     <select
@@ -720,7 +714,7 @@ const [MateriaId, setMateriaId] = useState('');
                         ))}
                         </select>
                     </div>
-                        </div>*/}
+                        </div>
                 
                     
                     <div className="input-group mb-3">
@@ -776,7 +770,7 @@ const [MateriaId, setMateriaId] = useState('');
                         onChange={(e) => setadjuntardocumentos(e.target.value)}
                       />
 </div>
-                 <div className="input-group mb-3"> 
+                 {/*<div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i className="fas fa-school"></i> <span> </span> Materia </span>
                     <select
@@ -796,7 +790,7 @@ const [MateriaId, setMateriaId] = useState('');
                         ))}
                         </select>
                     </div>
-                        </div>
+                        </div>*/}
                 
                     <div className='modal-footer'>
                     <div className='d-grid '>

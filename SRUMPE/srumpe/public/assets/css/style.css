@@ -270,6 +270,7 @@ table form{
 	top: 0;
 	left: 0;
 	overflow: hidden;
+	margin-bottom: 100px;
 }
 .page-content,
 .nav-lateral{
@@ -562,18 +563,18 @@ ul{
 	
 }
 
-footer  {
-	position:fixed;
-	left:0 ;
-	bottom: 0;
-	width: 100%;
-	background-color: #bbbbbb;
-	padding: 5px;
-	text-align:END;
-	color: #000000;
-	border-top: 1px solid #000000;
-	
-	
+footer {
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.page-content {
+    margin-bottom: 80px; /* Ajusta el margen inferior para dejar espacio al pie de página */
 }
 
 

@@ -5,39 +5,34 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariaulalista() {
-    const URL = 'https://localhost:5001/api/aula'
+    const URL = 'https://localhost:5001/api/horario'
     const [mensajeExito, setMensajeExito] = useState('');
   const [mensajeAdvertencia, setMensajeAdvertencia] = useState('');
 
-  const [nombreNumero, setnombreNumero] = useState('');
-  const [ubicacion, setUbicacion] = useState('');
-  const [capacidad, setCapacidad] = useState('');
-  const [tipoAula, setTipoAula] = useState('');
-  const [estadoAula, setEstadoAula] = useState('');
-  const [horarioDisponibilidad, setHorarioDisponibilidad] = useState('');
-  const [notasAdicionales, setNotasAdicionales] = useState('');
-  const [registrosIncidentesProblemas, setRegistrosIncidentesProblemas] = useState('');
-  const [showModal, setShowModal] = useState(false); 
-  const [profesorasignado, setProfesorasignado] = useState('');
-  const [aulas, setAulas] = useState([]);
-  const [aulaId, setAulaId] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [operation, setOperation] = useState(1);
-    const [title, setTitle] = useState('');
+  const [diaSemana, setDiaSemana] = useState('');
+  const [horaInicio, setHoraInicio] = useState(new Date());
+  const [horaFin, setHoraFin] = useState(new Date());
+  const [duracion, setDuracion] = useState('');
+  const [periodoAcademico, setPeriodoAcademico] = useState('');
+  const [grupoSeccion, setGrupoSeccion] = useState('');
+  const [fechaInicioClases, setFechaInicioClases] = useState(new Date());
+  const [fechaFinClases, setFechaFinClases] = useState(new Date());
+  const [estadoHorario, setEstadoHorario] = useState('');
+  const [notificacionCambioHorario, setNotificacionCambioHorario] = useState('');
 
-    /*const url2 = 'https://localhost:5001/api/Docente'
+    const url2 = 'https://localhost:5001/api/Docente'
     const [Docente, setDocente] = useState([]);
-    const [DocenteId, setDocenteId] = useState('');*/
+    const [DocenteId, setDocenteId] = useState('');
 
   useEffect(() => {
     getAulas();
   }, []);
- /* useEffect(() => {
+  useEffect(() => {
     fetch(url2)
     .then(response => response.json())
     .then((data) => setDocente(data))
     
-}, [url2]);*/
+}, [url2]);
 
   const getAulas = async () => {
     try {
@@ -131,7 +126,7 @@ export default function Secretariaulalista() {
                 horarioDisponibilidad: horarioDisponibilidad, 
                 notasAdicionales: notasAdicionales, 
                 registrosIncidentesProblemas: registrosIncidentesProblemas,
-                //docenteId: DocenteId
+                docenteId: DocenteId
             };
             metodo = "POST";
             
@@ -146,7 +141,7 @@ export default function Secretariaulalista() {
                 horarioDisponibilidad: horarioDisponibilidad, 
                 notasAdicionales: notasAdicionales, 
                 registrosIncidentesProblemas: registrosIncidentesProblemas, 
-                //docenteId: DocenteId, 
+                docenteId: DocenteId, 
             };
             metodo = "PUT";
         }
@@ -214,107 +209,107 @@ export default function Secretariaulalista() {
             
 	
 	
-            <main className="full-box main-container">
+	<main className="full-box main-container">
 		
-    <section className="full-box nav-lateral">
-        <div className="full-box nav-lateral-bg show-nav-lateral"></div>
-        <div className="full-box nav-lateral-content">
-          <figure className="full-box nav-lateral-avatar">
-            <i className="far fa-times-circle show-nav-lateral"></i>
-            <figcaption className="SRMNPE text-center">
-              SRUNPE <br/><small className="roboto-condensed-light"></small>
-            </figcaption>
-            <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
-            <figcaption className="roboto-medium text-center">
-                      Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
-            </figcaption>
-          </figure>
-          <div className="full-box nav-lateral-bar"></div>
-          <nav className="full-box nav-lateral-menu">
-            <ul>
-              <li>
-                <a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
-              </li>
-  
-              <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
-                <ul>
-                  
-                  <li>
-                    <a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                  </li>
-                  <li>
-                    <a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                  </li>
-                </ul>
-              </li>
-  
-              <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
-                <ul>
-                  
-                  <li>
-                    <a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
-                  </li>
-                  <li>
-                    <a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
-                  </li>
-                </ul>
-              </li>
-  
-              <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
-                <ul>
-                  
-                  <li>
-                    <a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
-                  </li>
-                  <li>
-                    <a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
-                <ul>
-                  
-                  <li>
-                    <a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
-                  </li>
-                  
-                </ul>
-              </li>
-              <li>
-                <a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
-                <ul>
-                  
-                  <li>
-                    <a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
-                  </li>
-                  
-                </ul>
-              </li>
-              
-  
-              
-            </ul>
-          </nav>
-        </div>
-      </section>
-  
-      
-      <section className="full-box page-content">
-        <nav className="full-box navbar-info">
-          <a href="#" className="float-left show-nav-lateral">
-            <i className="fas fa-exchange-alt"></i>
-          </a>
-          <a href="/Secretariaactualizar">
-            <i className="fas fa-user-cog"></i>
-          </a>
-          <a href="#" className="btn-exit-system">
-            <i className="fas fa-power-off"></i>
-          </a>
-        </nav>
+	<section className="full-box nav-lateral">
+			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div className="full-box nav-lateral-content">
+				<figure className="full-box nav-lateral-avatar">
+					<i className="far fa-times-circle show-nav-lateral"></i>
+					<figcaption className="SRMNPE text-center">
+						SRUNPE <br/><small className="roboto-condensed-light"></small>
+					</figcaption>
+					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+					<figcaption className="roboto-medium text-center">
+                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+					</figcaption>
+				</figure>
+				<div className="full-box nav-lateral-bar"></div>
+				<nav className="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
+								</li>
+								<li>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
+								</li>
+								<li>
+									<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+
+						
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		
+		<section className="full-box page-content">
+			<nav className="full-box navbar-info">
+				<a href="#" className="float-left show-nav-lateral">
+					<i className="fas fa-exchange-alt"></i>
+				</a>
+				<a href="/Secretariaactualizar">
+					<i className="fas fa-user-cog"></i>
+				</a>
+				<a href="#" className="btn-exit-system">
+					<i className="fas fa-power-off"></i>
+				</a>
+			</nav>
 
 			<div className="full-box page-header">
                 <h3 className="text-left">
@@ -475,7 +470,7 @@ export default function Secretariaulalista() {
                                 <option value="Ocupado">Inactivo</option>
                             </select>
                         </div>
-                        {/*<div className="input-group mb-3">
+                        <div className="input-group mb-3">
 						<span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
 						<select
 							className="form-select"
@@ -495,7 +490,7 @@ export default function Secretariaulalista() {
 								</option>
 							)}
 						</select>
-              </div>*/}
+					</div>
                   <div className=" input-group mb-3">
                   <span className="input-group-text"><i className="far fa-comment-dots"></i></span>
                         <input

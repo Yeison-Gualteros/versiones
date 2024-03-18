@@ -9,193 +9,221 @@ import Swal from 'sweetalert2';
 
 export default function Docenteestudiantelista() {
   
-  const url = 'https://localhost:7284/api/CandidatoEstudiante'
-  const [candidatoEstudiante, setCandidatoEstudiante]= useState([]);
-  const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-
-  const url1 = 'https://localhost:7284/api/notas'
-  const [notas, setNotas] = useState([]);
-  const [notasId, setNotasId] = useState('');
-  const [titulo, setTitulo] = useState('');
-  const [valor, setValor] = useState('');
-  const [fechaCreacion, setFechaCreacion] = useState('');
+  const url = 'https://localhost:5001/api/notas'
   
-  const [periodo, setPeriodo] = useState('');
+  const [notas, setNotas] = useState('');
+  const [notaId, setNotaId] = useState('');
+  const [estudiante, setEstudiante] = useState('');
+  const [curso, setcurso] = useState('');
+  const [periodoAcademico, setPeriodoAcademico] = useState('');
+  const [fechaCreacion, setFechaCreacion] = useState('');
+  const [materia, setMateria] = useState('');
+  const [valorNota, setValorNota] = useState('');
+  const [tipoNota, setTipoNota] = useState('');
+  const [descripcionNota, setDescripcionNota] = useState('')
+
+  const [showModal, setShowModal] = useState(false);
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
 
-  const url3 = 'https://localhost:7284/api/materia'
-  const [materia, setMateria] = useState([]);
-  const [materiaId, setMateriaId] = useState('');
-
-  
-
-  useEffect(() => {
-    fetch(url3)
-      .then((response) => response.json())
-      .then((data) => setMateria(data))
-      .catch((error) => console.error('Error fetching materias:', error));
+  useEffect(() =>{
+    getNotas();
   }, []);
 
-  useEffect(() => {
-      getCandidatoEstudiante();
-      
-    },[])
-
-  const getCandidatoEstudiante = async () =>{
-    
-      const respuesta = await axios.get(url);
-      setCandidatoEstudiante(respuesta.data);
-      getMateria(respuesta.data);
-    
-    
+  const getNotas = async () => {
+    const respuesta = await axios.get(url);
+    setNotas(respuesta.data);
   }
-
-  const getNotas = async () =>{
-    try{
-      const responses = await axios.get(url1);
-      setNotas(responses.data);
-    }catch (error){
-      console.error('Error getting', error);
+  const cerrarModal = () => {
+    const modal = document.getElementById('ModalDocente');
+    modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
+    modal.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté marcado como oculto para accesibilidad
+    document.body.classList.remove('modal-open'); // Eliminar la clase 'modal-open' del body para permitir el scroll nuevamente
+    const modalBackdrop = document.querySelector('.modal-backdrop'); // Eliminar el backdrop del modal si existe
+    if (modalBackdrop) {
+        document.body.removeChild(modalBackdrop);
     }
-  }
+    setShowModal(false);
+};
 
-  const getMateria = async () => {
-    const response = await axios.get('https://localhost:7284/api/materia');
-    setMateria(response.data);
-}
-
-const openModal = (op, candidatoEstudiante) => {
+const openModal = (op, nota) => {
   setOperation(op);
   if (op === 1) {
-    setTitle('Registrar Estudiante');
-    // Restablecer los valores de los campos al abrir el modal para registrar
-    setNotasId('');
-    setNombre('');
-    setApellido('');
-    setTitulo('');
-    setValor('');
+    setTitle('Registrar nota');
+    setNotaId('');
+    setEstudiante('');
+    setcurso('');
+    setPeriodoAcademico('');
     setFechaCreacion('');
     setMateria('');
-    setPeriodo('');
-    setMateriaId('');
-  }else if (op === 2) {
-    setTitle('Editar Estudiante');
-    // Establecer los valores de los campos al abrir el modal para editar
-    setNotasId(candidatoEstudiante.notasId);
-    setNombre(candidatoEstudiante.nombre);
-    setApellido(candidatoEstudiante.apellido);
-    setTitulo(candidatoEstudiante.titulo);
-    setValor(candidatoEstudiante.valor);
-    setFechaCreacion(candidatoEstudiante.fechaCreacion);
-    setMateria(candidatoEstudiante.materia);
-    setPeriodo(candidatoEstudiante.periodo);
-    setMateriaId(candidatoEstudiante.materiaId);
+    setValorNota('');
+    setTipoNota('');
+    setDescripcionNota('');
   }
-  const nombreInput = document.getElementById('Nombre');
-  if (nombreInput) {
-    window.setTimeout(function(){
-      nombreInput.focus();
-    }, 500);
-}}
-
-const validar = () => {
-  if (valor.trim() === '') {
-    show_alert('Escribe el nombre del estudiante', 'Escribe el nombre del nombre');
+  if (op === 2) {
+    setTitle('editar Nota');
+    setNotaId(nota.notasId);
+    setEstudiante(nota.estudiante);
+    setcurso(nota.curso);
+    setPeriodoAcademico(nota.periodoAcademico);
+    setFechaCreacion(nota.fechaCreacion);
+    setMateria(nota.materia);
+    setValorNota(nota.valorNota);
+    setTipoNota(nota.tipoNota);
+    setDescripcionNota(nota.descripcionNota);
+    
   }
-  else if (titulo.trim() === '') {
-    show_alert('Escribe el apellido del estudiante', 'Escribe el estado del apellido');
-  }else{
-    let parametros;
-    let metodo;
-
-    if (operation === 1) {
-      parametros = { 
-        nombre: nombre, 
-        apellido: apellido, 
-        titulo: titulo, 
-        valor: valor, 
-        fechaCreacion: fechaCreacion, 
-        materia: materia, 
-        periodo: periodo,
-        materiaIds: [materiaId],
-      };
-      metodo = "POST";
-      
-    }else{
-      parametros = { 
-        nombre: nombre, 
-        apellido: apellido, 
-        titulo: titulo, 
-        valor: valor, 
-        fechaCreacion: fechaCreacion, 
-        materia: materia, 
-        periodo: periodo,
-        notasId: notasId,
-        materiaIds: [materiaId],
-      };
-      metodo = "PUT";
-    }
-    enviarSolicitud(metodo, parametros);
-  }
+  window.setTimeout(function() {
+    document.getElementById('Nombre').focus();
+  },500);
+  setShowModal(true);
 }
 
-
+const validar = () => {
+  if (estudiante === '') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Debe seleccionar un estudiante',
+    })
+  }
+  if (curso === '') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Debe seleccionar un curso',
+    })
+  
+}
+if (periodoAcademico === '') {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Debe seleccionar un periodo académico',
+  })
+  
+}
+if (fechaCreacion === '') { 
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Debe seleccionar una fecha de creación',
+  })
+  
+}
+if (materia === '') {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Debe seleccionar una materia',
+  })
+  
+}
+if (valorNota === ''){
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Debe ingresar un valor de nota',
+  })
+  
+}
+if (tipoNota === '') {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Debe seleccionar un tipo de nota',
+  })
+}
+if (descripcionNota === '') {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'Debe ingresar una descripción de nota',
+  })
+  
+}else {
+  let parametros;
+  let metodo;
+  
+  if (operation === 1) {
+    parametros = {
+      
+      estudiante: estudiante,
+      curso: curso,
+      periodoAcademico: periodoAcademico,
+      fechaCreacion: fechaCreacion,
+      materia: materia,
+      valorNota: valorNota,
+      tipoNota: tipoNota,
+      descripcionNota: descripcionNota
+    }
+    metodo = 'POST';
+  }else {
+    parametros = {
+      notasId: notaId,
+      
+      estudiante: estudiante,
+      curso: curso,
+      periodoAcademico: periodoAcademico,
+      fechaCreacion: fechaCreacion,
+      materia: materia,
+      valorNota: valorNota,
+      tipoNota: tipoNota,
+      descripcionNota: descripcionNota
+    }
+    metodo = 'PUT';
+  }
+  enviarSolicitud(metodo, parametros);
+  cerrarModal();
+}
+}
 
 const enviarSolicitud = async (metodo, parametros) => {
   try {
     let respuesta;
     if (metodo === 'POST') {
-      respuesta = await axios.post(url1, parametros);
+      respuesta = await axios.post(url, parametros);
     }else if (metodo === 'PUT') {
-      respuesta = await axios.put(`${url1}/${notasId}`, parametros);
+      respuesta = await axios.put(`${url}/${notaId}`, parametros);
     }
     console.log(`Solicitud ${metodo.toUpperCase()} exitosa:`, respuesta.data);
-      const mensajeExito = operation === 1 ? 'Estudiante añadido exitosamente' : 'Estudiante editado con éxito';
-      show_alert(mensajeExito, 'success');
-      document.getElementById('btnCerrar').click();
-      getNotas();
-  }catch(error){
-    show_alert('Error de solicitud', 'error');
-    console.error(error);
+    const mensajeExito = operation === 1? 'Nota Añadida exitasamente': 'Nota editada exitasamente';
+    show_alert(mensajeExito, 'success');
+    document.getElementById('btnCerrar').click();
+    getNotas();
+  }catch (e) {
+    show_alert('Error en la solicitud', 'error')
+    console.error(e);
   }
 }
 
-const deletenota = (notasId, titulo) => {
+const deleteDocente = (notaId, tipoNota) => {
   const MySwal = withReactContent(Swal);
   MySwal.fire({
-    title: `¿Está seguro que desea eliminar la nota ${titulo}?`,
+    title: '¿Estás seguro que desea eliminar la nota'+ tipoNota+'?',
+    text: "No podras revertir esta acción!",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, eliminar!',
+    confirmButtonText: 'Si, Borrar!',
     cancelButtonText: "Cancelar",
-  }).then (async (result)=>{
+  }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        await axios.delete(`${url1}/${notasId}`);
-        const mensajeExito = `Nota ${titulo} eliminada con éxito`;
+        const respuesta = await axios.delete(`${url}/${notaId}`);
+        console.log(`Solicitud Borrar ${tipoNota.toUpperCase()} exitosa:`, respuesta.data);
+        const mensajeExito = tipoNota === 'Nota'? 'Nota Borrada exitasamente': 'Nota Borrada exitasamente';
         show_alert(mensajeExito,'success');
+        document.getElementById('btnCerrar').click();
         getNotas();
-      } catch (error) {
-        show_alert('Error de solicitud', 'error');
-        console.error(error);
+      }catch (e) {
+        show_alert('Error en la solicitud', 'error')
+        console.error(e);
       }
-    }else {
-      MySwal.fire({
-        title: 'Operación cancelada',
-        icon: 'info',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'OK',
-      })
     }
   })
 }
-
   return (
     <React.Fragment>
       <main className="full-box main-container">
@@ -282,6 +310,7 @@ const deletenota = (notasId, titulo) => {
               <i className="fas fa-power-off"></i>
             </a>
           </nav>
+          
 
           <div className="full-box page-header">
             <h3 className="text-left">
@@ -289,6 +318,23 @@ const deletenota = (notasId, titulo) => {
             </h3>
             <p className="text-justify"></p>
           </div>
+          <div className="container-fluid">
+                <ul className="full-box list-unstyled page-nav-tabs">
+                    <li>
+                    <div
+                        onClick={() => openModal(1)}
+                        data-toggle="modal"
+                        data-target="#ModalDocente" 
+                    >
+                        <a><i className="fas fa-plus fa-fw"></i> Añadir Nota nueva</a>
+                    </div>
+                    </li>
+                    <li>
+                        <a className="active" href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE NOTAS</a>
+                    </li>
+                    
+                </ul>
+            </div>
 
           <div className="container-fluid">
             <div className="table-responsive" style={{ overflowY: 'auto', maxHeight: '70vh' }}>
@@ -298,29 +344,36 @@ const deletenota = (notasId, titulo) => {
                     <th>#</th>
                     
                     <th>NOMBRE</th>
-                    <th>APELLIDO</th>
+                    <th>MATERIA</th>
+                    <th>VALOR DE LA NOTA</th>
+                    <th>TIPO DE NOTA</th>
                     <th>ASISTENCIA</th>
                     <th>NOTA</th>
-                    <th> </th>
+                    
                   </tr>
                 </thead>
                 <tbody>
-        {candidatoEstudiante.length > 0 &&
-          candidatoEstudiante.map((estudiante, index) => (
-            <tr key={estudiante.candidatoEstudianteId} className="text-center">
+        {notas.length > 0 &&
+          notas.map((notas, index) => (
+            <tr key={notas.notaId} className="text-center">
               <td className="#">{index + 1}</td>
               
-              <td className="nombre">{estudiante.nombre}</td>
-              <td className="apellido">{estudiante.apellido}</td>
+              <td className="nombre">{notas.estudiante}</td>
+              <td className="apellido">{notas.materia}</td>
+              <td className="apellido">{notas.valorNota}</td>
+              <td className="apellido">{notas.tipoNota}</td>
               <td className="asistencia">
                 {/* Aquí puedes mostrar la asistencia si es necesario */}
               </td>
               <td className="nota">
                 {/* Botón para abrir el modal y editar las notas */}
-                <button onClick={() => openModal(1,estudiante.candidatoEstudianteId, estudiante.notasId)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'>
+                <button onClick={() => openModal(1,notas.candidatoEstudianteId, notas.notasId)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'>
                   Editar Notas
                 </button>
               </td>
+              <td><button onPress={() => deleteDocente(notas.notaId)} onClick={() => deleteDocente(notas.notaId, notas.nombres, notas.numeroTelefono, notas.cursosAsignados, notas.numeroIdentificacion, notas.apellidos)} className="btn btn-danger">
+                  <i className="far fa-trash-alt"></i>
+                        </button></td>
             </tr>
           ))}
       </tbody>
@@ -346,8 +399,8 @@ const deletenota = (notasId, titulo) => {
                       id="Nombre"
                       className="form-control"
                       placeholder="Titulo..."
-                      value={titulo}
-                      onChange={(e) => setTitulo(e.target.value)}
+                      value={tipoNota}
+                      onChange={(e) => setTipoNota(e.target.value)}
                     />
                   </div>
                   <div className="input-group mb-3">
@@ -359,8 +412,8 @@ const deletenota = (notasId, titulo) => {
                       id="Valor"
                       className="form-control"
                       placeholder="Valor de la Nota"
-                      value={valor}
-                      onChange={(e) => setValor(e.target.value)}
+                      value={valorNota}
+                      onChange={(e) => setValorNota(e.target.value)}
                     />
                   </div>
                   <div className="input-group mb-3">
@@ -369,7 +422,20 @@ const deletenota = (notasId, titulo) => {
                         <input type="date" id="fecha" name="fecha" class="form-control" value={fechaCreacion} onChange={(e)=>setFechaCreacion(e.target.value)}/>
                         </div>
                     </div>
-                    <div className="input-group mb-3"> 
+                    <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-audio-description"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="Nombre"
+                      className="form-control"
+                      placeholder="Agrega una descripcion de la nota..."
+                      value={descripcionNota}
+                      onChange={(e) => setDescripcionNota(e.target.value)}
+                    />
+                  </div>
+                    {/*<div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> horarios</span>
                     <select
@@ -389,7 +455,56 @@ const deletenota = (notasId, titulo) => {
                         ))}
                         </select>
                     </div>
-                  </div>
+                        </div>*/}
+                  {/*<div className="input-group mb-3">
+                      <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
+                      <select
+            className="form-control"
+            name="item_estado"
+            id="item_estado"
+            value={candidatoEstudiante} placeholder
+            onChange={(e) => setCandidatoEstudianteId(e.target.value)}
+          >
+            <option value="" disabled>
+              Seleccione el Estudiante
+            </option>
+            {candidatoEstudiante.length > 0 ? (
+              candidatoEstudiante.map((candidatoEstudiante) => (
+                <option key={candidatoEstudiante.candidatoEstudianteId} value={candidatoEstudiante.nombre}>
+                  {candidatoEstudiante.nombre}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Cargando estudiante...
+              </option>
+            )}
+          </select>
+
+          
+            </div>*/}
+          {/*<div className="input-group mb-3"> 
+                    <div className="form-group">
+                    <span className="input-group-text"><i className="fas fa-clipboard-list fa-fw"></i> <span> </span> Cursos</span>
+                    <select
+  className="form-control"
+  name="item_estado"
+  id="item_estado"
+  value={cursoId}
+  onChange={(e) => setCursoId(e.target.value)}
+>
+  <option value="" disabled>
+    Seleccione un Curso
+  </option>
+  {cursos.map((cursos) => (
+    <option key={cursos.cursoId} value={cursos.cursoId}>
+      {cursos.codigocurso}
+    </option>
+  ))} 
+
+</select>
+                    </div>
+  </div>*/}
                   <div className="d-grid col-6 mx-auto">
                     <div className="d-flex justify-content-center align-items-center h-100">
                       <button onClick={() => validar()} className="btn btn-success">
