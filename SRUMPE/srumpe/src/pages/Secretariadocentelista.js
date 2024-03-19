@@ -35,6 +35,7 @@ export default function Secretariadocentelista(){
     const [aulaId, setAulaId] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
+    const [numeroIdentificacionOriginal, setNumeroIdentificacionOriginal] = useState('');
     //const url2 = 'https://localhost:5001/api/cursos';
   //const [curso, setCursos] = useState([]);
 //const [cursoId, setCursoId] = useState('');
@@ -148,6 +149,7 @@ export default function Secretariadocentelista(){
             setTipoDocumento(docente.tipoDocumento);
             setNombreNumero(docente.nombreNumero);
             setTituloAcademico(docente.tituloAcademico);
+            setNumeroIdentificacionOriginal(docente.numeroIdentificacion);
         }
         window.setTimeout(function () {
             document.getElementById('Nombre').focus();
@@ -213,9 +215,11 @@ export default function Secretariadocentelista(){
         if (comentariosNotas === ''){
             show_alert('porfavor escribe un comentario sobre el docente', 'error');
         }
-        if (adjuntardocumentos === '') {
-            show_alert('porfavor escribe si adjunto documnetos', 'error');
-        }
+        if (numeroIdentificacion === '') { 
+          show_alert('Por favor escribe el numero de identificacion del docente', 'error');
+      } else if (operation === 2 && numeroIdentificacion !== numeroIdentificacionOriginal) {
+          show_alert('El número de identificación no se puede cambiar', 'error');
+      }
         
     else{
             let parametros;
@@ -264,6 +268,7 @@ export default function Secretariadocentelista(){
                     adjuntardocumentos: adjuntardocumentos,
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
+                    numeroIdentificacionOriginal: numeroIdentificacionOriginal, 
                     
                 };
                 metodo = "PUT";

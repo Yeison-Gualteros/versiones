@@ -10,8 +10,10 @@ import Swal from 'sweetalert2';
 export default function Docenteestudiantelista() {
   
   const url = 'https://localhost:5001/api/notas'
+
+  const [estudianteSeleccionado, setEstadoSeleccionado] = useState('');
   
-  const [notas, setNotas] = useState('');
+  const [notas, setNotas] = useState([]);
   const [notaId, setNotaId] = useState('');
   const [estudiante, setEstudiante] = useState('');
   const [curso, setcurso] = useState('');
@@ -26,6 +28,18 @@ export default function Docenteestudiantelista() {
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
 
+  const url1 = 'https://localhost:5001/api/candidatoEstudiante'
+  const [candidatoEstudiante, setCandidatoEstudiante] = useState([])
+  const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
+  //const [nombre, setNombre] = useState('');
+
+  useEffect(() => {
+    fetch(url1)
+      .then((response) => response.json())
+      .then((data) => setCandidatoEstudiante(data))
+      .catch((error) => console.error('Error fetching estudiante:', error));
+  }, []);
+
   useEffect(() =>{
     getNotas();
   }, []);
@@ -33,7 +47,18 @@ export default function Docenteestudiantelista() {
   const getNotas = async () => {
     const respuesta = await axios.get(url);
     setNotas(respuesta.data);
+    getcandidatoEstudiante(respuesta.data);
   }
+  const getcandidatoEstudiante = async () => {
+    try {
+      const response = await axios.get('https://localhost:5001/api/candidatoEstudiante');
+      const candidatos = response.data.candidatosEstudiantes; // Por ejemplo, si la propiedad se llama 'candidatosEstudiantes'
+      setCandidatoEstudiante(candidatos);
+    } catch (error) {
+      console.error('Error fetching candidatoEstudiante:', error);
+    }
+  }
+  
   const cerrarModal = () => {
     const modal = document.getElementById('ModalDocente');
     modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
@@ -147,7 +172,7 @@ if (descripcionNota === '') {
   
   if (operation === 1) {
     parametros = {
-      
+      notaId: notaId,
       estudiante: estudiante,
       curso: curso,
       periodoAcademico: periodoAcademico,
@@ -218,12 +243,13 @@ const deleteDocente = (notaId, tipoNota) => {
         document.getElementById('btnCerrar').click();
         getNotas();
       }catch (e) {
-        show_alert('Error en la solicitud', 'error')
-        console.error(e);
+        show_alert('Error en la solicitud', 'error');
+        console.error(e); // Aquí imprime el error en la consola para obtener más información
       }
     }
   })
 }
+
   return (
     <React.Fragment>
       <main className="full-box main-container">
@@ -348,8 +374,8 @@ const deleteDocente = (notaId, tipoNota) => {
                     <th>VALOR DE LA NOTA</th>
                     <th>TIPO DE NOTA</th>
                     <th>ASISTENCIA</th>
-                    <th>NOTA</th>
-                    
+                    <th>EDITAR NOTA</th>
+                    <th>ELIMINAR NOTA</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -367,13 +393,14 @@ const deleteDocente = (notaId, tipoNota) => {
               </td>
               <td className="nota">
                 {/* Botón para abrir el modal y editar las notas */}
-                <button onClick={() => openModal(1,notas.candidatoEstudianteId, notas.notasId)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'>
+                <button onClick={() => openModal(2,notas)} className="btn btn-success" data-toggle='modal' data-target='#ModalDocente'>
                   Editar Notas
                 </button>
               </td>
-              <td><button onPress={() => deleteDocente(notas.notaId)} onClick={() => deleteDocente(notas.notaId, notas.nombres, notas.numeroTelefono, notas.cursosAsignados, notas.numeroIdentificacion, notas.apellidos)} className="btn btn-danger">
-                  <i className="far fa-trash-alt"></i>
-                        </button></td>
+              <td><button onClick={() => deleteDocente(notas.notaId)} className="btn btn-danger">
+  <i className="far fa-trash-alt"></i>
+</button>
+</td>
             </tr>
           ))}
       </tbody>
@@ -381,28 +408,34 @@ const deleteDocente = (notaId, tipoNota) => {
             </div>
           </div>
 
-          <div id="ModalDocente" className="modal fade" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <label className="h5">{title}</label>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <input type="hidden" id="candidatoEstudianteId" />
-                  <div className="input-group mb-3">
-                    <span className="input-group-text">
-                      <i className="fas fa-text-width"></i>
-                    </span>
+          
+                <div id="ModalDocente" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="fas fa-times-circle" aria-label="Close" onClick={cerrarModal}></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="materia" />
+              <div className="input-group mb-3">
+
+				
+                
+                
+              </div>
+              <div className="input-group "> 
+                    
+                    <span className="input-group-text"><i className="fas fa-clipboard-list fa-fw"></i> <span> </span> </span>
                     <input
                       type="text"
-                      id="Nombre"
+                      id="Nombreestudiante"
                       className="form-control"
-                      placeholder="Titulo..."
+                      placeholder="Titulo de la nota..."
                       value={tipoNota}
                       onChange={(e) => setTipoNota(e.target.value)}
                     />
-                  </div>
+                </div>
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -435,6 +468,33 @@ const deleteDocente = (notaId, tipoNota) => {
                       onChange={(e) => setDescripcionNota(e.target.value)}
                     />
                   </div>
+                  <div className="input-group "> 
+                    
+                    <span className="input-group-text"><i className="fas fa-clipboard-list fa-fw"></i> <span> </span> </span>
+                    <input
+                      type="text"
+                      id="Nombreestudiante"
+                      className="form-control"
+                      placeholder="Agrega nombre del estudiante..."
+                      value={estudiante}
+                      onChange={(e) => setEstudiante(e.target.value)}
+                    />
+                    
+  </div>
+  <div className="input-group mb-3">
+						<span className="input-group-text"><i className="fas fa-school"></i></span>
+						<select
+							className="form-select"
+							value={periodoAcademico} // Utilizando la variable de estado
+							onChange={(e) => setPeriodoAcademico(e.target.value)} // Utilizando la función setDepartamentoAcademico para actualizar el estado
+						>
+							<option value="">Selecciona el periado académico</option>
+							<option value="Primer Periodo">Primer Periodo</option>
+							<option value="Segundo Periodo">Segundo Periodo</option>
+              <option value="Tercero Periodo">Tercero Periodo</option>
+              <option value="Cuarto Periodo">Cuarto Periodo</option>
+						</select>
+					</div>
                     {/*<div className="input-group mb-3"> 
                     <div className="form-group">
                     <span className="input-group-text"><i class="fas fa-school"></i> <span> </span> horarios</span>
@@ -528,6 +588,7 @@ const deleteDocente = (notaId, tipoNota) => {
               </div>
             </div>
           </div>
+          
         </section>
       </main>
     </React.Fragment>

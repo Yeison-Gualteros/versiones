@@ -1,52 +1,199 @@
-import  React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { show_alert } from '../functions';
 import Swal from 'sweetalert2';
+import { show_alert } from '../functions';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariacursoslista() {
     const url = 'https://localhost:5001/api/cursos';
     const [cursos, setCursos] = useState([]);
-    const [cursosId, setcursosId] = useState('');
-    const [codigo, setcodigo] = useState('');
-    const [description, setdescritcion] = useState('');
-    const [departamentoacademico, setdepartamentoacademico] = useState('');
-    const [profesorasignado, setprofesorasignado] = useState('');
-    const [cursoSeleccionado, setCursoSeleccionado] = useState('');
-    const [aulasAsignadas, setaulasAsignadas] = useState('');
-    const [fechalimiteincripcion, setfechalimiteincripcion] = useState('');
-    const [metodosensenanza, setmetodosensenanza] = useState('');
-    const [nivel, setnivel] = useState('');
-    const [estado, setestado] = useState('');
-    const [modalidad, setmodalidad] = useState('');
-    const [descripcion, setdescripcion] = useState('');
+    const [cursoId, setCursoId] = useState('');
+    const [codigoCurso, setCodigoCurso] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [departamentoAcademico, setDepartamentoAcademico] = useState('');
+    const [año, setAño] = useState('');
+    const [cupoMaximo, setCupoMaximo] = useState('');
+    const [cupoActual, setCupoActual] = useState('');
+    const [metodosEnsenanza, setMetodosEnsenanza] = useState('');
+    const [nivel, setNivel] = useState('');
+    const [estado, setEstado] = useState('');
+    const [modalidad, setModalidad] = useState('');
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFinalizacion, setFechaFinalizacion] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
-    const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
-
-    const url2 = 'https://localhost:5001/api/Docente'
-    const [Docente, setDocente] = useState([]);
-    const [DocenteId, setDocenteId] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [apellido, setapellido] = useState('');
-
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        getCursos();
+        getcursos();
     }, []);
 
-    useEffect(() => {
-      fetch(url2)
-      .then(response => response.json())
-      .then((data) => setDocente(data))
-      .catch((error) => console.error('Error fetching cursos:', error))
-  }, [url2]);
-
-    const getCursos = async () => {
-        const respuesta = await axios.get(url);
-        setCursos(respuesta.data);
+    const getcursos = async () => {
+        try {
+            const respuesta = await axios.get(url);
+            setCursos(respuesta.data);
+        } catch (error) {
+            console.error('Error al obtener cursos:', error);
+        }
     };
 
+    const opcionesEstado = ['Activo', 'Inactivo'];
+    const opcionesNivel = ['Avanzado', 'Intermedio', 'Básico'];
+    const opcionesMetodosEnsenanza = ['Virtual', 'Presencial', 'Híbrido'];
+    const opcionesModalidad = ['Virtual', 'Presencial', 'Híbrido'];
+
+    useEffect(() => {
+      if (showModal) {
+        const inputElement = document.getElementById('cursos');
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }
+    }, [showModal]);
+
+    const openModal = (op, curso) => {
+        setOperation(op);
+        if (op === 1) {
+            setTitle('Registrar curso');
+            // Limpia los campos si se abre para registrar
+            setCursoId('');
+            setCodigoCurso('');
+            setDescripcion('');
+            setDepartamentoAcademico('');
+            setMetodosEnsenanza('');
+            setNivel('');
+            setEstado('');
+            setModalidad('');
+            setFechaInicio('');
+            setFechaFinalizacion('');
+            setAño('');
+            setCupoMaximo('');
+            setCupoActual('');
+        } else if (op === 2) {
+            setTitle('Editar curso');
+            // Asigna valores del curso si se abre para editar
+            setCursoId(curso.cursoId);
+            setCodigoCurso(curso.codigoCurso);
+            setDescripcion(curso.descripcion);
+            setDepartamentoAcademico(curso.departamentoAcademico);
+            setMetodosEnsenanza(curso.metodosEnsenanza);
+            setFechaInicio(curso.fechaInicio);
+            setFechaFinalizacion(curso.fechaFinalizacion);
+            setNivel(curso.nivel);
+            setEstado(curso.estado);
+            setAño(curso.año);
+            setModalidad(curso.modalidad);
+            setCupoMaximo(curso.cupoMaximo);
+            setCupoActual(curso.cupoActual);
+        }
+        window.setTimeout(() => {
+            document.getElementById('codigo').focus();
+        }, 500);
+        setShowModal(true);
+    };
+
+    const validar = () => {
+      // Verificar que los campos obligatorios estén llenos
+      if (!codigoCurso || codigoCurso.trim() === "") {
+        show_alert('Escribe el codigo del curso', 'error');
+        return;
+      }
+      if (!descripcion) {
+        show_alert('Escribe la descripción del curso nuevo', 'error');
+        return;
+      }
+      if (!departamentoAcademico) {
+        show_alert('Selecciona el departamento académico', 'error');
+        return;
+      }
+  
+      if (!año) {
+        show_alert('Selecciona el año', 'error');
+        return;
+      }
+  
+      
+      if (!cupoMaximo) {
+        show_alert('Escribe el cupo maximo', 'error');
+        return;
+      }
+      if (!cupoActual) {
+        show_alert('Escribe el cupo actual', 'error');
+        return;
+      }
+      if (!metodosEnsenanza) {
+        show_alert('Selecciona el metodo de enseñanza', 'error');
+        return;
+      }
+      if (!nivel) {
+        show_alert('Selecciona el nivel', 'error');
+        return;
+      }
+  
+      if (!estado) {
+        show_alert('Selecciona el estado', 'error');
+        return;
+      }
+  
+      if (!modalidad) {
+        show_alert('Selecciona la modalidad', 'error');
+        return;
+      }
+  
+      if (!fechaInicio) {
+        show_alert('Selecciona la fecha de inicio', 'error');
+        return;
+      }
+      if (!fechaFinalizacion) {
+        show_alert('Selecciona la fecha de finalizacion', 'error');
+        return;
+      }
+      
+      let parametros;
+      let metodo;
+
+      if (operation === 1) {
+        parametros = {
+          codigoCurso: codigoCurso,
+          descripcion: descripcion,
+          departamentoAcademico: departamentoAcademico,
+          año: año,
+          cupoMaximo: cupoMaximo,
+          cupoActual: cupoActual,
+          metodosEnsenanza: metodosEnsenanza,
+          nivel: nivel,
+          estado: estado,
+          modalidad: modalidad,
+          fechaInicio: fechaInicio,
+          fechaFinalizacion: fechaFinalizacion,
+          
+          cursoId: [cursoId]
+        };
+        metodo = "POST";
+        cerrarModal();
+      } else {
+        parametros = {
+          cursoId: [cursoId],
+          
+          codigoCurso: codigoCurso,
+          descripcion: descripcion,
+          departamentoAcademico: departamentoAcademico,
+          año: año,
+          cupoMaximo: cupoMaximo,
+          cupoActual: cupoActual,
+          metodosEnsenanza: metodosEnsenanza,
+          nivel: nivel,
+          estado: estado,
+          modalidad: modalidad,
+          fechaInicio: fechaInicio,
+          fechaFinalizacion: fechaFinalizacion,
+          
+        };
+        metodo = "PUT";
+        cerrarModal();
+      }
+      enviarSolicitud(metodo, parametros);
+    };
     const cerrarModal = () => {
       const modal = document.getElementById('modalcursos');
       modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
@@ -54,151 +201,50 @@ export default function Secretariacursoslista() {
       document.body.classList.remove('modal-open'); // Eliminar la clase 'modal-open' del body para permitir el scroll nuevamente
       const modalBackdrop = document.querySelector('.modal-backdrop'); // Eliminar el backdrop del modal si existe
       if (modalBackdrop) {
-          document.body.removeChild(modalBackdrop);
+        document.body.removeChild(modalBackdrop);
       }
       setShowModal(false);
-  };
-    const openModal = (op, curso) => {
-        setOperation(op);
-        if (op === 1) {
-            setTitle('Registrar curso');
-            setcursosId('');
-            setcodigo('');
-            setCursoSeleccionado('');
-            setdescritcion('');
-            setdepartamentoacademico('');
-            setprofesorasignado('');
-            setaulasAsignadas('');
-            setfechalimiteincripcion('');
-            setmetodosensenanza('');
-            setDocenteId('');
-            setNombre('');
-            setapellido('');
-            setDocente([]);
-            setdescripcion('');
-            setnivel('');
-            setestado('');
-            setmodalidad('');
-
-        } if (op === 2) {
-            setTitle('Editar curso');
-            setcursosId(curso.cursosId);
-            setcodigo(curso.codigo);
-            setCursoSeleccionado(curso.cursoSeleccionado);
-            setdescritcion(curso.descripcion);
-            setdepartamentoacademico(curso.departamentoacademico);
-            setprofesorasignado(curso.profesorasignado);
-            setaulasAsignadas(curso.aulasAsignadas);
-            setfechalimiteincripcion(curso.fechalimiteincripcion);
-            setmetodosensenanza(curso.metodosensenanza);
-            setDocenteId(curso.DocenteId);
-            setNombre(curso.nombre);
-            setapellido(curso.apellido);
-            setDocente(curso.Docente);
-            setdescripcion(curso.descripcion);
-            setnivel(curso.nivel);
-            setestado(curso.estado);
-            setmodalidad(curso.modalidad);
-            console.log(curso.Docente);
-        }
-        window.setTimeout(function () {
-            document.getElementById('codigo').focus();
-        }, 500);
-        setShowModal(true);
     };
-
-  const validar = (function() {
-    if ( codigo.trim() === '' ||  description.trim() === '' || departamentoacademico.trim() === '') {
-      show_alert('Todos los campos son obligatorios', 'error');
-    }
-    else {
-      let parametros;
-      let metodo;
-      if (operation === 1) {
-
-        parametros = { 
-          cursoSeleccionado: cursoSeleccionado, 
-          profesorasignado: profesorasignado, 
-          codigo: codigo, 
-          descriccion: cursoSeleccionado.description, 
-          description: description,
-          departamentoacademico: departamentoacademico,
-          aulasAsignadas: aulasAsignadas,
-          fechalimiteincripcion: fechalimiteincripcion,
-          metodosensenanza: metodosensenanza,
-          nivel: nivel,
-          estado: estado,
-          modalidad: modalidad,
-          descripcion: descripcion,
-        };
-        metodo = "POST";
-
-    }
-    else {
-      parametros = { cursoSeleccionado: cursoSeleccionado, 
-        profesorasignado: profesorasignado, 
-        codigo: codigo, 
-        descriccion: cursoSeleccionado, 
-        departamentoacademico: departamentoacademico,
-        aulasAsignadas: aulasAsignadas,
-        fechalimiteincripcion: fechalimiteincripcion,
-        metodosensenanza: metodosensenanza,
-        description: description,
-        nivel: nivel,
-        estado: estado,
-        modalidad: modalidad,
-        descripcion: descripcion,
-
-
-      };
-      metodo = "PUT";
-    }
-
-      enviarSolicitud(metodo, parametros);
-  }
-  cerrarModal();
-  })  
-    
-    
-
-  const enviarSolicitud = async (metodo, parametros) => {
-    if (metodo === "POST") {
-      const respuesta = await axios.post(url, parametros);
-      setCursos(respuesta.data);
-      show_alert('Curso Registrado', 'El curso ha sido registrado correctamente');
-    }
-    if (metodo === "PUT") {
-      const respuesta = await axios.put(url + '/' + cursosId, parametros);
-      setCursos(respuesta.data);
-      show_alert('Curso Editado', 'El curso ha sido editado correctamente');
-      
-    }
-};
-
-  const deletecurso = (cursosId, codigo) => {
-    const MySwal = withReactContent(Swal);
-    MySwal.fire({
-      title: "¿Seguro quieres eliminar el curso " + codigo + "?",
-      icon: "question",
-      text: "No se podra dar marcha atras",
-      showCancelButton: true,
-      confirmButtonText: "Si, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axios.delete(`${url}/${cursosId}`);
-          show_alert("Curso eliminado exitosamente", "success");
-          getCursos();
-        } catch (error) {
-          show_alert("Error al eliminar el curso", "error");
-          console.error(error);
-        }
-      } else {
-        show_alert("El curso no fue eliminado", "info");
+  
+    const enviarSolicitud = async (metodo, parametros) => {
+      if (metodo === "POST") {
+        await axios.post(url, parametros);
+        show_alert('Curso Registrado', 'El curso ha sido registrada correctamente');
       }
-    });
-  };
+      if (metodo === "PUT") {
+        await axios.put(url + '/' + cursoId, parametros);
+        show_alert('Curso Editado', 'El curso ha sido editado correctamente');
+      }
+      // Obtener nuevamente los datos de todas las materias después de la operación
+      getcursos();
+    };
+  
+    const deletecursos = (cursoId, codigoCurso) => {
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        title: '¿Estás seguro de eliminar a '+ codigoCurso + '?',
+              text: "¡No podrás revertir esto!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await axios.delete(`${url}/${cursoId}`);
+            show_alert("Curso eliminada exitosamente", "success");
+            getcursos();
+          }catch (error){
+            show_alert("No se pudo eliminar el curso", "error");
+          }
+        }else {
+          show_alert("El curso no fue elimino", "info")
+        }
+      })
+    }
+  
     return (
         <React.Fragment>
         
@@ -328,9 +374,7 @@ export default function Secretariacursoslista() {
                     </div>
                     </li>
                    
-                    <li>
-                        <a className="active" href="curso-lista.html"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE CURSOS</a>
-                    </li>
+                    
                     <li>
                         <a style={{color: 'black'}} href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR CURSO</a>
                     </li>
@@ -348,24 +392,44 @@ export default function Secretariacursoslista() {
 						<thead>
 							<tr className="text-center roboto-medium">
 								<th>#</th>
-								<th>CURSOS</th>
-								<th>DOCENTE</th>
+								<th>CODIGO</th>
+								<th>DESCRIPCION</th>
+                <th>DEPARTAMENTO ACADEMICO</th>
+                <th>NIVEL</th>
+                <th>METODO DE ENSEÑANZA</th>
+                <th>AÑO</th>
+                <th>CUPO MAXIMO</th>
+                <th>CUPO ACTUAL</th>
+                <th>ESTADO</th>
+                <th>MODALIDAD</th>
+                <th>FECHA INICIO</th>
+                <th>FECAH FINALIZACION</th>
 								<th>ACTUALIZAR/ELIMINAR</th>
 								 
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
-              {cursos.map((curso, i) => (
-                  <tr className="text-center" key={curso.cursosId}> 
-                      <td>{i + 1}</td>
-                      <td>{curso.codigo}</td>
-                      <td>{curso.descripcion}</td>
+              {cursos.map((cursos, i) => (
+                  <tr className="text-center" key={cursos.cursoId}> 
+                      <td><span className="table-index">{i + 1}</span></td>
+                      <td><span className="table-codigo">{cursos.codigoCurso}</span></td>
+                      <td><span className="table-descripcion">{cursos.descripcion}</span></td>
+                      <td><span className="table-departamento">{cursos.departamentoAcademico}</span></td>
+                      <td><span className="table-nivel">{cursos.nivel}</span></td>
+                      <td><span className="table-metodos">{cursos.metodosEnsenanza}</span></td>
+                      <td><span className="table-año">{cursos.año}</span></td>
+                      <td><span className="table-cupom">{cursos.cupoMaximo}</span></td>
+                      <td><span className="table-cupoa">{cursos.cupoActual}</span></td>
+                      <td><span className="table-estado">{cursos.estado}</span></td>
+                      <td><span className="table-modalidad">{cursos.modalidad}</span></td>
+                      <td><span className="table-fechai">{cursos.fechaInicio}</span></td>
+                      <td><span className="table-fechaf">{cursos.fechaFinalizacion}</span></td>
                       <td>
-                          <button onClick={() => openModal(2, curso)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
+                          <button onClick={() => openModal(2, cursos)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
                               <i className="fas fa-edit"></i>
                           </button>
                           / &nbsp;
-                          <button onClick={() => deletecurso(curso.cursosId, curso.cursoSeleccionado)} className="btn btn-danger">
+                          <button onClick={() => deletecursos(cursos.cursoId, cursos.codigoCurso,cursos.descripcion,cursos.departamentoAcademico,cursos.nivel,cursos.metodosEnsenanza,cursos.año,cursos.cupoMaximo,cursos.cupoActual,cursos.estado,cursos.modalidad,cursos.fechaInicio,cursos.fechaFinalizacion)} className="btn btn-danger">
                               <i className="far fa-trash-alt"></i>
                           </button>
                       </td>
@@ -378,13 +442,13 @@ export default function Secretariacursoslista() {
 				<nav aria-label="Page navigation example">
 					<ul className="pagination justify-content-center">
 						<li className="page-item disabled">
-							<a className="page-link" href="#" tabIndex="-1">Previous</a>
+							<a className="page-link" href="#" tabIndex="-1">Anterior</a>
 						</li>
 						<li className="page-item"><a className="page-link" href="#">1</a></li>
 						<li className="page-item"><a className="page-link" href="#">2</a></li>
 						<li className="page-item"><a className="page-link" href="#">3</a></li>
 						<li className="page-item">
-							<a className="page-link" href="#">Next</a>
+							<a className="page-link" href="#">Siguiente</a>
 						</li>
 					</ul>
 				</nav>
@@ -400,10 +464,9 @@ export default function Secretariacursoslista() {
               <button type="button" className="fas fa-times-circle" aria-label="Close" onClick={cerrarModal}></button>
             </div>
             <div className="modal-body">
-              <input type="hidden" id="candidatoEstudianteId" />
+              <input type="hidden" id="cursos" />
               <div className="input-group mb-3">
-                
-                
+                 
               </div>
                     
                     <div className="input-group mb-3">
@@ -412,125 +475,176 @@ export default function Secretariacursoslista() {
                         type="text"
                         id="codigo"
                         className="form-control"
-                        placeholder="codigo Curso"
-                        value={codigo} 
-                        onChange={(e) => setcodigo(e.target.value)}
+                        placeholder="codigo del curso"
+                        value={codigoCurso} 
+                        onChange={(e) => setCodigoCurso(e.target.value)}
                       />
                     </div>
+
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="far fa-newspaper"></i></span>
                     <input
                         type="text"
-                        id="cursodescripcion"
+                        id="descripcion"
                         className="form-control"
                         placeholder="Descripcion del curso"
                         value={descripcion} 
-                        onChange={(e) => setdescripcion(e.target.value)}
+                        onChange={(e) => setDescripcion(e.target.value)}
                       />
                     </div>
+
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-school"></i></span>
                     <input
                         type="text"
-                        id="departementoacademico"
+                        id="departamento"
                         className="form-control"
                         placeholder="Departamento Academico"
-                        value={departamentoacademico} 
-                        onChange={(e) => setdepartamentoacademico(e.target.value)}
+                        value={departamentoAcademico} 
+                        onChange={(e) => setDepartamentoAcademico(e.target.value)}
                       />
                     </div>
-                    <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
-                    <input
-                        type="text"
-                        id="nilvel"
-                        className="form-control"
-                        placeholder="nivel"
-                        value={nivel} 
-                        onChange={(e) => setnivel(e.target.value)}
-                      />
-              </div>
-              <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
-                    <input
-                        type="text"
-                        id="estado"
-                        className="form-control"
-                        placeholder="estado"
-                        value={estado} 
-                        onChange={(e) => setestado(e.target.value)}
-                      />
-              </div>
-              <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-book-open"></i></span>
-                    <input
-                        type="text"
-                        id="modalida"
-                        className="form-control"
-                        placeholder="modalidad"
-                        value={modalidad} 
-                        onChange={(e) => setmodalidad(e.target.value)}
-                      />
-              </div>
-                    <div className="input-group mb-3">
-                      <span className="input-group-text"><i className="fas fa-chalkboard-teacher"></i></span>
-                      <select
-						className="form-control"
-						name="item_estado"
-						id="item_estado"
-						value={profesorasignado}
-						onChange={(e) => setprofesorasignado(e.target.value)}
-					>
-						<option value="" disabled>
-							Seleccione el Docente
-						</option>
-						{Docente && Docente.length > 0 ? (
-    Docente.map((docente) => (
-        <option key={docente.DocenteId} value={docente.DocenteId}>
-            {docente.nombres}
-        </option>
-    ))
-) : (
-    <option value="" disabled>
-        Cargando Docentes...
-    </option>
-)}
-					</select>
 
-		  
-                    </div>
-          
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-book-open"></i>¿Cual es el nivel?</span>
                     
+                    <select
+                        id="nivel"
+                        className="form-select"
+                        value={nivel}
+                        onChange={(e) => setNivel(e.target.value)}
+                        required  
+                    >
+                        <option value="">Seleccionar Nivel</option> 
+                        {opcionesNivel.map((opcion, index) => (
+                            <option key={index} value={opcion}>
+                                {opcion}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="input-group mb-3">
+                  <span className="input-group-text"><i className="fas fa-book-open"></i>¿Cual es su estado?</span>
+                  
+                  <select
+                      id="estado"
+                      className="form-select"
+                      value={estado}
+                      onChange={(e) => setEstado(e.target.value)}
+                      required  
+                  >
+                      <option value="">Seleccionar Estado</option> 
+                      {opcionesEstado.map((opcion, index) => (
+                          <option key={index} value={opcion}>
+                              {opcion}
+                          </option>
+                      ))}
+                  </select>
+              </div>
+
+              <div className="input-group mb-3">
+                <span className="input-group-text"><i className="fas fa-chalkboard"></i>¿Cual es la modalidad?</span>
+                
+                <select
+                    id="modalidad"
+                    className="form-select"
+                    value={modalidad}
+                    onChange={(e) => setModalidad(e.target.value)}
+                    required  
+                >
+                    <option value="">Seleccionar Modalidad</option> 
+                    {opcionesModalidad.map((opcion, index) => (
+                        <option key={index} value={opcion}>
+                            {opcion}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        
+            <div className="input-group mb-3">
+                <span className="input-group-text"><i className="fas fa-chalkboard"></i>¿Cual es el metodo?</span>
+               
+                <select
+                    id="metodos"
+                    className="form-select"
+                    value={metodosEnsenanza}
+                    onChange={(e) => setMetodosEnsenanza(e.target.value)}
+                    required 
+                >
+                    <option value="">Seleccionar Método</option> 
+                    {opcionesMetodosEnsenanza.map((opcion, index) => (
+                        <option key={index} value={opcion}>
+                            {opcion}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
                     <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-person-booth"></i></span>
-                    <input
-                        type="text"
-                        id="codigo"
-                        className="form-control"
-                        placeholder="Aulas Asignadas"
-                        value={aulasAsignadas} 
-                        onChange={(e) => setaulasAsignadas(e.target.value)}
-                      />
-                    </div>
-                    <div className="input-group mb-3">
-                            <div class="form-group">
-                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Selecciona la fecha limite: </span>
-                            
-                            
-                            <input type="datetime-local" id="fecha" name="fecha" class="form-control" value={fechalimiteincripcion} onChange={(e)=>setfechalimiteincripcion(e.target.value)}/>
-                          </div>
-                        </div>
-                        <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
                     <input
-                        type="text"
-                        id="codigo"
+                        type="number"
+                        id="año"
                         className="form-control"
-                        placeholder="Metodos de enseñanza..."
-                        value={metodosensenanza}  
-                        onChange={(e) => setmetodosensenanza(e.target.value)}
+                        placeholder="Año"
+                        value={año}  
+                        onChange={(e) => setAño(e.target.value)}
                       />
                     </div>
+
+          
+
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="number"
+                        id="cupom"
+                        className="form-control"
+                        placeholder="Cupo maximo"
+                        value={cupoMaximo}  
+                        onChange={(e) => setCupoMaximo(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="number"
+                        id="cupoa"
+                        className="form-control"
+                        placeholder="Cupo actual"
+                        value={cupoActual}  
+                        onChange={(e) => setCupoActual(e.target.value)}
+                      />
+                    </div>
+
+                    
+
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="datetime-local"
+                        id="fechai"
+                        className="form-control"
+                        placeholder="Fecha de inicio"
+                        value={fechaInicio}  
+                        onChange={(e) => setFechaInicio(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
+                    <input
+                        type="datetime-local"
+                        id="fechaf"
+                        className="form-control"
+                        placeholder="Fecha de finalizacion"
+                        value={fechaFinalizacion}  
+                        onChange={(e) => setFechaFinalizacion(e.target.value)}
+                      />
+                    </div>
+
                     <div className='d-grid col-6 mx-auto'>
                     <div className="d-flex justify-content-center align-items-center h-100">
                       <button onClick={() => validar()} className='btn btn-success'>Guardar</button>
@@ -551,6 +665,5 @@ export default function Secretariacursoslista() {
 			
 
         )
-
 
 }

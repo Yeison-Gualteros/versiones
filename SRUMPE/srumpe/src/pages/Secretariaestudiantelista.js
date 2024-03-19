@@ -24,6 +24,7 @@ export default function Secretariaestudiantelista() {
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
   const [NombreAcudienteRelacionado, setNombreAcudienteRelacionado] = useState('');
+  const [numeroDocumentoOriginal, setNumeroDocumentoOriginal] = useState('');
   const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
   
   
@@ -87,6 +88,7 @@ export default function Secretariaestudiantelista() {
       setAdjuntarDocumentos(candidatoEstudiante.adjuntarDocumentos);
       setNumeroIdentificacionAcudiente(candidatoEstudiante.numeroIdentificacionAcudiente);
       setNombreAcudienteRelacionado(candidatoEstudiante.NombreAcudienteRelacionado); 
+      setNumeroDocumentoOriginal(candidatoEstudiante.numeroDocumento);
 
     }
     // Enfocar el primer campo después de un breve retraso para asegurar que el enfoque ocurra después de que el modal esté completamente abierto
@@ -100,9 +102,43 @@ export default function Secretariaestudiantelista() {
   
 
   const validar = () => {
-    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '' ) {
-      show_alert('Todos los campos son obligatorios', 'error');
-    }else {
+    if (nombre === '' ) {
+      show_alert('El campo Nombre es obligatorio', 'info');
+      
+    }if (apellido === ''){
+      show_alert('El campo Apellido es obligatorio', 'info');
+    }if (fechaNacimiento === '0') {
+      show_alert('El campo Fecha de Nacimiento es obligatorio', 'info');
+    }
+    if (tipoPersona === '') 
+    {
+      show_alert('El campo Tipo de Persona es obligatorio', 'info');
+    }if (tipoDocumento === '') 
+    {
+      show_alert('El campo Tipo de Documento es obligatorio', 'info');
+    }
+    if (numeroContacto === '') {
+      show_alert('El campo Numero de Contacto es obligatorio', 'info');
+    }
+    if (direccion === '') { 
+      show_alert('El campo Direccion es obligatorio', 'info');
+    }
+    if (genero === '') {
+      show_alert('El campo Genero es obligatorio', 'info');
+    }
+    if (numeroIdentificacionAcudiente === '') {
+      show_alert('El campo Numero de Identificacion Acudiente es obligatorio', 'info');
+    }
+    if (NombreAcudienteRelacionado === '') {
+      show_alert('El campo Nombre Acudiente Relacionado es obligatorio', 'info');
+    }
+    if (numeroDocumento === ''){
+      show_alert('El campo Numero de Documento es obligatorio', 'info');
+      
+    }else if (operation === 2 && numeroDocumento !==  numeroDocumentoOriginal) {
+      show_alert('Los documentos no coinciden', 'info');
+    }
+    else {
       let parametros;
       let metodo;
       if (operation === 1) {
@@ -123,18 +159,19 @@ export default function Secretariaestudiantelista() {
         metodo = 'post';
       }else{
         parametros = {
-          nombre,
-          apellido,
+          nombre: nombre,
+          apellido: apellido,
           numeroContacto: parseInt(numeroContacto),
-          direccion,
-          genero,
-          tipoPersona,
-          fechaNacimiento,
-          tipoDocumento,
-          numeroDocumento,
-          adjuntarDocumentos,
-          numeroIdentificacionAcudiente,
-          NombreAcudienteRelacionado
+          direccion: direccion,
+          genero : genero,
+          tipoPersona : tipoPersona,
+          fechaNacimiento : fechaNacimiento,
+          tipoDocumento : tipoDocumento,
+          numeroDocumento : numeroDocumento,
+          adjuntarDocumentos : adjuntarDocumentos,
+          numeroIdentificacionAcudiente : numeroIdentificacionAcudiente,
+          NombreAcudienteRelacionado : NombreAcudienteRelacionado,
+          numeroDocumentoOriginal: numeroDocumentoOriginal
         };
         metodo = 'put';
       }
@@ -444,7 +481,7 @@ export default function Secretariaestudiantelista() {
                             </select>
                         </div>
                         <div className="input-group mb-3">
-                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <span className="input-group-text"><i className="far fa-id-card"></i></span>
                       <input
                         type="number"
                         id="NumeroContacto"
