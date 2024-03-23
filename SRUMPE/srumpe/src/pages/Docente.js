@@ -23,18 +23,18 @@ export default function Docente() {
                             <nav className="full-box nav-lateral-menu">
                                 <ul>
                                     <li>
-                                    <Link to={'/Docente'}>
+                                    <a href='/Docente'>
                                         <i class="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
-                                    </Link>
+                                    </a>
                                     </li>
                                     <li>
                                         <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
                                         <ul>	
                                         
                                             <li>
-                                                <Link to={'/Docenteelegircurso'}>
+                                                <a href='/Docenteelegircurso'>
                                                 <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
-                                                </Link>	
+                                                </a>	
                                             </li>
                                         							
                                         </ul>

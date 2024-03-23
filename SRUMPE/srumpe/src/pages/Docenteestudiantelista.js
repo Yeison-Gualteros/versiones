@@ -211,70 +211,65 @@ const deletecursos = (notaId, estudiante) => {
   return (
     <React.Fragment>
       <main className="full-box main-container">
-        <section className="full-box nav-lateral">
-          <div className="full-box nav-lateral-bg show-nav-lateral"></div>
-          <div className="full-box nav-lateral-content">
-            <figure className="full-box nav-lateral-avatar">
-              <i className="far fa-times-circle show-nav-lateral"></i>
-              <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar" />
-              <figcaption className="roboto-medium text-center">
-                Nombre de docente <br />
-                <small className="roboto-condensed-light">
-                  <p>
-                    <span className="badge badge-success">Docente</span>
-                  </p>
-                </small>
-              </figcaption>
-            </figure>
-            <div className="full-box nav-lateral-bar"></div>
-            <nav className="full-box nav-lateral-menu">
-              <ul>
-                <li>
-                  <Link to={'/Docente'}>
-                    <i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
-                  </Link>
-                </li>
-                
-                <li>
-                  <a href="#" className="nav-btn-submenu">
-                    <i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos{' '}
-                    <i className="fas fa-chevron-down"></i>
-                  </a>
-                  <ul>
-                    <li>
-                      <Link to={'/Docenteelegircurso'}>
-                        <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="#" className="nav-btn-submenu">
-                    <i className="fas fa-users fa-fw"></i> &nbsp; Estudiantes{' '}
-                    <i className="fas fa-chevron-down"></i>
-                  </a>
-                  <ul>
-                    <li>
-                      <Link to={'/Docenteestudiantelista'}>
-                        <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={'/Docentebuscarestudiante'}>
-                        <i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                {/*<li>
-                  <Link to={'/DocenteReclamos'}>
-                    <i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
-  </Link>
-  </li>*/}
-              </ul>
-            </nav>
-          </div>
-        </section>
+      <section className="full-box nav-lateral">
+                        <div className="full-box nav-lateral-bg show-nav-lateral"></div>
+                        <div className="full-box nav-lateral-content">
+                            <figure className="full-box nav-lateral-avatar">
+                                <i className="far fa-times-circle show-nav-lateral"></i>
+                                
+                                <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+                                <figcaption className="roboto-medium text-center">
+                                Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
+                                </figcaption>
+                            </figure>
+                            <div className="full-box nav-lateral-bar"></div>
+                            <nav className="full-box nav-lateral-menu">
+                                <ul>
+                                    <li>
+                                    <a href='/Docente'>
+                                        <i class="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
+                                    </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+                                        <ul>	
+                                        
+                                            <li>
+                                                <a href='/Docenteelegircurso'>
+                                                <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
+                                                </a>	
+                                            </li>
+                                        							
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+                                        <ul>  
+                                        
+                                        <li>
+                                            
+                                            <a href='/Docenteestudiantelista'><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+                                            
+                                        </li>
+                                        
+                                        
+                                        <li>
+                                            
+                                            <a href='/Docentebuscarestudiante'><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+                                            
+                                        </li>
+                                        
+                                        </ul>
+                                    </li>
+                                    {/*<li>
+                                    <Link to={'/DocenteReclamos'}>
+                                        <i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
+                                    </Link>
+    </li>*/}
+                                </ul>
+                            </nav>
+                        </div>
+                    </section>
 
         <section className="full-box page-content">
           <nav className="full-box navbar-info">

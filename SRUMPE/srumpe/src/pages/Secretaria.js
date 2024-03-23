@@ -99,7 +99,7 @@ export default function Secretaria() {
 		
 		<section className="full-box page-content">
 			<nav className="full-box navbar-info">
-				<a href="#" className="float-left show-nav-lateral">
+				<a href=" " className="float-left show-nav-lateral">
 					<i className="fas fa-exchange-alt"></i>
 				</a>
 				<a href="/Secretariaactualizar">

@@ -28,6 +28,7 @@ export default function Secretariadocentebuscar() {
   const [numeroIdentificacion, setNumeroIdentificacion] = useState('');
   const [comentariosNotas, setComentariosNotas] = useState('');
   const [nivelExperiencia, setNivelExperiencia] = useState('');
+  const [numeroIdentificacionOriginal, setNumeroIdentificacionOriginal] = useState('');
   const [, setError] = useState('');
     const [, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
     //const url4 = 'https://localhost:5001/api/aula';
@@ -148,6 +149,7 @@ const [MateriaId, setMateriaId] = useState('');
             setTipoDocumento(docente.tipoDocumento);
             setNombreNumero(docente.nombreNumero);
             setTituloAcademico(docente.tituloAcademico);
+            setNumeroIdentificacionOriginal(docente.numeroIdentificacionOriginal);
         }
         window.setTimeout(function () {
             document.getElementById('Nombre').focus();
@@ -213,12 +215,13 @@ const [MateriaId, setMateriaId] = useState('');
         if (comentariosNotas === ''){
             show_alert('porfavor escribe un comentario sobre el docente', 'error');
         }
-        if (adjuntardocumentos === '') {
-            show_alert('porfavor escribe si adjunto documnetos', 'error');
-        }
-        if (MateriaId === '') {
-            show_alert('porfavor seleccione una materia del docente', 'error');
-        }
+        if (numeroIdentificacion === '') { 
+          show_alert('Por favor escribe el numero de identificacion del docente', 'error');
+      } 
+      else if (operation === 2 && numeroIdentificacion !== numeroIdentificacionOriginal) {
+          show_alert('El número de identificación no se puede cambiar', 'error');
+      }
+        
     else{
             let parametros;
             let metodo;
@@ -230,21 +233,17 @@ const [MateriaId, setMateriaId] = useState('');
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    cursoIds:cursoId, // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
                     estadoLaboral: estadoLaboral,
                     horarioClases: horarioclase,
                     comentariosNotas: comentariosNotas,
                     nivelExperiencia: nivelExperiencia,
                     correoElectronico: correoElectronico,
-                    MateriaIds: MateriaId,
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
-                    //aulaId:aulaId,
-
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
                     
@@ -257,22 +256,20 @@ const [MateriaId, setMateriaId] = useState('');
                     cursosAsignados: cursosAsignados, 
                     numeroIdentificacion: numeroIdentificacion,
                     genero: genero,
-                    //cursoIds: cursoId, // Asegurémonos de enviar un array de cursoIds
                     direccion: direccion,
                     estadoLaboral: estadoLaboral,
                     horarioClases: horarioclase,
                     comentariosNotas: comentariosNotas,
                     nivelExperiencia: nivelExperiencia,
                     correoElectronico: correoElectronico,
-                    //MateriaIds: MateriaId,
                     apellidos: apellidos,
                     tipoDocumento: tipoDocumento,
                     tipoPersona: tipoPersona,
                     fechaContratacion: fechaContratacion,
                     adjuntardocumentos: adjuntardocumentos,
-                    //aulaId:aulaId,
                     nombreNumero: nombreNumero,
                     tituloAcademico: tituloAcademico,
+                    numeroIdentificacionOriginal: numeroIdentificacionOriginal, 
                     
                 };
                 metodo = "PUT";

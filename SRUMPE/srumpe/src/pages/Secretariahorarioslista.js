@@ -313,7 +313,7 @@ export default function Secretariaulalista() {
 
 			<div className="full-box page-header">
                 <h3 className="text-left">
-                    <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PROFESORES
+                    <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE AULAS
                 </h3>
                 <p className="text-justify">
                 </p>
