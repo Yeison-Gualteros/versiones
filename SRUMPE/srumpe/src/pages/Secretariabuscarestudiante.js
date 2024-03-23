@@ -29,7 +29,7 @@ export default function Secretariabuscarestudiante() {
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
   const [NombreAcudienteRelacionado, setNombreAcudienteRelacionado] = useState('');
-  const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
+  const [, setShowModal] = useState(false); 
   
   
   
@@ -264,7 +264,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+                <a href="__" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -277,7 +277,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+                <a href="__" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -290,7 +290,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+                <a href="__" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -302,7 +302,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                 </ul>
               </li>
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+                <a href="__" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -312,7 +312,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                 </ul>
               </li>
               <li>
-                <a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+                <a href="__" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -332,15 +332,15 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
       
       <section className="full-box page-content">
         <nav className="full-box navbar-info">
-          <a href="#" className="float-left show-nav-lateral">
+          <button  className="float-left show-nav-lateral btn btn-dark">
             <i className="fas fa-exchange-alt"></i>
-          </a>
+          </button>
           <a href="/Secretariaactualizar">
             <i className="fas fa-user-cog"></i>
           </a>
-          <a href="#" className="btn-exit-system">
+          <button  className="btn-exit-system btn btn-dark">
             <i className="fas fa-power-off"></i>
-          </a>
+          </button>
         </nav>
 
 			
@@ -414,7 +414,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                           <i className="fas fa-edit"></i>
                         </button>
 									/&nbsp;
-									<button onClick={() => deleteCandidatoEstudiante(CandidatoEstudiante.candidatoEstudianteId, CandidatoEstudiante.nombre, CandidatoEstudiante.apellido)} className="btn btn-danger">
+									<button onClick={() => deleteCandidatoEstudiante(CandidatoEstudiante.candidatoEstudianteId, CandidatoEstudiante.nombre)} className="btn btn-danger">
                   <i className="far fa-trash-alt"></i>
                         </button>
 
@@ -452,7 +452,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                         type="text"
                         id="Nombre"
                         className="form-control"
-                        placeholder="NOMBRE"
+                        placeholder=" NOMBRE"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                       />
@@ -471,11 +471,11 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                     
                     
                         <div className="input-group mb-3">
-                            <div class="form-group">
+                            <div className="form-group">
                               <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de nacimiento: </span>
                             
                             
-                            <input type="date" id="fecha" name="fecha" class="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
+                            <input type="date" id="fecha" name="fecha" className="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
                           </div>
                         </div>
                         <div className="input-group mb-3">
@@ -486,7 +486,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                             </select>
                         </div>
                         <div className="input-group mb-3">
-                        <span ><i class="fas fa-id-card"></i> Tipo Documento</span>
+                        <span ><i className="fas fa-id-card"></i> Tipo Documento</span>
                             <select className="form-select" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>
                                 <option value="">Seleccione Tipo Documento</option>
                                 <option value="cedula">C.C</option>
@@ -531,7 +531,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                     
                         
                         <div className="input-group mb-3">
-                          <span > <i class="fas fa-venus-mars"></i> Genero</span>
+                          <span > <i className="fas fa-venus-mars"></i> Genero</span>
                             <select className="form-select" value={genero} onChange={(e) => setGenero(e.target.value)}>
                                 <option value="">Seleccione Genero</option>
                                 <option value="Maculino">Masculino</option>
@@ -540,7 +540,7 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                             </select>
                         </div>
                         
-                        <div class="mb-3">
+                        <div className="mb-3">
                         
                         <input
                         type="text"
@@ -573,8 +573,8 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                         onChange={(e) => setNombreAcudienteRelacionado(e.target.value)}
                       />
                     </div>
-                    <div class="modal-footer">
-                    <button onClick={() => validar()} class="btn btn-outline-success">Guardar</button>
+                    <div className="modal-footer">
+                    <button onClick={() => validar()} className="btn btn-outline-success">Guardar</button>
                     <button onClick={()=> cerrarModal()} type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
       </div>
 </div>

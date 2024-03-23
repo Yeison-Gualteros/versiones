@@ -217,9 +217,10 @@ export default function Secretariadocentelista(){
         }
         if (numeroIdentificacion === '') { 
           show_alert('Por favor escribe el numero de identificacion del docente', 'error');
-      } else if (operation === 2 && numeroIdentificacion !== numeroIdentificacionOriginal) {
+      } 
+      /*else if (operation === 2 && numeroIdentificacion !== numeroIdentificacionOriginal) {
           show_alert('El número de identificación no se puede cambiar', 'error');
-      }
+      }*/
         
     else{
             let parametros;

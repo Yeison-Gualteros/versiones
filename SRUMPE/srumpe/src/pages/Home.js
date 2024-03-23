@@ -47,6 +47,14 @@ export default function Docente() {
 		<div className="Fondo">
 	<div className="login-content">
 		<nav>
+		<nav  className="full-box navbar-info">
+		<a href="/" className="float-left">
+			<p className="fas fa-long-arrow-alt-left"><i > Volver </i></p>
+			</a>
+				
+	
+		</nav>
+		<br />
 			<ul>				
 				<li>
 					<p className="text-center">
@@ -84,9 +92,11 @@ export default function Docente() {
 									</a>
 									
 								</div>
-								<br />
-								<button type="submit">Iniciar Sesión</button>					
-							</form>
+								
+								
+								<div class=" col-7 mx-auto">
+									<button type="submit" className='btn btn-secondary '>Iniciar Sesión</button>	
+								</div>								</form>
 						</li>	
 					</ul>
 			</ul>				

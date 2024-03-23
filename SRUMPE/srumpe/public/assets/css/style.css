@@ -46,6 +46,14 @@
 	height: auto; /* Altura automática para mantener la proporción */
 	margin-bottom: -25px; /* Espacio inferior opcional */
 }
+.logo-img-inicio {
+	width: 900px; /* Ancho deseado */
+	height: auto; /* Altura automática para mantener la proporción */
+	display: block; /* Asegura que la imagen sea un elemento de bloque */
+    margin: 0 auto; /* Establece los márgenes automáticos para centrar horizontalmente */
+    text-align: center;
+
+}
 body,html{
 	font-family: 'roboto_medium_regular';
 	width: 100vw;
@@ -209,6 +217,24 @@ table form{
 	
 
 }
+.Fondo2{
+	padding: 15;
+	width: 100vw;
+	height: 100vh;
+	display:block;
+	justify-content: center;
+	align-items: center;
+	transition: all .2s ease-in-out;
+	background: #ffffff;
+	background: -webkit-linear-gradient(to right, #CFCFCF, #CFCFCF);
+	background: linear-gradient(to right, #CFCFCF, #CFCFCF);
+	background-image: url('/assets/img/School hand drawn doodle coloring _ Vector Premium.jpeg');
+	background-position:initial;
+	background-size: cover;
+	
+	
+
+}
 .form-select {
 	display: inline-block;
 	width: 100%;
@@ -283,6 +309,12 @@ table form{
 	transition: all .2s ease-in-out;
 	padding-bottom: 20px;
 }
+.page-contentt{
+	position: relative;
+	padding-left: 0px;
+	transition: all .2s ease-in-out;
+	padding-bottom: 20px;
+}
 /*  Nav Lateral */
 .nav-lateral{
 	width: 300px;
@@ -295,6 +327,7 @@ table form{
 	background-position:center center;
 	background-size:cover;
 }
+
 .nav-lateral-bg{ display: none; }
 .nav-lateral-content{
 	max-width: 300px;
@@ -574,7 +607,7 @@ footer {
     right: 0;
 }
 .page-content {
-    margin-bottom: 80px; /* Ajusta el margen inferior para dejar espacio al pie de página */
+    margin-bottom: 200px; /* Ajusta el margen inferior para dejar espacio al pie de página */
 }
 
 

@@ -95,7 +95,7 @@ export default function EstudianteMaterias() {
 					<i className="fas fa-vote-yea"></i> &nbsp; NOTAS DE CADA MATERIA
 				</h3>
 				<p className="text-justify">
-					Aqui podra Seleccionar la materia en la cual desea ver sus Notas.
+					{/*Aqui podra Seleccionar la materia en la cual desea ver sus Notas.*/}
 				</p>
 			</div>
 			

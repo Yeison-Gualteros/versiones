@@ -26,6 +26,7 @@ import Secretariaactualizar from './Secretariaactualizar'
 import Secretariaulalista from './Secretariaulalista'
 
 import Prueba from './Prueba'
+import Inicio from './Inicio'
 
 export default function RouterPage() {
     return(
@@ -58,6 +59,7 @@ export default function RouterPage() {
                     <Route path='/Secretariaulalista' exact Component={Secretariaulalista}/>
 
                     <Route path='/Prueba' exact Component={Prueba}/>
+                    <Route path='/' exact Component={Inicio}/>
 
                 </Routes>
             </Router>

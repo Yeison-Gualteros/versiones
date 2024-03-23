@@ -273,7 +273,7 @@ export default function Secretariacursoslista() {
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+                <a href=" " className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -286,7 +286,7 @@ export default function Secretariacursoslista() {
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+                <a href="# " className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -299,7 +299,7 @@ export default function Secretariacursoslista() {
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+                <a href="# " className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -311,7 +311,7 @@ export default function Secretariacursoslista() {
                 </ul>
               </li>
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+                <a href="# " className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -321,7 +321,7 @@ export default function Secretariacursoslista() {
                 </ul>
               </li>
               <li>
-                <a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+                <a href=" " className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -341,13 +341,13 @@ export default function Secretariacursoslista() {
       
       <section className="full-box page-content">
         <nav className="full-box navbar-info">
-          <a href="#" className="float-left show-nav-lateral">
+          <a href="# " className="float-left show-nav-lateral">
             <i className="fas fa-exchange-alt"></i>
           </a>
           <a href="/Secretariaactualizar">
             <i className="fas fa-user-cog"></i>
           </a>
-          <a href="#" className="btn-exit-system">
+          <a href="# " className="btn-exit-system">
             <i className="fas fa-power-off"></i>
           </a>
         </nav>
@@ -370,7 +370,7 @@ export default function Secretariacursoslista() {
                         data-toggle="modal"
                         data-target="#modalcursos" // Corregido el target
                     >
-                        <a ><i className="fas fa-plus fa-fw"></i>&nbsp;  Añadir Curso nuevo</a>
+                        <a href='#'><i className="fas fa-plus fa-fw"></i>&nbsp;  Añadir Curso nuevo</a>
                     </div>
                     </li>
                    
@@ -442,13 +442,13 @@ export default function Secretariacursoslista() {
 				<nav aria-label="Page navigation example">
 					<ul className="pagination justify-content-center">
 						<li className="page-item disabled">
-							<a className="page-link" href="#" tabIndex="-1">Anterior</a>
+							<a className="page-link" href="# " tabIndex="-1">Anterior</a>
 						</li>
-						<li className="page-item"><a className="page-link" href="#">1</a></li>
-						<li className="page-item"><a className="page-link" href="#">2</a></li>
-						<li className="page-item"><a className="page-link" href="#">3</a></li>
+						<li className="page-item"><a className="page-link" href="# ">1</a></li>
+						<li className="page-item"><a className="page-link" href="# ">2</a></li>
+						<li className="page-item"><a className="page-link" href="# ">3</a></li>
 						<li className="page-item">
-							<a className="page-link" href="#">Siguiente</a>
+							<a className="page-link" href="# ">Siguiente</a>
 						</li>
 					</ul>
 				</nav>

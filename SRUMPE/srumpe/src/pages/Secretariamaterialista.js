@@ -553,7 +553,7 @@ export default function Secretariamaterialista() {
 					</div>
 
 					<div className="input-group mb-3">
-						<span className="input-group-text"><i className="fas fa-laptop-code"></i></span>
+						<span className="input-group-text"><i className="fas fa-angle-double-right"></i></span>
 						<input
 							type="number"
 							id="creditos" // Cambiado el id a "MetodosEnsenanza"

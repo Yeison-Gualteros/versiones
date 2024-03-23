@@ -154,14 +154,7 @@ export default function Secretariaulalista() {
         cerrarModal();
     }
   };
-  const handleDelete = async (aulaId) => {
-    try {
-      await axios.delete(`https://localhost:5001/api/aula/${aulaId}`);
-      setAulas((prevAula) => prevAula.filter((d) => d.aulaId !== aulaId));
-    } catch (error) {
-      console.error('Error al eliminar aula', error);
-    }
-  };
+  
   const enviarSolicitud = async (metodo, parametros) => {
     try {
         let respuesta;
@@ -337,9 +330,9 @@ export default function Secretariaulalista() {
                     <li>
                         <a className="active" href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE AULAS</a>
                     </li>
-                    <li>
+                    {/*<li>
                         <a style={{color: 'black'}} href="/Secretariaulabuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR AULAS</a>
-                    </li>
+    </li>*/}
                 </ul>
             </div>
             <div className="container-fluid">
@@ -378,7 +371,7 @@ export default function Secretariaulalista() {
                           <i className="fas fa-edit"></i>
                         </button>
 									 / &nbsp;
-									<button onPress={() => handleDelete(aula.aulaId)} onClick={() => deleteAula(aula.aulaId, aula.nombres, aula.numeroTelefono, aula.cursosAsignados, aula.numeroIdentificacion, aula.apellidos)} className="btn btn-danger">
+									<button  onClick={() => deleteAula(aula.aulaId, aula.nombres, aula.numeroTelefono, aula.cursosAsignados, aula.numeroIdentificacion, aula.apellidos)} className="btn btn-danger">
                   <i className="far fa-trash-alt"></i>
                         </button>
 								</td>

@@ -28,8 +28,8 @@ export default function Secretariadocentebuscar() {
   const [numeroIdentificacion, setNumeroIdentificacion] = useState('');
   const [comentariosNotas, setComentariosNotas] = useState('');
   const [nivelExperiencia, setNivelExperiencia] = useState('');
-  const [error, setError] = useState('');
-    const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
+  const [, setError] = useState('');
+    const [, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
     //const url4 = 'https://localhost:5001/api/aula';
     //const [aulas, setAula] = useState([]);
     //const [aulaId, setAulaId] = useState('');

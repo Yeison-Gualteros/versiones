@@ -44,16 +44,16 @@ export default function Docente() {
                                         <ul>  
                                         
                                         <li>
-                                            <Link to={'/Docenteestudiantelista'}>
-                                            <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                                            </Link>
+                                            
+                                            <a href='/Docenteestudiantelista'><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+                                            
                                         </li>
                                         
                                         
                                         <li>
-                                            <Link to={'/Docentebuscarestudiante'}>
-                                            <a ><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                                            </Link>
+                                            
+                                            <a href='/Docentebuscarestudiante'><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+                                            
                                         </li>
                                         
                                         </ul>
@@ -74,11 +74,11 @@ export default function Docente() {
                             <a className="float-left show-nav-lateral">
                                 <i className="fas fa-exchange-alt"></i>
                             </a>
-                            <Link to={'/Docenteuserupdate'}>
-                            <a >
+                            
+                            <a href='/Docenteuserupdate'>
                                 <i className="fas fa-user-cog"></i>
                             </a>
-                            </Link>
+                            
                             <a className="btn-exit-system">
                                 <i className="fas fa-power-off"></i>
                             </a>
@@ -104,7 +104,7 @@ export default function Docente() {
                                     <p>3 Registrados</p>
                                 </div>
                             </a>
-                            <a href="Docente-estudiante-lista.html" className="tile">
+                            <a href="/Docenteestudiantelista" className="tile">
                                 <div className="tile-tittle">Estudiantes</div>
                                 <div className="tile-icon">
                                     <i className="fas fa-users fa-fw"></i>

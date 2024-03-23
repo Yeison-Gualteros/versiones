@@ -284,7 +284,7 @@ export default function Secretariacursoslista() {
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+                <a href="__" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -297,7 +297,7 @@ export default function Secretariacursoslista() {
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+                <a href="--" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -310,7 +310,7 @@ export default function Secretariacursoslista() {
               </li>
   
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+                <a href="--" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -322,7 +322,7 @@ export default function Secretariacursoslista() {
                 </ul>
               </li>
               <li>
-                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+                <a href="--" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -332,7 +332,7 @@ export default function Secretariacursoslista() {
                 </ul>
               </li>
               <li>
-                <a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+                <a href="--" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
                 <ul>
                   
                   <li>
@@ -352,13 +352,13 @@ export default function Secretariacursoslista() {
       
       <section className="full-box page-content">
         <nav className="full-box navbar-info">
-          <a href="#" className="float-left show-nav-lateral">
+          <a href="--" className="float-left show-nav-lateral">
             <i className="fas fa-exchange-alt"></i>
           </a>
           <a href="/Secretariaactualizar">
             <i className="fas fa-user-cog"></i>
           </a>
-          <a href="#" className="btn-exit-system">
+          <a href="--" className="btn-exit-system">
             <i className="fas fa-power-off"></i>
           </a>
         </nav>
@@ -392,19 +392,19 @@ export default function Secretariacursoslista() {
                     
                 </ul>
             </div>
-            <div class="container-fluid">
-				<form class="form-neon" onSubmit={(e) => e.preventDefault()}>
+            <div className="container-fluid">
+				<form className="form-neon" onSubmit={(e) => e.preventDefault()}>
 					
-						<div class="row justify-content-md-center">
-							<div class="col-12 col-md-6">
-								<div class="form-group">
-									<label for="inputSearch" class="frome bmd-label-floating">¿Qué Curso estas buscando? Inserta el codigo del curso</label>
-									<input type="text" class="form-control" name="busqueda_reservation" id="inputSearch" maxlength="30" value={searchTerm} onChange={handleSearchChange} />
+						<div className="row justify-content-md-center">
+							<div className="col-12 col-md-6">
+								<div className="form-group">
+									<label htmlFor="inputSearch" className="frome bmd-label-floating">¿Qué Curso estas buscando? Inserta el codigo del curso</label>
+									<input type="text" className="form-control" name="busqueda_reservation" id="inputSearch" maxLength="30" value={searchTerm} onChange={handleSearchChange} />
 								</div>
 							</div>
-							<div class="col-12">
-								<p class="text-center" style={{marginTop: "40px"}}>
-									<button type="submit" class="btn btn-raised btn-info"  onClick={getcursos}><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
+							<div className="col-12">
+								<p className="text-center" style={{marginTop: "40px"}}>
+									<button type="submit" className="btn btn-raised btn-info"  onClick={getcursos}><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
 								</p>
 							</div>
 						</div>
@@ -455,11 +455,13 @@ export default function Secretariacursoslista() {
         <td><span className="table-fechai">{cursos.fechaInicio}</span></td>
         <td><span className="table-fechaf">{cursos.fechaFinalizacion}</span></td>
         <td>
-            <button onClick={() => openModal(2, cursos)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
-                <i className="fas fa-edit"></i>
-            </button>
+        <button onClick={() => openModal(2, cursos)} className="btn btn-success" data-toggle='modal' data-target='#modalcursos'>
+          <i className="fas fa-edit"></i>
+        </button>
+
+
             / &nbsp;
-            <button onClick={() => deletecursos(cursos.cursoId, cursos.codigoCurso,cursos.descripcion,cursos.departamentoAcademico,cursos.nivel,cursos.metodosEnsenanza,cursos.año,cursos.cupoMaximo,cursos.cupoActual,cursos.estado,cursos.modalidad,cursos.fechaInicio,cursos.fechaFinalizacion)} className="btn btn-danger">
+            <button onClick={() => deletecursos(cursos.cursoId, cursos.codigoCurso)} className="btn btn-danger">
                 <i className="far fa-trash-alt"></i>
             </button>
         </td>
@@ -472,13 +474,13 @@ export default function Secretariacursoslista() {
 				<nav aria-label="Page navigation example">
 					<ul className="pagination justify-content-center">
 						<li className="page-item disabled">
-							<a className="page-link" href="#" tabIndex="-1">Anterior</a>
+							<a className="page-link" href="# " tabIndex="-1">Anterior</a>
 						</li>
-						<li className="page-item"><a className="page-link" href="#">1</a></li>
-						<li className="page-item"><a className="page-link" href="#">2</a></li>
-						<li className="page-item"><a className="page-link" href="#">3</a></li>
+						<li className="page-item"><a className="page-link" href="# ">1</a></li>
+						<li className="page-item"><a className="page-link" href=" ">2</a></li>
+						<li className="page-item"><a className="page-link" href=" ">3</a></li>
 						<li className="page-item">
-							<a className="page-link" href="#">Siguiente</a>
+							<a className="page-link" href="--">Siguiente</a>
 						</li>
 					</ul>
 				</nav>

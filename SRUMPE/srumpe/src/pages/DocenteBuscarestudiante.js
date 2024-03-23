@@ -1,357 +1,562 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { show_alert } from '../functions';
-import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useEstudiantes } from './EstudianteContext';
 import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
 
-export default function Docentebuscarestudiante() {
-
-    const url = 'https://localhost:5001/api/CandidatoEstudiante';
-  const [candidatoEstudiante, setcandidatoEstudiante] = useState([]);
-  const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
-  const [nombres, setNombres] = useState('');
-  const [apellidos, setApellidos] = useState('');
-  const [tipodepersona, settipodepersona] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [operation, setOperation] = useState(1);
-  const [title, setTitle] = useState('');
+export default function Docenteestudiantelista() {
+  
+  const url = 'https://localhost:5001/api/notas'
+  
+  const [notas, setNotas] = useState([]);
+  const [notaId, setNotaId] = useState('');
+  const [estudiante, setEstudiante] = useState('');
+  const [curso, setCurso] = useState('');
+  const [periodoAcademico, setPeriodoAcademico] = useState('');
+  const [fechaCreacion, setFechaCreacion] = useState('');
+  const [materia, setMateria] = useState('');
+  const [valorNota, setValorNota] = useState('');
+  const [tipoNota, setTipoNota] = useState('');
+  const [descripcionNota, setDescripcionNota] = useState('')
   const [searchTerm, setSearchTerm] = useState('');
 
-  
-  useEffect(() => {
-    getCandidatoEstudiante();
-  }, []);
+  const [showModal, setShowModal] = useState(false);
+  const [operation, setOperation] = useState(1);
+  const [title, setTitle] = useState('');
 
-  const getCandidatoEstudiante = async () => {
+  
+
+  const getnotas = async () => {
     try {
-      const response = await axios.get(url);
-      setcandidatoEstudiante(response.data);
+        const respuesta = await axios.get(url);
+        setNotas(respuesta.data);
     } catch (error) {
-      console.error('Error al obtener al estudiante:', error);
+        console.error('Error al obtener estudiante:', error);
     }
   };
+  
+  useEffect(() =>{
+    getnotas();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-  };
+};
 
-  const filteredestudiante = candidatoEstudiante.filter((estudiante) => {
-    const fullName = `${estudiante.nombre} ${estudiante.apellido}`.toLowerCase();
-    return fullName.includes(searchTerm.toLowerCase());
-  });
-
-  const openModal = (op, estudiante) => {
-    setOperation(op);
-    if (op === 1) {
-      setTitle('Registrar Acudiente');
-      setCandidatoEstudianteId('');
-      setNombres('');
-      setApellidos('');
-      setFechaNacimiento('');
-      settipodepersona('');
-    } else if (op === 2) {
-      setTitle('Editar Acudiente');
-      setCandidatoEstudianteId(estudiante.candidatoEstudianteId);
-      setNombres(estudiante.nombres);
-      setApellidos(estudiante.apellidos);
-      setFechaNacimiento(estudiante.fechaNacimiento);
-      settipodepersona(estudiante.tipodepersona);
+useEffect(() => {
+  if (showModal) {
+    const inputElement = document.getElementById('cursos');
+    if (inputElement) {
+      inputElement.focus();
     }
-  };
+  }
+}, [showModal]);
 
-  const validar = () => {
-    if (nombres.trim() === '') {
-      show_alert('Escribe el nombre del estudiante', 'Escribe el nombre del estudiante');
-    } else if (apellidos.trim() === '') {
-      show_alert('Escribe el apellido del estudiante', 'Escribe el apellido del estudiante');
-    } else if (fechaNacimiento.trim() === '') {
-      show_alert('Escribe la fecha de nacimiento del estudiante', 'Escribe la fecha de nacimiento del estudiante');
-    } 
-     else {
-      const parametros = {
-        nombres,
-        apellidos,
-        fechaNacimiento,
-      };
-      const metodo = operation === 1 ? 'POST' : 'PUT';
-      enviarSolicitud(metodo, parametros);
-    }
-  };
+const openModal = (op, nota) => {
+  setOperation(op);
+  setShowModal(true);
+  if (op === 1) {
+    setTitle('Registrar nota');
+    // Restablecer todos los campos del formulario para una nueva entrada
+    setNotaId('');
+    setEstudiante('');
+    setCurso('');
+    setPeriodoAcademico('');
+    setFechaCreacion('');
+    setMateria('');
+    setValorNota('');
+    setTipoNota('');
+    setDescripcionNota('');
+  }
+  if (op === 2) {
+    setTitle('Editar Nota');
+    // Establecer los valores de los campos del formulario con los valores de la nota seleccionada
+    setNotaId(nota.notaId);
+    setEstudiante(nota.estudiante);
+    setCurso(nota.curso);
+    setPeriodoAcademico(nota.periodoAcademico);
+    // Establecer el valor de la fecha con el formato correcto
+    setFechaCreacion(new Date(nota.fechaCreacion).toISOString().slice(0, 16));
+    setMateria(nota.materia);
+    setValorNota(nota.valorNota);
+    setTipoNota(nota.tipoNota);
+    setDescripcionNota(nota.descripcionNota);
+  }
+  setShowModal(true);
+};
 
-  const enviarSolicitud = async (metodo, parametros) => {
-    try {
-      const response = await (metodo === 'POST'
-        ? axios.post(url, parametros)
-        : axios.put(`${url}/${candidatoEstudianteId}`, parametros));
+const validar = () => {
+  // Verificar que los campos obligatorios estén llenos
+  if (!estudiante || estudiante.trim() === "") {
+    show_alert('Escribe el nombre completo del estudiante', 'error');
+    return;
+  }
+  if (!curso) {
+    show_alert('Escribe el curso', 'error');
+    return;
+  }
+  if (!periodoAcademico) {
+    show_alert('Selecciona el periodo academico', 'error');
+    return;
+  }
+
+  if (!fechaCreacion) {
+    show_alert('Selecciona la fecha de creacion', 'error');
+    return;
+  }
+
   
-      if (response.data) {
-        show_alert('Operación exitosa', 'success');
-        document.getElementById('btnCerrar').click();
-        getCandidatoEstudiante();
-      } else {
-        show_alert('Error en la solicitud', 'error');
+  if (!materia) {
+    show_alert('escribe la materia', 'error');
+    return;
+  }
+  if (!valorNota) {
+    show_alert('Escribe el valor de la nota', 'error');
+    return;
+  }
+  if (!tipoNota) {
+    show_alert('Selecciona el tipo de nota', 'error');
+    return;
+  }
+  if (!descripcionNota) {
+    show_alert('describe detalladamente la nota', 'error');
+    return;
+  }
+
+  let parametros;
+  let metodo;
+
+  if (operation === 1) {
+    parametros = {
+      estudiante: estudiante,
+      curso: curso,
+      periodoAcademico: periodoAcademico,
+      fechaCreacion: fechaCreacion,
+      materia: materia,
+      valorNota: valorNota,
+      tipoNota: tipoNota,
+      descripcionNota: descripcionNota,
+
+      notaId: [notaId]
+    };
+    metodo = "POST";
+    cerrarModal();
+  } else {
+    parametros = {
+      estudiante: estudiante,
+      curso: curso,
+      periodoAcademico: periodoAcademico,
+      fechaCreacion: fechaCreacion,
+      materia: materia,
+      valorNota: valorNota,
+      tipoNota: tipoNota,
+      descripcionNota: descripcionNota,
+
+      notaId: [notaId]
+      
+    };
+    metodo = "PUT";
+    cerrarModal();
+  }
+  enviarSolicitud(metodo, parametros);
+};
+const cerrarModal = () => {
+  const modal = document.getElementById('modalnotas');
+  modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
+  modal.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté marcado como oculto para accesibilidad
+  document.body.classList.remove('modal-open'); // Eliminar la clase 'modal-open' del body para permitir el scroll nuevamente
+  const modalBackdrop = document.querySelector('.modal-backdrop'); // Eliminar el backdrop del modal si existe
+  if (modalBackdrop) {
+    document.body.removeChild(modalBackdrop);
+  }
+  setShowModal(false);
+};
+
+const enviarSolicitud = async (metodo, parametros) => {
+  if (metodo === "POST") {
+    await axios.post(url, parametros);
+    show_alert('Alumnos Registrado', 'El alumno ha sido registrad@ correctamente');
+  }
+  if (metodo === "PUT") {
+    await axios.put(url + '/' + notaId, parametros);
+    show_alert('Alumno Editad@', 'El alumno ha sido editad@ correctamente');
+  }
+  // Obtener nuevamente los datos de todas las materias después de la operación
+  getnotas();
+};
+
+const deletecursos = (notaId, estudiante) => {
+  const MySwal = withReactContent(Swal);
+  MySwal.fire({
+    title: '¿Estás seguro de eliminar a '+ estudiante + '?',
+          text: "¡No podrás revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, eliminar!',
+    cancelButtonText: 'Cancelar'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`${url}/${notaId}`);
+        show_alert("Alumno eliminad@ exitosamente", "success");
+        getnotas();
+      }catch (error){
+        show_alert("No se pudo eliminar el alumno", "error");
       }
-    } catch (error) {
-      show_alert('Error en la solicitud', 'error');
-      console.error(error);
+    }else {
+      show_alert("El alumno no fue elimino", "info")
     }
-  };
-  const deleteCandidatoestudiante = (candidatoEstudianteId, nombres) => {
-    const MySwal = withReactContent(Swal);
-    MySwal.fire({
-      title: `¿Seguro quieres eliminar al acudiente ${nombres}?`,
-      icon: 'question',
-      text: 'No se podrá dar marcha atrás',
-      showCancelButton: true,
-      confirmButtonText: 'Si, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axios.delete(`${url}/${candidatoEstudianteId}`);
-          show_alert('Acudiente eliminado exitosamente', 'success');
-          getCandidatoEstudiante();
-        } catch (error) {
-          show_alert('Error al eliminar al acudiente', 'error');
-          console.error(error);
-        }
-      } else {
-        show_alert('El acudiente no fue eliminado', 'info');
-      }
-    });
-  };
-
-    return(
-        
-            <React.Fragment>
-<main className="full-box main-container">	
-	
-	<section className="full-box nav-lateral">
-		<div className="full-box nav-lateral-bg show-nav-lateral"></div>
-		<div className="full-box nav-lateral-content">
-			<figure className="full-box nav-lateral-avatar">
-				<i className="far fa-times-circle show-nav-lateral"></i>
-				<figcaption className="SRMNPE text-center">
-					SRUNPE <br/><small className="roboto-condensed-light"></small>
-				</figcaption>
-				<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
-				<figcaption className="roboto-medium text-center">
-					Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
-				</figcaption>
-			</figure>
-			<div className="full-box nav-lateral-bar"></div>
-			<nav className="full-box nav-lateral-menu">
-            <ul>
-                                    <li>
-                                    <Link to={'/docente'}>
-                                        <i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
-                                    </Link>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
-                                        <ul>	
-                                        
-                                            <li>
-                                                <Link to={'/Docenteelegircurso'}>
-                                                <a ><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
-                                                </Link>	
-                                            </li>
-                                        							
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
-                                        <ul>  
-                                        
-                                        <li>
-                                            <Link to={'/Docenteestudiantelista'}>
-                                            <a ><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                                            </Link>
-                                        </li>
-                                        
-                                        
-                                        <li>
-                                            <Link to={'/Docentebuscarestudiante'}>
-                                            <a ><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                                            </Link>
-                                        </li>
-                                        
-                                        </ul>
-                                    </li>
-                                    {/*<li>
-                                    <Link to={'/DocenteReclamos'}>
-                                        <i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
-    </Link>
-    </li>*/}
-                                </ul>
-				</nav>
-			</div>
-		</section>
-	
-
-
-		
-		<section className="full-box page-content">
-        <nav className="full-box navbar-info">
-            <a className="float-left show-nav-lateral">
-                <i className="fas fa-exchange-alt"></i>
-            </a>
-            <Link to={'/DocenteuserUpdate'}>
-            <a >
-                <i className="fas fa-user-cog"></i>
-            </a>
-            </Link>
-            <a className="btn-exit-system">
-                <i className="fas fa-power-off"></i>
-            </a>
-        </nav>
-
-			
-			<div className="full-box page-header">
-				<h3 className="text-left">
-					<i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
-				</h3>
-				<p className="text-justify">
-					
-				</p>
-			</div>
-
-			<div className="container-fluid">
-                <ul className="full-box list-unstyled page-nav-tabs">
+  })
+}
+const filterednotas = notas.filter((nota) => {
+  const fullName = nota.estudiante.toLowerCase();
+  return fullName.includes(searchTerm.toLowerCase()); 
+});
+  return (
+    <React.Fragment>
+      <main className="full-box main-container">
+        <section className="full-box nav-lateral">
+          <div className="full-box nav-lateral-bg show-nav-lateral"></div>
+          <div className="full-box nav-lateral-content">
+            <figure className="full-box nav-lateral-avatar">
+              <i className="far fa-times-circle show-nav-lateral"></i>
+              <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar" />
+              <figcaption className="roboto-medium text-center">
+                Nombre de docente <br />
+                <small className="roboto-condensed-light">
+                  <p>
+                    <span className="badge badge-success">Docente</span>
+                  </p>
+                </small>
+              </figcaption>
+            </figure>
+            <div className="full-box nav-lateral-bar"></div>
+            <nav className="full-box nav-lateral-menu">
+              <ul>
+                <li>
+                  <Link to={'/Docente'}>
+                    <i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
+                  </Link>
+                </li>
+                
+                <li>
+                  <a href="#" className="nav-btn-submenu">
+                    <i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos{' '}
+                    <i className="fas fa-chevron-down"></i>
+                  </a>
+                  <ul>
                     <li>
-                    <Link to={'/Docenteestudiantelista'}>
-                        <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; lista de estudiantes
-                    </Link>
+                      <Link to={'/Docenteelegircurso'}>
+                        <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" className="nav-btn-submenu">
+                    <i className="fas fa-users fa-fw"></i> &nbsp; Estudiantes{' '}
+                    <i className="fas fa-chevron-down"></i>
+                  </a>
+                  <ul>
+                    <li>
+                      
+                        <a href='/Docenteestudiantelista'><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+                      
                     </li>
                     <li>
-                        <a className="active" href="Docente-buscar-estudiante.html"><i className="fas fa-search fa-fw"></i> &nbsp;buscar estudiante</a>
+                      <Link to={'/Docentebuscarestudiante'}>
+                        <i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                {/*<li>
+                  <Link to={'/DocenteReclamos'}>
+                    <i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
+  </Link>
+  </li>*/}
+              </ul>
+            </nav>
+          </div>
+        </section>
+
+        <section className="full-box page-content">
+          <nav className="full-box navbar-info">
+            <a className="float-left show-nav-lateral">
+              <i className="fas fa-exchange-alt"></i>
+            </a>
+            <a href='/Docenteuserupdate'>
+                                <i className="fas fa-user-cog"></i>
+                            </a>
+            <a className="btn-exit-system">
+              <i className="fas fa-power-off"></i>
+            </a>
+          </nav>
+          
+
+
+
+          <div className="full-box page-header">
+                <h3 className="text-left">
+                    <i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
+                </h3>
+                <p className="text-justify">
+                    
+                </p>
+            </div>
+            <div className="container-fluid">
+                <ul className="full-box list-unstyled page-nav-tabs">
+                    <li>
+                      <div
+                        onClick={() => openModal(1)}
+                        data-toggle="modal"
+                        data-target="#modalnotas" // Corregido el target
+                    >
+                        
+                    </div>
+                    </li>
+                   
+                    
+                    <li>
+                        <a style={{color: 'black'}} href="/Docenteestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ESTUDIANTES</a>
                     </li>
                     
                 </ul>
             </div>
-			
-			
-			<div className="container-fluid">
-				<form className="form-neon" onSubmit={(e) => e.preventDefault()}>
-					<div className="container-fluid">
-						<div className="row justify-content-md-center">
-							<div className="col-12 col-md-6">
-								<div className="form-group">
-									<label for="inputSearch" className="frome bmd-label-floating">¿Qué estudiante estas buscando?</label>
-									<input type="text" className="form-control" name="busqueda-" id="inputSearch" maxlength="30" value={searchTerm} onChange={handleSearchChange}/>
+            <div class="container-fluid">
+				<form class="form-neon" onSubmit={(e) => e.preventDefault()}>
+					
+						<div class="row justify-content-md-center">
+							<div class="col-12 col-md-6">
+								<div class="form-group">
+									<label for="inputSearch" class="frome bmd-label-floating">¿Qué estas buscando? Inserta el nombre del alumno</label>
+									<input type="text" class="form-control" name="busqueda_reservation" id="inputSearch" maxlength="30" value={searchTerm} onChange={handleSearchChange} />
 								</div>
 							</div>
-							<div className="col-12">
-								<p className="text-center" >
-									<button type="submit" className="btn btn-raised btn-info" onClick={getCandidatoEstudiante}><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
+							<div class="col-12">
+								<p class="text-center" style={{marginTop: "40px"}}>
+									<button type="submit" class="btn btn-raised btn-info"  onClick={getnotas}><i class="fas fa-search"></i> &nbsp; BUSCAR</button>
 								</p>
 							</div>
 						</div>
-					</div>
+					
 				</form>
 			</div>
 
-			
-			<div className="container-fluid">
-				
-			
 
-
-			<div className="table-responsive">
-                <table className="table table-dark table-sm">
+          <div className="container-fluid">
+            <div className="table-responsive" style={{ overflowY: 'auto', maxHeight: '70vh' }}>
+              <table className="table table-dark table-sm">
                 <thead>
-                <tr className="text-center roboto-medium">
-                  <th>#</th>
-                  
-                  <th>NOMBRE</th>
-                  <th>APELLIDO</th>
-                  <th>ASISTENCIA</th>
-                  <th>NOTA</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-              {filteredestudiante.map((CandidatoEstudiante, i) => (
-                <tr key={CandidatoEstudiante.candidatoEstudianteId} className="text-center">
-                  <td className="#">{i + 1}</td>
-                  
-                  <td className="nombre" >{CandidatoEstudiante.nombre}</td>
-                  <td className="apellido">{CandidatoEstudiante.apellido}</td>
-                  <td className="asistencia">
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <select className="form-control" name="item_estado" id="item_estado">
-                          <option value="" selected="" disabled="">
-                            Seleccione una opción
-                          </option>
-                          <option selected="" value="Habilitado">
-                            ASISTENCIA
-                          </option>
-                          <option value="Deshabilitado">INASISTENCIA</option>
-                          <option value="Deshabilitado">EVADIENDO CLASE</option>
-                        </select>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="nota">
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}"
-                          className="form-control"
-                          name="cliente_nombre"
-                          id="cliente_nombre"
-                          maxLength="40"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                  
-                </tr>
+                  <tr className="text-center roboto-medium">
+                    <th>#</th>
+                    <th>NOMBRE</th>
+                    <th>CURSO</th>
+                    <th>PERIODO ACADEMICO</th>
+                    <th>FECHA DE CREACION</th>
+                    <th>MATERIA</th>
+                    <th>VALOR DE LA NOTA</th>
+                    <th>TIPO DE NOTA</th>
+                    <th>DESCRIPCION NOTA</th>
+                    <th>ACTUALIZAR/ELIMINAR</th>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody className="table-group-divider">
+                          {filterednotas.map((notas, i) => (
+                      <tr className="text-center" key={notas.notaId}> 
+                      <td><span className="table-index">{i + 1}</span></td>
+                      <td><span className="table-estudiante">{notas.estudiante}</span></td>
+                      <td><span className="table-curso">{notas.curso}</span></td>
+                      <td><span className="table-periodo">{notas.periodoAcademico}</span></td>
+                      <td><span className="table-fechac">{notas.fechaCreacion}</span></td>
+                      <td><span className="table-materia">{notas.materia}</span></td>
+                      <td><span className="table-valorn">{notas.valorNota}</span></td>
+                      <td><span className="table-tipon">{notas.tipoNota}</span></td>
+                      <td><span className="table-descripcion">{notas.descripcionNota}</span></td>
+                      
+                      <td>
+                          <button onClick={() => openModal(2, notas)} className="btn btn-success" data-toggle='modal' data-target='#modalnotas'>
+                              <i className="fas fa-edit"></i>
+                          </button>
+                          / &nbsp;
+                          <button onClick={() => deletecursos(notas.notaId, notas.estudiante,notas.curso,notas.periodoAcademico,notas.fechaCreacion,notas.materia,notas.valorNota,notas.tipoNota,notas.descripcionNota)} className="btn btn-danger">
+                              <i className="far fa-trash-alt"></i>
+                          </button>
+                      </td>
+                  </tr>
               ))}
-              </tbody>
-                </table>
-              </div>
-              </div>
-              <div className="container-fluid">
-              <nav aria-label="Page navigation example">
-                <ul className="pagination justify-content-center">
-                  <li className="page-item disabled">
-                    <a className="page-link" href="#" tabIndex="-1">
-                      Anterior
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      Siguiente
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+          </tbody>
+              </table>
             </div>
-            </section>
-	
-        </main>
-	
+          </div>
 
-            </React.Fragment>
-        
-    )
+          <div id="modalnotas" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="fas fa-times-circle" aria-label="Close" onClick={cerrarModal}></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="cursos" />
+              <div className="input-group mb-3">
+                 
+              </div>
+                    
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
+                    <input
+                        type="text"
+                        id="estudiante"
+                        className="form-control"
+                        placeholder="Nombre"
+                        value={estudiante} 
+                        onChange={(e) => setEstudiante(e.target.value)}
+                      />
+                    </div>
+
+
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="curso"
+                      className="form-control"
+                      placeholder="Curso"
+                      value={curso}
+                      onChange={(e) => setCurso(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="input-group mb-3">
+                      <span className="input-group-text">
+                        <i className="fas fa-sort-numeric-up-alt"></i>
+                      </span>
+                      <select
+                        id="periodoa"
+                        className="form-select"
+                        value={periodoAcademico}
+                        onChange={(e) => setPeriodoAcademico(e.target.value)}
+                      >
+                        <option value="">Selecciona el período académico</option>
+                        <option value="Periodo uno">Periodo uno</option>
+                        <option value="Periodo dos">Periodo dos</option>
+                        <option value="Periodo tres">Periodo tres</option>
+                        <option value="Periodo cuatro">Periodo cuatro</option>
+                      </select>
+                    </div>
+
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="datetime-local"
+                      id="fechac"
+                      className="form-control"
+                      placeholder="Fecha de creacion"
+                      value={fechaCreacion}
+                      onChange={(e) => setFechaCreacion(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="materia"
+                      className="form-control"
+                      placeholder="Materia"
+                      value={materia}
+                      onChange={(e) => setMateria(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="number"
+                      id="valorn"
+                      className="form-control"
+                      placeholder="Valor de la nota"
+                      value={valorNota}
+                      onChange={(e) => setValorNota(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <select
+                      id="tipon"
+                      className="form-select"
+                      value={tipoNota}
+                      onChange={(e) => setTipoNota(e.target.value)}
+                    >
+                      <option value="">Selecciona el tipo de nota</option>
+                      <option value="Periodo uno">Examen</option>
+                      <option value="Periodo dos">Trabajo practico</option>
+                      <option value="Periodo tres">Exposicion</option>
+                      <option value="Periodo cuatro">Ensayo</option>
+                      <option value="Periodo cuatro">Examen final</option>
+                    </select>
+                  </div>
+
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="descripcionn"
+                      className="form-control"
+                      placeholder="Tipo de nota"
+                      value={descripcionNota}
+                      onChange={(e) => setDescripcionNota(e.target.value)}
+                    />
+                  </div>
+
+
+                  
+                  <div className="d-grid col-6 mx-auto">
+                    <div className="d-flex justify-content-center align-items-center h-100">
+                      <button onClick={() => validar()} className="btn btn-success">
+                        Guardar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <div className="d-flex justify-content-center align-items-center h-100">
+                    <button
+                      type="button"
+                      id="btnCerrar"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </React.Fragment>
+  );
 }
