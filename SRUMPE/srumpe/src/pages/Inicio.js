@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Secretaria() {
     return(
-        
             <React.Fragment>
-            
-	
             <div className="">
 	<main className=" main-container">
 	<nav className="full-box navbar-info">
@@ -15,19 +12,14 @@ export default function Secretaria() {
             </a>
         </nav>
 		<section className="full-box page-contentt" style={{ overflowY: 'scroll', maxHeight: 'calc(100vh - 56px)' }}>
-       
         <div className="scrollable-content" /*style={{backgroundColor:"white", marginLeft:'50px', marginTop:'50px', marginRight:'50px', marginBottom:'50px'}}*/>
-			
-        
 			<div className="full-box page-header "  >	
             <img src="/assets/img/logotipo-6.jpeg" alt="Logotipo del colegio" className="logo-img-inicio"/>
 				<h4 className="text-center">
 					 &nbsp; 
 				</h4>
-				
 			</div>
             <hr></hr>
-            
 			<div className="full-box page-header">	
 				<h2 className="text-center">
 					<i className="fas fa-feather-alt"></i> &nbsp;Proposito
@@ -44,18 +36,9 @@ export default function Secretaria() {
 				"Un camino transparente hacia el éxito académico: Descubre la excelencia con nuestro innovador sistema de registro de usuarios y notas escolares."</p>			</div>
 			</div>
 			<hr></hr>
-
 		</section>
 	</main>
-	
-	
-	
-	
 </div>
-
-
-
             </React.Fragment>
-        
     )
 }

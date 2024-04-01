@@ -9,8 +9,7 @@ import Swal from 'sweetalert2';
 
 export default function Docenteestudiantelista() {
   
-  const url = 'https://localhost:5001/api/notas'
-  
+  const url = 'https://localhost:7284/api/notas'
   const [notas, setNotas] = useState([]);
   const [notaId, setNotaId] = useState('');
   const [estudiante, setEstudiante] = useState('');//
@@ -21,12 +20,13 @@ export default function Docenteestudiantelista() {
   const [valorNota, setValorNota] = useState('');//
   const [tipoNota, setTipoNota] = useState('');//
   const [descripcionNota, setDescripcionNota] = useState('')//
-
   const [showModal, setShowModal] = useState(false);
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
 
-  
+  const [notasSeleccionadas, setNotasSeleccionadas] = useState([]);
+  const [promedio, setPromedio] = useState(null); // Estado para almacenar el promedio de las notas seleccionadas
+
 
   const getnotas = async () => {
     try {
@@ -97,13 +97,10 @@ const validar = () => {
     show_alert('Selecciona el periodo academico', 'error');
     return;
   }
-
   if (!fechaCreacion) {
     show_alert('Selecciona la fecha de creacion', 'error');
     return;
   }
-
-  
   if (!materia) {
     show_alert('escribe la materia', 'error');
     return;
@@ -134,7 +131,6 @@ const validar = () => {
       valorNota: valorNota,
       tipoNota: tipoNota,
       descripcionNota: descripcionNota,
-
       notaId: [notaId]
     };
     metodo = "POST";
@@ -149,9 +145,7 @@ const validar = () => {
       valorNota: valorNota,
       tipoNota: tipoNota,
       descripcionNota: descripcionNota,
-
       notaId: [notaId]
-      
     };
     metodo = "PUT";
     cerrarModal();
@@ -173,7 +167,7 @@ const cerrarModal = () => {
 const enviarSolicitud = async (metodo, parametros) => {
   if (metodo === "POST") {
     await axios.post(url, parametros);
-    show_alert('Nota Registradra', 'success');
+    show_alert('Nota Registrada', 'success');
   }
   if (metodo === "PUT") {
     await axios.put(url + '/' + notaId, parametros);
@@ -186,7 +180,7 @@ const enviarSolicitud = async (metodo, parametros) => {
 const deletecursos = (notaId, estudiante) => {
   const MySwal = withReactContent(Swal);
   MySwal.fire({
-    title: '¿Estás seguro de eliminar a '+ estudiante + '?',
+    title: '¿Estás seguro de eliminar la nota de '+ estudiante + '?',
           text: "¡No podrás revertir esto!",
           icon: 'warning',
           showCancelButton: true,
@@ -207,7 +201,35 @@ const deletecursos = (notaId, estudiante) => {
       show_alert("El alumno no fue elimino", "info")
     }
   })
-}
+};
+
+const handleCheckboxChange = (e, nota) => {
+  if (e.target.checked) {
+    // Agregar la nota seleccionada al estado de notas seleccionadas
+    setNotasSeleccionadas([...notasSeleccionadas, nota]);
+  } else {
+    // Eliminar la nota de las notas seleccionadas si se desmarca la casilla de verificación
+    setNotasSeleccionadas(notasSeleccionadas.filter(item => item !== nota));
+  }
+};
+
+// Función para calcular el promedio de las notas seleccionadas
+const calcularPromedio = () => {
+  // Verificar si hay notas seleccionadas
+  if (notasSeleccionadas.length === 0) {
+    show_alert('Selecciona al menos una nota para calcular el promedio', 'error');
+    return;
+  }
+
+  // Calcular el promedio sumando los valores de las notas y dividiendo entre el número de notas
+  const totalNotas = notasSeleccionadas.reduce((acc, nota) => acc + nota.valorNota, 0);
+  const promedio = totalNotas / notasSeleccionadas.length;
+
+  // Actualizar el estado del promedio
+  setPromedio(promedio.toFixed(2)); // Redondear el promedio a dos decimales
+};
+
+
   return (
     <React.Fragment>
       <main className="full-box main-container">
@@ -216,7 +238,6 @@ const deletecursos = (notaId, estudiante) => {
                         <div className="full-box nav-lateral-content">
                             <figure className="full-box nav-lateral-avatar">
                                 <i className="far fa-times-circle show-nav-lateral"></i>
-                                
                                 <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
                                 <figcaption className="roboto-medium text-center">
                                 Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
@@ -231,68 +252,55 @@ const deletecursos = (notaId, estudiante) => {
                                     </a>
                                     </li>
                                     <li>
-                                        <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+                                        <a href=" " className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
                                         <ul>	
-                                        
                                             <li>
                                                 <a href='/Docenteelegircurso'>
-                                                <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
+                                                <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos
                                                 </a>	
-                                            </li>
-                                        							
+                                            </li>				
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+                                        <a href=" " className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
                                         <ul>  
-                                        
                                         <li>
-                                            
                                             <a href='/Docenteestudiantelista'><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                                            
                                         </li>
-                                        
-                                        
                                         <li>
-                                            
                                             <a href='/Docentebuscarestudiante'><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                                            
                                         </li>
-                                        
                                         </ul>
                                     </li>
-                                    {/*<li>
-                                    <Link to={'/DocenteReclamos'}>
-                                        <i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
-                                    </Link>
-    </li>*/}
                                 </ul>
                             </nav>
                         </div>
                     </section>
-
         <section className="full-box page-content">
           <nav className="full-box navbar-info">
-            <a className="float-left show-nav-lateral">
+            <a href=' ' className="float-left show-nav-lateral">
               <i className="fas fa-exchange-alt"></i>
             </a >
             <a href='/Docenteuserupdate'>
                                 <i className="fas fa-user-cog"></i>
                             </a>
-            <a className="btn-exit-system">
+            <a href=' ' className="btn-exit-system">
               <i className="fas fa-power-off"></i>
             </a>
           </nav>
-          
-
-
-
           <div className="full-box page-header">
                 <h3 className="text-left">
                     <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ESTUDIANTES
                 </h3>
                 <p className="text-justify">
-                    
+                  {/* Resto del JSX del componente */}
+      <button onClick={calcularPromedio} className="btn btn-primary">
+        Calcular Promedio
+      </button>
+      {/* Mostrar el resultado del promedio si está disponible */}
+      {promedio !== null && (
+        <p>Promedio de las notas seleccionadas: {promedio}</p>
+      )}
                 </p>
             </div>
             <div className="container-fluid">
@@ -303,19 +311,14 @@ const deletecursos = (notaId, estudiante) => {
                         data-toggle="modal"
                         data-target="#modalnotas" // Corregido el target
                     >
-                        <a ><i className="fas fa-plus fa-fw"></i>&nbsp;  Añadir nota/alumno nuevo</a>
+                        <a><i className="fas fa-plus fa-fw"></i>&nbsp;  Añadir nota/alumno nuevo</a>
                     </div>
                     </li>
-                   
-                    
                     <li>
                         <a style={{color: 'black'}} href="/Docentebuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR NOTA/ALUMNO </a>
                     </li>
-                    
                 </ul>
             </div>
-
-
           <div className="container-fluid">
             <div className="table-responsive" style={{ overflowY: 'auto', maxHeight: '70vh' }}>
               <table className="table table-dark table-sm">
@@ -331,8 +334,7 @@ const deletecursos = (notaId, estudiante) => {
                     <th>TIPO DE NOTA</th>
                     <th>DESCRIPCION NOTA</th>
                     <th>ACTUALIZAR/ELIMINAR</th>
-                    
-                    
+                    <th>SELECCIONAR</th> {/* Agregar columna para seleccionar la fila */}
                   </tr>
                 </thead>
                 <tbody className="table-group-divider">
@@ -347,7 +349,6 @@ const deletecursos = (notaId, estudiante) => {
                       <td><span className="table-valorn">{notas.valorNota}</span></td>
                       <td><span className="table-tipon">{notas.tipoNota}</span></td>
                       <td><span className="table-descripcion">{notas.descripcionNota}</span></td>
-                      
                       <td>
                           <button onClick={() => openModal(2, notas)} className="btn btn-success" data-toggle='modal' data-target='#modalnotas'>
                               <i className="fas fa-edit"></i>
@@ -357,13 +358,14 @@ const deletecursos = (notaId, estudiante) => {
                               <i className="far fa-trash-alt"></i>
                           </button>
                       </td>
+                      <td><input type="checkbox" onChange={(e) => handleCheckboxChange(e, notas)} /></td>
                   </tr>
               ))}
           </tbody>
               </table>
             </div>
+            
           </div>
-
           <div id="modalnotas" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -374,9 +376,7 @@ const deletecursos = (notaId, estudiante) => {
             <div className="modal-body">
               <input type="hidden" id="cursos" />
               <div className="input-group mb-3">
-                 
               </div>
-                    
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
                     <input
@@ -388,8 +388,6 @@ const deletecursos = (notaId, estudiante) => {
                         onChange={(e) => setEstudiante(e.target.value)}
                       />
                     </div>
-
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -403,7 +401,6 @@ const deletecursos = (notaId, estudiante) => {
                       onChange={(e) => setCurso(e.target.value)}
                     />
                   </div>
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -421,7 +418,6 @@ const deletecursos = (notaId, estudiante) => {
                       <option value="Periodo cuatro">Periodo cuatro</option>
                     </select>
                   </div>
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -435,7 +431,6 @@ const deletecursos = (notaId, estudiante) => {
                       onChange={(e) => setFechaCreacion(e.target.value)}
                     />
                   </div>
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -449,7 +444,6 @@ const deletecursos = (notaId, estudiante) => {
                       onChange={(e) => setMateria(e.target.value)}
                     />
                   </div>
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -463,7 +457,6 @@ const deletecursos = (notaId, estudiante) => {
                       onChange={(e) => setValorNota(e.target.value)}
                     />
                   </div>
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -482,7 +475,6 @@ const deletecursos = (notaId, estudiante) => {
                       <option value="Periodo cuatro">Examen final</option>
                     </select>
                   </div>
-
                   <div className="input-group mb-3">
                     <span className="input-group-text">
                       <i className="fas fa-sort-numeric-up-alt"></i>
@@ -496,9 +488,6 @@ const deletecursos = (notaId, estudiante) => {
                       onChange={(e) => setDescripcionNota(e.target.value)}
                     />
                   </div>
-
-
-                  
                   <div className="d-grid col-6 mx-auto">
                     <div className="d-flex justify-content-center align-items-center h-100">
                       <button onClick={() => validar()} className="btn btn-success">

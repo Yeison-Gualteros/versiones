@@ -51,8 +51,6 @@ export default function Docente() {
 		<a href="/" className="float-left">
 			<p className="fas fa-long-arrow-alt-left"><i > Volver </i></p>
 			</a>
-				
-	
 		</nav>
 		<br />
 			<ul>				
@@ -76,7 +74,6 @@ export default function Docente() {
 									<label htmlFor="exampleInputPassword1" className="bmd-label-floating"><i className="fas fa-keyy"></i> &nbsp; Contraseña</label>
 									<input type="password" className="form-control" id="UserPassword" name="clave" maxLength="200" value={password} onChange={handlePasswordChange}/>
 								</div>
-								
 								<div className="form-group">
 									<label htmlFor="UserPassword" className="bmd-label-floating"> &nbsp; </label>
 									<select className="form-select" aria-label="Default select example" value={selectedOption} onChange={handleSelectChange}>
@@ -87,13 +84,10 @@ export default function Docente() {
 									</select>
 								</div>
 								<div className="form-group">
-									<a >
+									<a href=' ' >
 										<label htmlFor="UserPassword" className="bmd-label-floating"><i className=""></i> &nbsp; ¿olvidaste la contraseña?</label>
 									</a>
-									
 								</div>
-								
-								
 								<div class=" col-7 mx-auto">
 									<button type="submit" className='btn btn-secondary '>Iniciar Sesión</button>	
 								</div>								</form>
@@ -102,9 +96,7 @@ export default function Docente() {
 			</ul>				
 		</nav>			
 	</div>
-	
 </div>
-
             </React.Fragment>
         
     )

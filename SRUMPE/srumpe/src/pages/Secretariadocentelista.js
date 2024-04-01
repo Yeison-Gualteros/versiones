@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentelista(){ 
 
-    const url = 'https://localhost:5001/api/Docente'
+    const url = 'https://localhost:7284/api/Docente'
     const [docente, setDocente] = useState([]);
     const [docenteId, setDocenteId] = useState('');
     const [nombreNumero, setNombreNumero] = useState('');
@@ -30,27 +30,35 @@ export default function Secretariadocentelista(){
   const [nivelExperiencia, setNivelExperiencia] = useState('');
   const [error, setError] = useState('');
     const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
-    const url4 = 'https://localhost:5001/api/aula';
+    const url4 = 'https://localhost:7284/api/aula';
     const [aulas, setAula] = useState([]);
     const [aulaId, setAulaId] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
     const [numeroIdentificacionOriginal, setNumeroIdentificacionOriginal] = useState('');
-    //const url2 = 'https://localhost:5001/api/cursos';
+    const [contadorDocente, setContadorDocente] = useState(0);
+
+    //const url2 = 'https://localhost:7284/api/cursos';
   //const [curso, setCursos] = useState([]);
 //const [cursoId, setCursoId] = useState('');
-  //const url3 = 'https://localhost:5001/api/materia'
+  //const url3 = 'https://localhost:7284/api/materia'
   //const [materia, setMateria] = useState([]);
 //const [MateriaId, setMateriaId] = useState('');
   useEffect(() => {
         getDocente();
     }, []);
     const getDocente = async () => {
+      try {
         const respuesta = await axios.get(url);
         setDocente(respuesta.data);
+        setContadorDocente(respuesta.data.length);
         //getCursos(respuesta.data);
         //getMateria(respuesta.data);
         getAula(respuesta.data);
+      } catch (e) {
+        console.log(e);
+      }
+        
     }
   /*useEffect(() => {
     fetch(url2)
@@ -73,15 +81,15 @@ export default function Secretariadocentelista(){
   }, []);*/
     
     /*const getCursos = async () => {
-        const response = await axios.get('https://localhost:5001/api/cursos');
+        const response = await axios.get('https://localhost:7284/api/cursos');
         setCursos(response.data);
     }
     const getMateria = async () => {
-        const response = await axios.get('https://localhost:5001/api/materia');
+        const response = await axios.get('https://localhost:7284/api/materia');
         setMateria(response.data);
     }*/
     const getAula = async () => {
-        const response = await axios.get('https://localhost:5001/api/aula');
+        const response = await axios.get('https://localhost:7284/api/aula');
         setAula(response.data);
     }
     const cerrarModal = () => {
@@ -281,7 +289,7 @@ export default function Secretariadocentelista(){
     };
     const handleDelete = async (docenteId) => {
         try {
-          await axios.delete(`https://localhost:5001/api/docente/${docenteId}`);
+          await axios.delete(`https://localhost:7284/api/docente/${docenteId}`);
           setDocente((prevDocentes) => prevDocentes.filter((d) => d.docenteId !== docenteId));
         } catch (error) {
           console.error('Error al eliminar docente', error);
@@ -323,6 +331,7 @@ export default function Secretariadocentelista(){
               show_alert("Docente eliminado con éxito", "success");
               document.getElementById("btnCerrar").click();
               getDocente();
+              setContadorDocente(contadorDocente - 1);
             }catch (error){
               show_alert("Error de solucitud", "error");
               console.log(error);
@@ -337,7 +346,7 @@ export default function Secretariadocentelista(){
 
 <main className="full-box main-container">
 		
-	<section className="full-box nav-lateral">
+<section className="full-box nav-lateral">
 			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div className="full-box nav-lateral-content">
 				<figure className="full-box nav-lateral-avatar">
@@ -366,6 +375,18 @@ export default function Secretariadocentelista(){
 								</li>
 								<li>
 									<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Acudiente <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaacudientelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Acudientes</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscaracudiente"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Acuendiente</a>
 								</li>
 							</ul>
 						</li>
@@ -406,11 +427,24 @@ export default function Secretariadocentelista(){
 							</ul>
 						</li>
 						<li>
-							<a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<a href=" " className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
 							<ul>
 								
 								<li>
 									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="far fa-calendar-alt"></i> &nbsp; Horarios <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/SecretariaHorarioslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Horarios</a>
+								</li>
+								<li>
+									<a href="/SecretariaHorariosbuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Horario</a>
 								</li>
 								
 							</ul>
@@ -441,6 +475,7 @@ export default function Secretariadocentelista(){
                     <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PROFESORES
                 </h3>
                 <p className="text-justify">
+                Total de docentes registrados: {contadorDocente}
                 </p>
             </div>
             <div className="container-fluid">
@@ -667,8 +702,8 @@ export default function Secretariadocentelista(){
                             <span className="input-group-text"><i className="far fa-calendar-alt center"></i>Fecha de contratación: </span>
                             <input 
                             type="date" 
-                            id="fecha" 
-                            name="fecha" 
+                            id="fechadecontratacion" 
+                            name="fechadecontratacion" 
                             className="form-control" 
                             value={fechaContratacion} 
                             max={(new Date()).toISOString().split("T")[0]} // Establecer la fecha máxima como la fecha actual
@@ -735,6 +770,7 @@ export default function Secretariadocentelista(){
                         <div className="input-group mb-3">
                           <span > <i className="fas fa-chalkboard-teacher"></i> Nivel de Experiencia</span>
                           <select 
+                          id='niveldeexperiencia'
                                 className="form-select" 
                                 value={nivelExperiencia} 
                                 onChange={(e) => setNivelExperiencia(e.target.value)}
@@ -747,7 +783,7 @@ export default function Secretariadocentelista(){
                         </div>
                         <div className="input-group mb-3">
                           <span > <i className="fas fa-chalkboard-teacher"></i> Estado Laboral</span>
-                            <select className="form-select" value={estadoLaboral} onChange={(e) => setEstadoLaboral(e.target.value)}>
+                            <select className="form-select" id='estadolaboral' value={estadoLaboral} onChange={(e) => setEstadoLaboral(e.target.value)}>
                                 <option value="">Seleccione Estado</option>
                                 <option value="Active">Activo</option>
                                 <option value="Inactivo">Inactivo</option>

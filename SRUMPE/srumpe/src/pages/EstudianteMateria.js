@@ -13,10 +13,7 @@ export default function EstudianteMaterias() {
 
     return(
         <React.Fragment>
-            
-            
 	<main className="full-box main-container">
-		
 		<section className="full-box nav-lateral">
 			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div className="full-box nav-lateral-content">
@@ -53,9 +50,6 @@ export default function EstudianteMaterias() {
                                 </Link>		
 							</ul>
 						</li>	
-						{/*<li>
-							<a ><i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos</a>
-						</li>*/}
 						<li>
 							<span style={{color: 'white'}}>
 								<a  className="nav-btn-submenu" onClick={toggleSubMenu}><i className="fas fa-info fa-fw"></i> &nbsp; Información <i className="fas fa-chevron-down"></i></a>
@@ -65,15 +59,12 @@ export default function EstudianteMaterias() {
                                         <a ><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Notas</a>
                                     </li>		
                                 </Link>
-														
 							</ul></span>
 						</li>
 					</ul>
 				</nav>
 			</div>
 		</section>
-
-		
 		<section className="full-box page-content">
 			<nav className="full-box navbar-info">
 				<a className="float-left show-nav-lateral">
@@ -88,8 +79,6 @@ export default function EstudianteMaterias() {
 					<i className="fas fa-power-off"></i>
 				</a>
 			</nav>
-
-			
 			<div className="full-box page-header">
 				<h3 className="text-left">
 					<i className="fas fa-vote-yea"></i> &nbsp; NOTAS DE CADA MATERIA
@@ -98,10 +87,6 @@ export default function EstudianteMaterias() {
 					{/*Aqui podra Seleccionar la materia en la cual desea ver sus Notas.*/}
 				</p>
 			</div>
-			
-			
-			
-			
 			<div className="container-fluid">
 				<form action="" className="form-neon" autocomplete="off">
 					<div className="container-fluid">
@@ -116,13 +101,11 @@ export default function EstudianteMaterias() {
                       <th>ESPAÑOL</th>
                       <th>QUIMICA</th>
                       <th>EDUCACION FISICA</th>
-
                       <th>FISICA</th>
                       <th>INGLES</th>
 					  <th>ETICA</th>
 					  <th>RELIGION</th>
 					  <th>ECONOMIA</th>
-					  
                     </tr>
                   </thead>
                   <tbody>
@@ -138,27 +121,16 @@ export default function EstudianteMaterias() {
 					  <td>1.8</td>
 					  <td>3.0</td>
                     </tr>
-                    
                   </tbody>
                 </table>
               </div>
-              
             </div>
-					
-					
-					
-							
 				</div>
 			</div>
-			
-
 		</form>
-        
 	</div>
 </section>
-	
     </main>
-	  
         </React.Fragment>
     )
 }

@@ -611,4 +611,36 @@ footer {
 }
 
 
+.my-footer-ul {
+	display: flex !important;
+	justify-content: space-around;
+	align-items: center; }
+  
+  .my-footer-item {
+	background: var(--white);
+	height: 2rem;
+	width: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer; }
+  
+  .my-footer-link {
+	display: block; }
+  
+	.my-footer .container-hero {
+		padding-bottom: 30px; }
+	  
+	  .my-footer .footer-p {
+		margin-top: 4rem; }
+	  
+	  .my-footer .my-hero {
+		margin-bottom: 0; }
+	  
+	  @media (min-width: 768px) {
+		.my-footer-ul {
+		  width: 50%;
+		  margin: 0 auto; } }
+	  
+
 /*----------  Keyframes  ----------*/

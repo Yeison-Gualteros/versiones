@@ -10,13 +10,10 @@ export default function Estudiante() {
   const toggleSubMenu = () => {
     setIsSubMenuOpen(!isSubMenuOpen);
   };
-
-	
     return(
         <React.Fragment>
             <div >
 	<main class="full-box main-container">
-		
 		<section class="full-box nav-lateral">
 			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div class="full-box nav-lateral-content">
@@ -53,9 +50,6 @@ export default function Estudiante() {
                                 </Link>		
 							</ul>
 						</li>	
-						{/*<li>
-							<a ><i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos</a>
-						</li>*/}
 						<li>
 							<span style={{color: 'white'}}>
 								<a  className="nav-btn-submenu" onClick={toggleSubMenu}><i className="fas fa-info fa-fw"></i> &nbsp; Información <i className="fas fa-chevron-down"></i></a>
@@ -65,22 +59,17 @@ export default function Estudiante() {
                                         <a ><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Notas</a>
                                     </li>		
                                 </Link>
-														
 							</ul></span>
 						</li>
 					</ul>
 				</nav>
 			</div>
 		</section>
-
-		
 		<section class="full-box page-content">
 			<nav class="full-box navbar-info">
-			
                     <a href="#" class="float-left show-nav-lateral">
                         <i class="fas fa-exchange-alt"></i>
                     </a>
-                    
                     <a >
                         <Link to={'/EstudianteuserUpdate'}>
                             <i class="fas fa-user-cog"></i>
@@ -89,11 +78,7 @@ export default function Estudiante() {
                     <a href="#" class="btn-exit-system">
                         <i class="fas fa-power-off"></i>
                     </a>
-                
-				
 			</nav>
-
-			
 			<img src="../assets/img/logotipo-6.jpeg" alt="Logotipo del colegio" class="logo-img"/>
 			<div class="full-box page-header">	
 				<h3 class="text-left">
@@ -103,9 +88,6 @@ export default function Estudiante() {
 					"Un camino transparente hacia el éxito académico: Descubre la excelencia con nuestro innovador sistema de registro de usuarios y notas escolares."
 				</p>
 			</div>
-			
-			
-			
 			<div class="container-fluid">
 				<form action="" class="form-neon" autocomplete="off">
 					<fieldset>
@@ -124,9 +106,6 @@ export default function Estudiante() {
                   </p>
 						<div class="container-fluid">
 							<div class="row">
-								
-																
-								
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="usuario_telefono" class="frome bmd-label-floating">Teléfono</label>
@@ -139,7 +118,6 @@ export default function Estudiante() {
 										<input type="text" pattern="[a-zA-Z0-99áéíóúÁÉÍÓÚñÑ()# ]{1,190}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190"/>
 									</div>
 								</div>
-								
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="item_estado" class="frome bmd-label-floating">Genero</label>
@@ -190,7 +168,6 @@ export default function Estudiante() {
 							</div>
 						</div>
 					</fieldset>
-					
 					<fieldset>
 						<p class="text-center">Para poder guardar los cambios en esta cuenta debe de ingresar su nombre de usuario y contraseña</p>
 						<div class="container-fluid">
@@ -214,14 +191,9 @@ export default function Estudiante() {
 						<button type="submit" class="btn btn-raised btn-success btn-sm"><i class="fas fa-sync-alt"></i> &nbsp; ACTUALIZAR</button>
 					</p>
 				</form>
-			
 	</div>	</section>
 	</main>
 	</div>
-	
-	
-	
-		
         </React.Fragment>
     )
 }

@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Secretariadocentebuscar() {
     const [searchTerm, setSearchTerm] = useState('');
-    const url = 'https://localhost:5001/api/Docente'
+    const url = 'https://localhost:7284/api/Docente'
     const [docente, setDocente] = useState([]);
     const [docenteId, setDocenteId] = useState('');
     const [nombreNumero, setNombreNumero] = useState('');
@@ -31,15 +31,15 @@ export default function Secretariadocentebuscar() {
   const [numeroIdentificacionOriginal, setNumeroIdentificacionOriginal] = useState('');
   const [, setError] = useState('');
     const [, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
-    //const url4 = 'https://localhost:5001/api/aula';
+    //const url4 = 'https://localhost:7284/api/aula';
     //const [aulas, setAula] = useState([]);
     //const [aulaId, setAulaId] = useState('');
     const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
-    const url2 = 'https://localhost:5001/api/cursos';
+    const url2 = 'https://localhost:7284/api/cursos';
   const [curso, setCursos] = useState([]);
 const [cursoId, setCursoId] = useState('');
-  const url3 = 'https://localhost:5001/api/materia'
+  const url3 = 'https://localhost:7284/api/materia'
   const [materia, setMateria] = useState([]);
 const [MateriaId, setMateriaId] = useState('');
   useEffect(() => {
@@ -73,15 +73,15 @@ const [MateriaId, setMateriaId] = useState('');
   }, []);
     
     const getCursos = async () => {
-        const response = await axios.get('https://localhost:5001/api/cursos');
+        const response = await axios.get('https://localhost:7284/api/cursos');
         setCursos(response.data);
     }
     const getMateria = async () => {
-        const response = await axios.get('https://localhost:5001/api/materia');
+        const response = await axios.get('https://localhost:7284/api/materia');
         setMateria(response.data);
     }
     {/*const getAula = async () => {
-        const response = await axios.get('https://localhost:5001/api/aula');
+        const response = await axios.get('https://localhost:7284/api/aula');
         setAula(response.data);
     }*/}
     const cerrarModal = () => {
@@ -281,7 +281,7 @@ const [MateriaId, setMateriaId] = useState('');
     };
     const handleDelete = async (docenteId) => {
         try {
-          await axios.delete(`https://localhost:5001/api/docente/${docenteId}`);
+          await axios.delete(`https://localhost:7284/api/docente/${docenteId}`);
           setDocente((prevDocentes) => prevDocentes.filter((d) => d.docenteId !== docenteId));
         } catch (error) {
           console.error('Error al eliminar docente', error);
@@ -345,91 +345,116 @@ const [MateriaId, setMateriaId] = useState('');
 
 <main className="full-box main-container">
 		
-        <section className="full-box nav-lateral">
-                <div className="full-box nav-lateral-bg show-nav-lateral"></div>
-                <div className="full-box nav-lateral-content">
-                    <figure className="full-box nav-lateral-avatar">
-                        <i className="far fa-times-circle show-nav-lateral"></i>
-                        <figcaption className="SRMNPE text-center">
-                            SRUNPE <br/><small className="roboto-condensed-light"></small>
-                        </figcaption>
-                        <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
-                        <figcaption className="roboto-medium text-center">
-                        Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
-                        </figcaption>
-                    </figure>
-                    <div className="full-box nav-lateral-bar"></div>
-                    <nav className="full-box nav-lateral-menu">
-                        <ul>
-                            <li>
-                                <a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
-                            </li>
-    
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    
-                                    <li>
-                                        <a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                                    </li>
-                                </ul>
-                            </li>
-    
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    
-                                    <li>
-                                        <a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
-                                    </li>
-                                </ul>
-                            </li>
-    
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    
-                                    <li>
-                                        <a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    
-                                    <li>
-                                        <a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
-                                    </li>
-                                    
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    
-                                    <li>
-                                        <a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
-                                    </li>
-                                    
-                                </ul>
-                            </li>
-                            
-    
-                            
-                        </ul>
-                    </nav>
-                </div>
-            </section>
+<section className="full-box nav-lateral">
+			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div className="full-box nav-lateral-content">
+				<figure className="full-box nav-lateral-avatar">
+					<i className="far fa-times-circle show-nav-lateral"></i>
+					<figcaption className="SRMNPE text-center">
+						SRUNPE <br/><small className="roboto-condensed-light"></small>
+					</figcaption>
+					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+					<figcaption className="roboto-medium text-center">
+                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+					</figcaption>
+				</figure>
+				<div className="full-box nav-lateral-bar"></div>
+				<nav className="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Acudiente <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaacudientelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Acudientes</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscaracudiente"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Acuendiente</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
+								</li>
+								<li>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
+								</li>
+								<li>
+									<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="far fa-calendar-alt"></i> &nbsp; Horarios <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/SecretariaHorarioslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Horarios</a>
+								</li>
+								<li>
+									<a href="/SecretariaHorariosbuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Horario</a>
+								</li>
+								
+							</ul>
+						</li>
+						
+
+						
+					</ul>
+				</nav>
+			</div>
+		</section>
     
             
             <section className="full-box page-content">

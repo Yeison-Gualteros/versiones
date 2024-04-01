@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { Link } from 'react-router-dom';
 
 export default function Docenteelegircurso() {
-    const url = 'https://localhost:5001/api/cursos';
+    const url = 'https://localhost:7284/api/cursos';
     const [cursos, setCursos] = useState([]);
     const [cursoId, setCursoId] = useState('');
     const [codigoCurso, setCodigoCurso] = useState('');
@@ -63,7 +63,6 @@ export default function Docenteelegircurso() {
         setOperation(op);
         if (op === 1) {
             setTitle('Registrar curso');
-            // Limpia los campos si se abre para registrar
             setCursoId('');
             setCodigoCurso('');
             setDescripcion('');
@@ -78,8 +77,7 @@ export default function Docenteelegircurso() {
             setCupoMaximo('');
             setCupoActual('');
         } else if (op === 2) {
-            setTitle('VER');
-    
+            setTitle('Editar curso');
             setCursoId(curso.cursoId);
             setCodigoCurso(curso.codigoCurso);
             setDescripcion(curso.descripcion);
@@ -114,13 +112,10 @@ export default function Docenteelegircurso() {
         show_alert('Selecciona el departamento académico', 'error');
         return;
       }
-  
       if (!año) {
         show_alert('Selecciona el año', 'error');
         return;
       }
-  
-      
       if (!cupoMaximo) {
         show_alert('Escribe el cupo maximo', 'error');
         return;
@@ -137,17 +132,14 @@ export default function Docenteelegircurso() {
         show_alert('Selecciona el nivel', 'error');
         return;
       }
-  
       if (!estado) {
         show_alert('Selecciona el estado', 'error');
         return;
       }
-  
       if (!modalidad) {
         show_alert('Selecciona la modalidad', 'error');
         return;
       }
-  
       if (!fechaInicio) {
         show_alert('Selecciona la fecha de inicio', 'error');
         return;
@@ -174,7 +166,6 @@ export default function Docenteelegircurso() {
           modalidad: modalidad,
           fechaInicio: fechaInicio,
           fechaFinalizacion: fechaFinalizacion,
-          
           cursoId: [cursoId]
         };
         metodo = "POST";
@@ -182,7 +173,6 @@ export default function Docenteelegircurso() {
       } else {
         parametros = {
           cursoId: [cursoId],
-          
           codigoCurso: codigoCurso,
           descripcion: descripcion,
           departamentoAcademico: departamentoAcademico,
@@ -195,12 +185,10 @@ export default function Docenteelegircurso() {
           modalidad: modalidad,
           fechaInicio: fechaInicio,
           fechaFinalizacion: fechaFinalizacion,
-          
         };
         metodo = "PUT";
         cerrarModal();
       }
-      
     };
     const cerrarModal = () => {
       const modal = document.getElementById('modalcursos');
@@ -217,25 +205,15 @@ export default function Docenteelegircurso() {
     const filteredcursos = cursos.filter((cursos) => {
       const fullName = `${cursos.codigoCurso}`.toLowerCase();
       return fullName.includes(searchTerm.toLowerCase());
-  
     });
-  
-    
-  
-    
-
-  return(
-        
+  return( 
     <React.Fragment>
-
     <main className="full-box main-container">
-        
     <section className="full-box nav-lateral">
                         <div className="full-box nav-lateral-bg show-nav-lateral"></div>
                         <div className="full-box nav-lateral-content">
                             <figure className="full-box nav-lateral-avatar">
                                 <i className="far fa-times-circle show-nav-lateral"></i>
-                                
                                 <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
                                 <figcaption className="roboto-medium text-center">
                                 Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
@@ -252,69 +230,48 @@ export default function Docenteelegircurso() {
                                     <li>
                                         <a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
                                         <ul>	
-                                        
                                             <li>
                                                 <a href='/Docenteelegircurso'>
                                                 <a ><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos</a>
                                                 </a>	
-                                            </li>
-                                        							
+                                            </li>			
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
                                         <ul>  
-                                        
                                         <li>
-                                            
                                             <a href='/Docenteestudiantelista'><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-                                            
                                         </li>
-                                        
-                                        
                                         <li>
-                                            
                                             <a href='/Docentebuscarestudiante'><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-                                            
                                         </li>
-                                        
                                         </ul>
                                     </li>
-                                    {/*<li>
-                                    <Link to={'/DocenteReclamos'}>
-                                        <i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
-                                    </Link>
-    </li>*/}
                                 </ul>
                             </nav>
                         </div>
                     </section>
                     <section className="full-box page-content">
                     <nav className="full-box navbar-info">
-                        <a className="float-left show-nav-lateral">
+                        <a href=' ' className="float-left show-nav-lateral">
                             <i className="fas fa-exchange-alt"></i>
                         </a>
-                        <Link to={'/Docenteuserupdate'}>
-                        <a >
+                        <a href='/Docenteuserupdate'>
                             <i className="fas fa-user-cog"></i>
                         </a>
-                        </Link>
-                        <a className="btn-exit-system">
+                        <a href=' ' className="btn-exit-system">
                             <i className="fas fa-power-off"></i>
                         </a>
                     </nav>
-
-                    
                     <div className="full-box page-header">
                     <h3 className="text-left">
                     <i className="fas fa-layer-group fa-fw"></i> &nbsp; Elija un Curso
                   </h3>
               <p className="text-justify"></p>
             </div>
-
             <div className="container-fluid">
 				<form className="form-neon" onSubmit={(e) => e.preventDefault()}>
-					
 						<div className="row justify-content-md-center">
 							<div className="col-12 col-md-6">
 								<div className="form-group">
@@ -328,15 +285,10 @@ export default function Docenteelegircurso() {
 								</p>
 							</div>
 						</div>
-					
 				</form>
 			</div>
-            
-
-            
             <div className="container-fluid">
 			 <div className="table-responsive">
-					
 					<table className="table table-dark table-sm">
 						<thead>
 							<tr className="text-center roboto-medium">
@@ -353,8 +305,6 @@ export default function Docenteelegircurso() {
                 <th>MODALIDAD</th>
                 <th>FECHA INICIO</th>
                 <th>FECAH FINALIZACION</th>
-								
-								 
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
@@ -374,14 +324,10 @@ export default function Docenteelegircurso() {
         <td><span className="table-fechai">{cursos.fechaInicio}</span></td>
         <td><span className="table-fechaf">{cursos.fechaFinalizacion}</span></td>
         <td>
-                          
-                        
-                          
                       </td>
                   </tr>
               ))}
           </tbody>
-
 					</table>
 				</div>
 				<nav aria-label="Page navigation example">
@@ -400,7 +346,6 @@ export default function Docenteelegircurso() {
 			</div>
         </section>
     </main>
-    
 	<div id="modalcursos" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -411,9 +356,7 @@ export default function Docenteelegircurso() {
             <div className="modal-body">
               <input type="hidden" id="cursos" />
               <div className="input-group mb-3">
-                 
               </div>
-                    
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
                     <input
@@ -425,9 +368,6 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setCodigoCurso(e.target.value)}
                       />
                     </div>
-
-
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="far fa-newspaper"></i></span>
                     <input
@@ -439,7 +379,6 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setDescripcion(e.target.value)}
                       />
                     </div>
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-school"></i></span>
                     <input
@@ -451,10 +390,8 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setDepartamentoAcademico(e.target.value)}
                       />
                     </div>
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-book-open"></i>¿Cual es el nivel?</span>
-                    
                     <select
                         id="nivel"
                         className="form-select"
@@ -470,10 +407,8 @@ export default function Docenteelegircurso() {
                         ))}
                     </select>
                 </div>
-
                 <div className="input-group mb-3">
                   <span className="input-group-text"><i className="fas fa-book-open"></i>¿Cual es su estado?</span>
-                  
                   <select
                       id="estado"
                       className="form-select"
@@ -489,10 +424,8 @@ export default function Docenteelegircurso() {
                       ))}
                   </select>
               </div>
-
               <div className="input-group mb-3">
                 <span className="input-group-text"><i className="fas fa-chalkboard"></i>¿Cual es la modalidad?</span>
-                
                 <select
                     id="modalidad"
                     className="form-select"
@@ -508,10 +441,8 @@ export default function Docenteelegircurso() {
                     ))}
                 </select>
             </div>
-        
             <div className="input-group mb-3">
                 <span className="input-group-text"><i className="fas fa-chalkboard"></i>¿Cual es el metodo?</span>
-               
                 <select
                     id="metodos"
                     className="form-select"
@@ -527,7 +458,6 @@ export default function Docenteelegircurso() {
                     ))}
                 </select>
             </div>
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
                     <input
@@ -539,9 +469,6 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setAño(e.target.value)}
                       />
                     </div>
-
-          
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
                     <input
@@ -553,7 +480,6 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setCupoMaximo(e.target.value)}
                       />
                     </div>
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
                     <input
@@ -565,9 +491,6 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setCupoActual(e.target.value)}
                       />
                     </div>
-
-                    
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
                     <input
@@ -579,7 +502,6 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setFechaInicio(e.target.value)}
                       />
                     </div>
-
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-chalkboard"></i></span>
                     <input
@@ -591,10 +513,8 @@ export default function Docenteelegircurso() {
                         onChange={(e) => setFechaFinalizacion(e.target.value)}
                       />
                     </div>
-
                     <div className='d-grid col-6 mx-auto'>
                     <div className="d-flex justify-content-center align-items-center h-100">
-                      
                     </div>
                     </div>
                   </div>
@@ -605,12 +525,7 @@ export default function Docenteelegircurso() {
                   </div>
                 </div>
               </div>
-			  
 	</div>
     </React.Fragment>
-
-			
-
         )
-
 }

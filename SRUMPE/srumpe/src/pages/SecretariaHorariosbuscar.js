@@ -4,10 +4,9 @@ import { show_alert } from '../functions';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-export default function Secretariahorarioslista() {
+export default function SecretariaHorariosbuscar() {
     const URL = 'https://localhost:7284/api/horario'
-    const [mensajeExito, setMensajeExito] = useState('');
-  const [mensajeAdvertencia, setMensajeAdvertencia] = useState('');
+ 
 
   const [horario, setHorario] = useState([]);
   const [horarioId, setHorarioId] = useState('');
@@ -22,13 +21,12 @@ export default function Secretariahorarioslista() {
   const [fechaFinClases, setFechaFinClases] = useState(new Date());
   const [estadoHorario, setEstadoHorario] = useState('');
   const [notificacionCambioHorario, setNotificacionCambioHorario] = useState('');
-  
-
 
   const [showModal, setShowModal] = useState(false);
   const [operation, setOperation] = useState(1);
     const [title, setTitle] = useState('');
     const [contadorHorario, setContadorHorario] = useState(0);
+    const [searchTerm, setSearchTerm] = useState('');
 
 
     const url2 = 'https://localhost:7284/api/Docente'
@@ -44,6 +42,9 @@ export default function Secretariahorarioslista() {
     .then((data) => setDocente(data))
     
 }, [url2]);
+const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+};
 
   const getHorario = async () => {
     try {
@@ -103,7 +104,7 @@ export default function Secretariahorarioslista() {
         
     }
     window.setTimeout(function(){
-        document.getElementById('Nombre').focus();
+        document.getElementById('horainicio').focus();
     }, 500);
     setShowModal(true);
   };
@@ -196,7 +197,7 @@ if (estadoHorario === '') {
             respuesta = await axios.put(`${URL}/${horarioId}`, parametros)
         }
         console.log(`Solicitud ${metodo.toUpperCase()} exitosa:`, respuesta.data);
-        const mensajeExito = operation === 1 ? 'Horario Añadido exitasamente' : 'horario editado con exito';
+        const mensajeExito = operation === 1 ? 'Aula Añadida exitasamente' : 'Aula editada con exito';
         show_alert(mensajeExito, 'success');
         document.getElementById('btnCerrar').click();
         getHorario();
@@ -206,7 +207,7 @@ if (estadoHorario === '') {
     }
   }
 
-  const deleteAula = ( horarioId, nombreNumero) => {
+  const deleteAula = ( nombreNumero) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
         title: '¿Está seguro que desea eliminar el Horario?',
@@ -221,21 +222,23 @@ if (estadoHorario === '') {
         if (result.isConfirmed){
             try{
                 await axios.delete(`${URL}/${horarioId}`);
-                show_alert('Horario eliminado con éxito', 'success')
+                show_alert('Aula elimidad con éxito', 'success')
                 document.getElementById('btnCerrar').click();
                 getHorario();
                 setContadorHorario(contadorHorario - 1);
             }catch (error){
-                show_alert('Error al eliminar el horario', 'error');
-                console.error('Error al eliminar el horario', error);
+                show_alert('Error al eliminar aula', 'error');
+                console.error('Error al eliminar aula', error);
             }
         }else {
-            show_alert('El horario no fue eliminada', 'info');
+            show_alert('La aula no fue eliminada', 'info');
         }
       });
   };
-
-
+  const filteredhorario = horario.filter((Horario) => {
+    const fullName = Horario.diaSemana.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase()); 
+  });
     return(
         
             <React.Fragment>
@@ -388,22 +391,26 @@ if (estadoHorario === '') {
                     </div>
                     </li>
                     <li>
-                        <a className="active" href="/SecretariaHorariosbuscar"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE HORARIO</a>
+                        <a className="active" href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE HORARIO</a>
                     </li>
                     <li>
-                        <a style={{color: 'black'}} href="/SecretariaHorariosbuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR HORARIO</a>
+                        <a style={{color: 'black'}} href="/Secretariaulabuscar"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR HORARIO</a>
                     </li>
                 </ul>
             </div>
             <div className="container-fluid">
-                            <div className="row mt-3">
-                                <div className="col-md-4 offset-4">
-                                    <div className="d-gris mx-auto">
-                                        <div className="d-flex justify-content-center align-items-center h-100">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <form class="form-neon" onSubmit={(e) => e.preventDefault()}>
+						<div class="row justify-content-md-center">
+							<div class="col-12 col-md-6">
+								<div class="form-group">
+									<label for="inputSearch" class="frome bmd-label-floating">¿Qué estas buscando? Inserta el dia de la semana</label>
+									<input type="text" class="form-control" name="busqueda_reservation" id="inputSearch" maxlength="30" value={searchTerm} onChange={handleSearchChange} />
+								</div>
+							</div>
+							
+						</div>
+            
+				</form>
                         </div>
            <div className="container-fluid">
 				<div className="table-responsive">
@@ -425,7 +432,7 @@ if (estadoHorario === '') {
 							</tr>
 						</thead>
 						<tbody className="table-group-divider">
-							{horario.map((horario, i) =>( 
+							{filteredhorario.map((horario, i) =>( 
 							<tr className="text-center"  key={horario.horarioId}>
 								<td>{i+1}</td>
 								<td>{horario.diaSemana}</td>
@@ -484,15 +491,15 @@ if (estadoHorario === '') {
                 <span className="input-group-text"><i className="fas fa-calendar-week"></i>Dia de la semana</span>
                             <select className="form-select" value={diaSemana} onChange={(e) => setDiaSemana(e.target.value)}>
                                 <option value="">Seleccione dia de la semana:</option>
-                                <option value="Lunes">Lunes </option>
-                                <option value="Martes">Martes </option>
-                                <option value="Miercoles">Miercoles </option>
-                                <option value="Jueves">Jueves </option>
-                                <option value="Viernes">Viernes </option>
+                                <option value="Estudiante Nuevo">Lunes </option>
+                                <option value="Estudiante Antiguo">Martes </option>
+                                <option value="Estudiante Antiguo">Miercoles </option>
+                                <option value="Estudiante Antiguo">Jueves </option>
+                                <option value="Estudiante Antiguo">Viernes </option>
 
                             </select>
                         </div>
-                    {/*<div className="input-group mb-3">
+                    <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-clock"></i>Hora de inicio</span>
                       <input
                         type="time"
@@ -515,12 +522,12 @@ if (estadoHorario === '') {
                         onChange={(e) => {setHoraFin(e.target.value)}}
                         />
                       
-              </div>*/}
+                    </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-hourglass-half"></i>Duracionde la clase en minutos</span>
                       <input
                         type="text"
-                        id="Nombre"
+                        id="horafin"
                         className="form-control"
                         placeholder=""
                         value={DuracionClaseMinutos} 

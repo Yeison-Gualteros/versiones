@@ -14,10 +14,8 @@ export default function Docenteuserupdate() {
   };
 
   return (
-    
       <React.Fragment>
         <main className="full-box main-container">
-         
           <section className="full-box nav-lateral">
             <div className="full-box nav-lateral-bg show-nav-lateral"></div>
             <div className="full-box nav-lateral-content">
@@ -74,17 +72,10 @@ export default function Docenteuserupdate() {
                                     </ul>
                                 </span>
                                 </li>
-                                {/*<li>
-                                    <Link to={'/docentereclamos'}>
-                                        <i class="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos
-                                    </Link>
-  </li>*/}
                             </ul>
               </nav>
             </div>
           </section>
-
-       
           <section className="full-box page-content">
             <nav className="full-box navbar-info">
               <a  className="float-left show-nav-lateral">
@@ -97,8 +88,6 @@ export default function Docenteuserupdate() {
                 <i className="fas fa-power-off"></i>
               </a>
             </nav>
-
-          
             <div className="full-box page-header">
               <h3 className="text-left">
                 <i className="fas fa-sync-alt fa-fw"></i> &nbsp; ACTUALIZAR USUARIO
@@ -107,8 +96,6 @@ export default function Docenteuserupdate() {
 
               </p>
             </div>
-
-       
             <div className="container-fluid" style={{ overflowY: 'auto', maxHeight: '500px' }}>
               <form action="" className="form-neon" autoComplete="off">
                 <fieldset>
@@ -143,7 +130,6 @@ export default function Docenteuserupdate() {
                           />
                         </div>
                       </div>
-
                       <div className="col-12 col-md-4">
                         <div className="form-group">
                           <label htmlFor="usuario_nombre" className="frome bmd-label-floating">
@@ -316,7 +302,6 @@ export default function Docenteuserupdate() {
                     </div>
                   </div>
                 </fieldset>
-
                 <fieldset>
                   <p className="text-left">
                     -Para poder guardar los cambios en esta cuenta debe de ingresar su nombre de usuario y
@@ -365,10 +350,6 @@ export default function Docenteuserupdate() {
             </div>
           </section>
         </main>
-
-      
-        
       </React.Fragment>
-    
   );
 }

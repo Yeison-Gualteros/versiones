@@ -4,44 +4,50 @@ import { show_alert } from '../functions';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-export default function Secretariabuscarestudiante() {
 
-    
-  const [searchTerm, setSearchTerm] = useState('');
-  const url = 'https://localhost:7284/api/candidatoEstudiante';
-  const [candidatoEstudiantes, setCandidatoEstudiantes] = useState([]);
-  const [candidatoEstudianteId, setCandidatoEstudianteId] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [numeroContacto, setNumeroContacto] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [genero, setGenero] = useState('');
-  const [tipoPersona, setTipoPersona] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [tipoDocumento, setTipoDocumento] = useState('');
-  const [adjuntarDocumentos, setAdjuntarDocumentos] = useState('');
-  const [numeroDocumento, setNumeroDocumento] = useState('');
-  const [numeroIdentificacionAcudiente, setNumeroIdentificacionAcudiente] = useState('');
+export default function Secretariabuscaracudiente() {
+  const url = 'https://localhost:7284/api/Acudiente';
+
+  const [acudiente, setAcudiente] = useState([]);
+  const [acudienteId, setAcudienteId] = useState('');
+  const [nombres, setNombre] = useState('');
+  const [apellidos, setApellido] = useState('');
+  const [numeroIdentificacion, setNumeroIdentificacion] = useState('');
+  const [edad, setEdad] = useState('');
+  const [correoElectronico, setCorreoElectronico] = useState('');
+  const [relacionConEstudiante, setRelacionConEstudiante] = useState('');
+  const [estadoCivil, setEstadoCivil] = useState('');
+  const [ocupacion, setOcupacion] = useState('');
+  const [fechaRegistro, setFechaRegistro] = useState('');
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
-  const [NombreAcudienteRelacionado, setNombreAcudienteRelacionado] = useState('');
-  const [, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
+  const [searchTerm, setSearchTerm] = useState('');
+  
   
   useEffect(() => {
-    getCandidatoEstudiantes();
+    getAcudiente();
   }, []);
   
-  const getCandidatoEstudiantes = async () => {
+  const getAcudiente = async () => {
     try {
       const response = await axios.get(url);
-      setCandidatoEstudiantes(response.data);
+      setAcudiente(response.data);
     } catch (error) {
-      console.error('Error fetching candidatoEstudiantes:', error);
+      console.error('Error fetching acudiente:', error);
     }
   };
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+};
+const filteredAcudiente = acudiente.filter((acudiente) => {
+	const fullName = `${acudiente.nombres} ${acudiente.apellidos}  `.toLowerCase();
+	return fullName.includes(searchTerm.toLowerCase());
+});
+
 
   const cerrarModal = () => {
-    const modal = document.getElementById('ModalCandidatoEstudiante');
+    const modal = document.getElementById('ModalAcudiente');
     modal.classList.remove('show'); // Eliminar la clase 'show' para ocultar el modal
     modal.setAttribute('aria-hidden', 'true'); // Asegurarse de que el modal esté marcado como oculto para accesibilidad
     document.body.classList.remove('modal-open'); // Eliminar la clase 'modal-open' del body para permitir el scroll nuevamente
@@ -51,40 +57,36 @@ export default function Secretariabuscarestudiante() {
     }
     setShowModal(false);
 };
-  const openModal = (op, candidatoEstudiante) => {
+  const openModal = (op, Acudiente) => {
     setOperation(op);
     if (op === 1) {
-      setTitle('Registrar Estudiante');
-      setCandidatoEstudianteId('');
+      setTitle('Registrar Acudiente');
+      // Restablecer los valores de los campos al abrir el modal para registrar
+      setAcudienteId('');
       setNombre('');
       setApellido('');
-      setNumeroContacto('');
-      setDireccion('');
-      setGenero('');
-      setTipoPersona('');
-      setFechaNacimiento('');
-      setTipoDocumento('');
-      setNumeroDocumento('');
-      setAdjuntarDocumentos('');
-      setNumeroIdentificacionAcudiente('');
-      setNombreAcudienteRelacionado('');
-      
+      setCorreoElectronico('');
+      setNumeroIdentificacion('');
+      setEdad('');
+      setRelacionConEstudiante('');
+      setEstadoCivil('');
+      setOcupacion('');
+      setFechaRegistro('');
     } else if (op === 2) {
-      setTitle('Editar Estudiante');
-      setCandidatoEstudianteId(candidatoEstudiante.candidatoEstudianteId);
-      setNombre(candidatoEstudiante.nombre);
-      setApellido(candidatoEstudiante.apellido);
-      setNumeroContacto(candidatoEstudiante.numeroContacto);
-      setDireccion(candidatoEstudiante.direccion);
-      setGenero(candidatoEstudiante.genero);
-      setTipoPersona(candidatoEstudiante.tipoPersona);
-      setFechaNacimiento(candidatoEstudiante.fechaNacimiento);
-      setTipoDocumento(candidatoEstudiante.tipoDocumento);
-      setNumeroDocumento(candidatoEstudiante.numeroDocumento);
-      setAdjuntarDocumentos(candidatoEstudiante.adjuntarDocumentos);
-      setNumeroIdentificacionAcudiente(candidatoEstudiante.numeroIdentificacionAcudiente);
-      setNombreAcudienteRelacionado(candidatoEstudiante.NombreAcudienteRelacionado); 
+      setTitle('Editar Acudiente');
+      // Establecer los valores de los campos al abrir el modal para editar
+      setAcudienteId(Acudiente.acudienteId);
+      setNombre(Acudiente.nombres);
+      setApellido(Acudiente.apellidos);
+      setCorreoElectronico(Acudiente.correoElectronico);
+      setNumeroIdentificacion(Acudiente.numeroIdentificacion);
+      setEdad(Acudiente.edad);
+      setRelacionConEstudiante(Acudiente.relacionConEstudiante);
+      setEstadoCivil(Acudiente.estadoCivil);
+      setOcupacion(Acudiente.ocupacion);
+      setFechaRegistro(Acudiente.fechaRegistro);
     }
+    // Enfocar el primer campo después de un breve retraso para asegurar que el enfoque ocurra después de que el modal esté completamente abierto
     window.setTimeout(function () {
       document.getElementById('Nombre').focus();
     }, 500);
@@ -92,41 +94,62 @@ export default function Secretariabuscarestudiante() {
   };
   
   const validar = () => {
-    if (nombre.trim() === '' || apellido.trim() === '' ||  direccion.trim() === '' ) {
-      show_alert('Todos los campos son obligatorios', 'error');
-    }else {
+    if (nombres === '' ) {
+      show_alert('El campo Nombre es obligatorio', 'info');
+      
+    }if (apellidos === ''){
+      show_alert('El campo Apellido es obligatorio', 'info');
+    }if (correoElectronico === '') {
+      show_alert('El campo de correo electronico es obligatorio', 'info');
+    }
+    if (numeroIdentificacion === '') 
+    {
+      show_alert('El campo de numero de identificacion es obligatorio', 'info');
+    }if (edad === '') 
+    {
+      show_alert('El campo de edad es obligatorio', 'info');
+    }
+    if (relacionConEstudiante === '') {
+      show_alert('El campo de relacion con el estudiante es obligatorio', 'info');
+    }
+    if (estadoCivil === '') { 
+      show_alert('El campo de estado civil es obligatorio', 'info');
+    }
+    if (ocupacion === '') {
+      show_alert('El campo de ocupacion es obligatorio', 'info');
+    }
+    if (fechaRegistro === '') {
+      show_alert('El campo de fecha de registro es obligatoria', 'info');
+    }
+    else {
       let parametros;
       let metodo;
       if (operation === 1) {
         parametros = {
-          nombre,
-          apellido,
-          numeroContacto: parseInt(numeroContacto),
-          direccion,
-          genero,
-          tipoPersona,
-          fechaNacimiento,
-          tipoDocumento,
-          numeroDocumento,
-          adjuntarDocumentos,
-          numeroIdentificacionAcudiente,
-          NombreAcudienteRelacionado
+        acudienteId: acudienteId,
+          nombres: nombres,
+          apellidos: apellidos,
+          correoElectronico: correoElectronico,
+          numeroIdentificacion: numeroIdentificacion,
+          edad: edad,
+          relacionConEstudiante : relacionConEstudiante,
+          estadoCivil : estadoCivil,
+          ocupacion  : ocupacion,
+          fechaRegistro: fechaRegistro
         };
         metodo = 'post';
       }else{
         parametros = {
-          nombre,
-          apellido,
-          numeroContacto: parseInt(numeroContacto),
-          direccion,
-          genero,
-          tipoPersona,
-          fechaNacimiento,
-          tipoDocumento,
-          numeroDocumento,
-          adjuntarDocumentos,
-          numeroIdentificacionAcudiente,
-          NombreAcudienteRelacionado
+          nombre: nombres,
+          apellido: apellidos,
+          correoElectronico: correoElectronico,
+          numeroIdentificacion: numeroIdentificacion,
+          edad: edad,
+          relacionConEstudiante: relacionConEstudiante,
+          estadoCivil: estadoCivil,
+          ocupacion: ocupacion,
+          fechaRegistro: fechaRegistro,
+          candidatoEstudianteId: acudienteId
         };
         metodo = 'put';
       }
@@ -141,20 +164,20 @@ export default function Secretariabuscarestudiante() {
       if (metodo === 'post') {
         respuesta = await axios.post(url, parametros);
       } else if (metodo === 'put') {
-        respuesta = await axios.put(`${url}/${candidatoEstudianteId}`, parametros);
+        respuesta = await axios.put(`${url}/${acudienteId}`, parametros);
       }
       console.log(`Solicitud ${metodo.toUpperCase()} exitosa:`, respuesta.data);
-      const mensajeExito = operation === 1 ? 'Estudiante añadido exitosamente' : 'Estudiante editado con éxito';
+      const mensajeExito = operation === 1 ? 'Acudiente añadido exitosamente' : 'Acudiente editado con éxito';
       show_alert(mensajeExito, 'success');
       document.getElementById('btnCerrar').click();
-      getCandidatoEstudiantes();
+      getAcudiente();
     } catch (error) {
       show_alert('Error de solicitud', 'error');
       console.error(error);
     }
   };
-
-    const deleteCandidatoEstudiante = (candidatoEstudianteId, nombre) => {
+    
+    const deleteAcudiente = (acudienteId) => {
       const MySwal = withReactContent(Swal);
       MySwal.fire({
         title: '¿Está seguro que desea eliminar el estudiante?',
@@ -168,44 +191,20 @@ export default function Secretariabuscarestudiante() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            await axios.delete(`${url}/${candidatoEstudianteId}`);
-            show_alert("Estudiante eliminado con éxito", "success");
+            await axios.delete(`${url}/${acudienteId}`);
+            show_alert("Acudiente eliminado con éxito", "success");
             document.getElementById("btnCerrar").click();
-            getCandidatoEstudiantes();
+            getAcudiente();
           }catch (error){
             show_alert("Error de solucitud", "error");
             console.log(error);
           }
         }else {
-          show_alert("el estudiante no fue eliminado", "info");
+          show_alert("el acudiente no fue eliminado", "info");
         }
       });
     };
-    
-  useEffect(() => {
-	getCandidatoEstudiante();
-}, []);
-
-const getCandidatoEstudiante = async () => {
-	try {
-		const response = await axios.get(url);
-		setCandidatoEstudiantes(response.data);
-	} catch (error) {
-		console.error('Error fetching data:', error);
-	}
-};
-
-const handleSearchChange = (event) => {
-	setSearchTerm(event.target.value);
-};
-
-const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => {
-	const fullName = `${estudiante.nombre} ${estudiante.apellido} ${estudiante.telefono} ${estudiante.direccion}`.toLowerCase();
-	return fullName.includes(searchTerm.toLowerCase());
-});
-
     return(
-
             <React.Fragment>
             <main className="full-box main-container">
             <section className="full-box nav-lateral">
@@ -285,12 +284,11 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
 								<li>
 									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
 								</li>
- 							</ul>
+							</ul>
 						</li>
 						<li>
 							<a href=" " className="nav-btn-submenu"><i className="far fa-calendar-alt"></i> &nbsp; Horarios <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								
 								<li>
 									<a href="/SecretariaHorarioslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Horarios</a>
 								</li>
@@ -305,89 +303,108 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
 		</section>
       <section className="full-box page-content">
         <nav className="full-box navbar-info">
-          <button  className="float-left show-nav-lateral btn btn-dark">
+          <a href="#" className="float-left show-nav-lateral">
             <i className="fas fa-exchange-alt"></i>
-          </button>
+          </a>
           <a href="/Secretariaactualizar">
             <i className="fas fa-user-cog"></i>
           </a>
-          <button  className="btn-exit-system btn btn-dark">
+          <a href="#" className="btn-exit-system">
             <i className="fas fa-power-off"></i>
-          </button>
+          </a>
         </nav>
 			<div className="full-box page-header">
 				<h3 className="text-left">
-					<i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE
+					<i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ACUDIENTES
 				</h3>
 				<p className="text-justify">
 				</p>
 			</div>
 			<div className="container-fluid">
 				<ul className="full-box list-unstyled page-nav-tabs">
+					<li
+         >
+          <div>
+          <a  onClick={() => openModal(1)}
+          className=""
+          data-toggle="modal"
+          data-target="#ModalAcudiente" ><i className="fas fa-plus fa-fw"></i> Añadir Acudiente nuevo</a>
+          </div>
+          </li>
 					<li>
-						<a style={{color: 'black'}} href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ESTUDIANTES</a>
+						<a className="active" href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ACUDIENTES</a>
 					</li>
 					<li>
-						<a className="active" href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ESTUDIANTE</a>
+						<a style={{color: 'black'}} href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; BUSCAR ACUDIENTES</a>
 					</li>
-				</ul>	
+				</ul> 
 			</div>
-			<div className="container-fluid">
-            <form className="form-neon" onSubmit={(e) => e.preventDefault()}>
+      <div className="container-fluid">
+      <form className="form-neon" onSubmit={(e) => e.preventDefault()}>
                 <div className="row justify-content-md-center">
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label htmlFor="inputSearch" className="frome bmd-label-floating">¿Qué estudiante estás buscando?</label>
+                            <label htmlFor="inputSearch" className="frome bmd-label-floating">¿Qué acudiente estás buscando?</label>
                             <input type="text" className="form-control" name="busqueda-" id="inputSearch" maxLength="30" value={searchTerm} onChange={handleSearchChange} />
                         </div>
                     </div>
                     <div className="col-12">
                         <p className="text-center" style={{ marginTop: "40px" }}>
-                            <button type="submit" className="btn btn-raised btn-info" onClick={getCandidatoEstudiante}><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
+                            <button type="submit" className="btn btn-raised btn-info" onClick={getAcudiente}><i className="fas fa-search"></i> &nbsp; BUSCAR</button>
                         </p> 
                     </div>
                 </div>
             </form>
-            <div className="container-fluid">
-                <div className="table-responsive">
-                    <table className="table table-dark table-sm">
-                        <thead>
-                            <tr className="text-center roboto-medium">
-                                <th>#</th>
-                                <th>NOMBRE</th>
-                                <th>APELLIDO</th>
-                                <th>NUMERO DE CONTACTO</th>
-                                <th>DIRECCION</th>
-                                <th>ACTUALIZAR/ELIMINAR</th>
-                            </tr>
-                        </thead>
-                        <tbody className="table-group-divider">
-							{filteredCandidatoEstudiante.map((CandidatoEstudiante, i) =>( 
-							<tr className="text-center"  key={CandidatoEstudiante.candidatoEstudianteId}>
+			<div className="container-fluid">
+				<div className="table-responsive">
+					<table className="table table-dark table-sm">
+						<thead>
+							<tr className="text-center roboto-medium">
+								<th>#</th>
+								<th>NOMBRE</th>
+								<th>APELLIDO</th>
+								<th>CORREO ELECTRONICO</th>
+								<th>NUMERO IDENTIFICACION</th>
+                <th>EDAD</th>
+                <th>RELACION CON ESTUDIANTE</th>
+                <th>ESTADO CIVIL</th>
+                <th>OCUPACION</th>
+                <th>FECHA DE REGISTRO</th>
+								<th>ACTUALIZAR/ELIMINAR</th>
+							</tr>
+						</thead>
+						<tbody className="table-group-divider text-center" >
+							{filteredAcudiente.map((acudiente, i) =>( 
+							<tr   key={acudiente.candidatoEstudianteId}>
 								<td>{i+1}</td>
-								<td>{CandidatoEstudiante.nombre}</td>
-								<td>{CandidatoEstudiante.apellido}</td>
-								<td>{CandidatoEstudiante.numeroContacto}</td>
-								<td>{CandidatoEstudiante.direccion}</td>
+								<td>{acudiente.nombres}</td>
+								<td>{acudiente.apellidos}</td>
+                <td>{acudiente.correoElectronico}</td>
+                <td>{acudiente.numeroIdentificacion}</td>
+								<td>{acudiente.edad}</td>
+								<td>{acudiente.relacionConEstudiante}</td>
+                <td>{acudiente.estadoCivil}</td>
+                <td>{acudiente.ocupacion}</td>
+                <td>{acudiente.fechaRegistro}</td>
 								<td>
-								<button onClick={() => openModal(2, CandidatoEstudiante)} className="btn btn-success" data-toggle='modal' data-target='#ModalCandidatoEstudiante'>
+								<button onClick={() => openModal(2, acudiente)} className="btn btn-success" data-toggle='modal' data-target='#ModalAcudiente'>
                           <i className="fas fa-edit"></i>
                         </button>
 									/&nbsp;
-									<button onClick={() => deleteCandidatoEstudiante(CandidatoEstudiante.candidatoEstudianteId, CandidatoEstudiante.nombre)} className="btn btn-danger">
+									<button onClick={() => deleteAcudiente(acudiente.acudienteId, acudiente.nombres, )} className="btn btn-danger">
                   <i className="far fa-trash-alt"></i>
                         </button>
 								</td>
 							</tr>
 							))}
 						</tbody>
-                    </table>
-                </div>
-            </div>
+					</table>
+				</div>
+				</div>
         </div>
-		</section>
-	</main>
-	<div id="ModalCandidatoEstudiante" className="modal fade " aria-hidden="true">
+				</section>
+				</main>
+<div id="ModalAcudiente" className="modal fade " aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -404,8 +421,8 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                         type="text"
                         id="Nombre"
                         className="form-control"
-                        placeholder=" NOMBRE"
-                        value={nombre}
+                        placeholder="NOMBRE"
+                        value={nombres}
                         onChange={(e) => setNombre(e.target.value)}
                       />
                     </div>
@@ -416,72 +433,68 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                         id="Apellido"
                         className="form-control"
                         placeholder="APELLIDO"
-                        value={apellido}
+                        value={apellidos}
                         onChange={(e) => setApellido(e.target.value)}
                       />
                     </div>
                         <div className="input-group mb-3">
                             <div className="form-group">
                               <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de nacimiento: </span>
-                            <input type="date" id="fecha" name="fecha" className="form-control" value={fechaNacimiento} onChange={(e)=>setFechaNacimiento(e.target.value)}/>
+                            <input type="date" id="fecha" name="fecha" className="form-control" value={fechaRegistro} onChange={(e)=>setFechaRegistro(e.target.value)}/>
                           </div>
                         </div>
                         <div className="input-group mb-3">
-                            <select className="form-select" value={tipoPersona} onChange={(e) => setTipoPersona(e.target.value)}>
-                                <option value="">Seleccione Estudiante:</option>
-                                <option value="Estudiante Nuevo">Estudiante Nuevo</option>
-                                <option value="Estudiante Antiguo">Estudiante Antiguo</option>
-                            </select>
-                        </div>
+                    <span className="input-group-text"><i className="fas fa-envelope"></i></span>
+                    <input type="email"
+                     className="form-control"
+                      id="correoElectronico" 
+                      placeholder="Dirección de Electrónico"
+                      value={correoElectronico}
+                      onChange={ (e) => setCorreoElectronico (e.target.value)}/>
+                    </div>
                         <div className="input-group mb-3">
-                        <span ><i className="fas fa-id-card"></i> Tipo Documento</span>
-                            <select className="form-select" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>
-                                <option value="">Seleccione Tipo Documento</option>
-                                <option value="cedula">C.C</option>
-                                <option value="Targeta de Identidad">T.I</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                        </div>
-                        <div className="input-group mb-3">
-                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
+                      <span className="input-group-text"><i className="far fa-id-card"></i></span>
                       <input
                         type="number"
                         id="NumeroContacto"
                         className="form-control"
                         placeholder="Numero Documento"
-                        value={numeroDocumento} 
-                        onChange={(e) => setNumeroDocumento(e.target.value)}
+                        value={numeroIdentificacion} 
+                        onChange={(e) => setNumeroIdentificacion(e.target.value)}
                       />
                     </div>
                         <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
                       <input
                         type="number"
-                        id="NumeroContacto"
+                        id="edad"
                         className="form-control"
                         placeholder="Numero Contacto"
-                        value={numeroContacto}
-                        onChange={(e) => setNumeroContacto(e.target.value)}
+                        value={edad}
+                        onChange={(e) => setEdad(e.target.value)}
                       />
                     </div>
                     <div className="input-group mb-3">
                       <span className="input-group-text"><i className="fas fa-map-marker-alt"></i></span>
                       <input
                         type="text"
-                        id="Direccion"
+                        id="relacionconestudiante"
                         className="form-control"
                         placeholder="DIRECCION"
-                        value={direccion}
-                        onChange={(e) => setDireccion(e.target.value)}
+                        value={relacionConEstudiante}
+                        onChange={(e) => setRelacionConEstudiante(e.target.value)}
                       />
                     </div>
                         <div className="input-group mb-3">
-                          <span > <i className="fas fa-venus-mars"></i> Genero</span>
-                            <select className="form-select" value={genero} onChange={(e) => setGenero(e.target.value)}>
-                                <option value="">Seleccione Genero</option>
-                                <option value="Maculino">Masculino</option>
-                                <option value="Femenino">Femenino</option>
-                                <option value="Otro">Otro</option>
+                          <span > <i className="fas fa-venus-mars"></i> Estado Civil</span>
+                            <select className="form-select" value={estadoCivil} onChange={(e) => setEstadoCivil(e.target.value)}>
+                                <option value="">Seleccione Estado Civil</option>
+                                <option value="casado/a">casado/a</option>
+                                <option value="soltero/a">soltero/a</option>
+                                <option value="viudo/a">viudo/a</option>
+                                <option value="divorciado/a">divorciado/a</option>
+                                <option value="unión libre">unión libre</option>
+                                <option value="separado/a">separado/a</option>
                             </select>
                         </div>
                         <div className="mb-3">
@@ -490,32 +503,10 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
                         id="cargadaDocumento"
                         className="form-control"
                         placeholder="Inserto documento (SI O NO)"
-                        value={adjuntarDocumentos}
-                        onChange={(e) => setAdjuntarDocumentos(e.target.value)}
+                        value={ocupacion}
+                        onChange={(e) => setOcupacion(e.target.value)}
                       />
 </div>
-<div className="input-group mb-3">
-                      <span className="input-group-text"><i className="fas fa-phone-alt"></i></span>
-                      <input
-                        type="number"
-                        id="NumeroContacto"
-                        className="form-control"
-                        placeholder="Numero de identificacion del acudiente"
-                        value={numeroIdentificacionAcudiente} 
-                        onChange={(e) => setNumeroIdentificacionAcudiente(e.target.value)}
-                      />
-                    </div>
-                    <div className="input-group mb-3">
-                    <span className="input-group-text"><i className="fas fa-signature"></i></span>
-                    <input
-                        type="text"
-                        id="Nombre"
-                        className="form-control"
-                        placeholder="Nombre del Acudiente"
-                        value={NombreAcudienteRelacionado}
-                        onChange={(e) => setNombreAcudienteRelacionado(e.target.value)}
-                      />
-                    </div>
                     <div className="modal-footer">
                     <button onClick={() => validar()} className="btn btn-outline-success">Guardar</button>
                     <button onClick={()=> cerrarModal()} type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
@@ -524,6 +515,6 @@ const filteredCandidatoEstudiante = candidatoEstudiantes.filter((estudiante) => 
 </div>
 </div>
 </div>
-            </React.Fragment>
+	</React.Fragment>
     )
 }

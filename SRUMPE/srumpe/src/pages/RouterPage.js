@@ -24,6 +24,10 @@ import Secretariamaterialista from './Secretariamaterialista'
 import Secretariareclamos from './Secretariareclamos'
 import Secretariaactualizar from './Secretariaactualizar'
 import Secretariaulalista from './Secretariaulalista'
+import Secretariahorarioslista from './Secretariahorarioslista'
+import Secretariaacudientelista from './Secretariaacudientelista'
+import Secretariabuscaracudiente from './Secretariabuscaracudiente'
+import SecretariaHorariosbuscar from './SecretariaHorariosbuscar'
 
 import Prueba from './Prueba'
 import Inicio from './Inicio'
@@ -57,6 +61,10 @@ export default function RouterPage() {
                     <Route path='/Secretariareclamos' exact Component={Secretariareclamos}/>
                     <Route path='/Secretariaactualizar' exact Component={Secretariaactualizar}/>
                     <Route path='/Secretariaulalista' exact Component={Secretariaulalista}/>
+                    <Route path='/Secretariahorarioslista' exact Component={Secretariahorarioslista}/>
+                    <Route path='/Secretariaacudientelista' exact Component={Secretariaacudientelista}/>
+                    <Route path='/Secretariabuscaracudiente' exact Component={Secretariabuscaracudiente}/>
+                    <Route path='/SecretariaHorariosbuscar' exact Component={SecretariaHorariosbuscar}/>
 
                     <Route path='/Prueba' exact Component={Prueba}/>
                     <Route path='/' exact Component={Inicio}/>
@@ -64,6 +72,5 @@ export default function RouterPage() {
                 </Routes>
             </Router>
         </div>
-        
     )
 }

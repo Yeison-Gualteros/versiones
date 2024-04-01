@@ -7,7 +7,7 @@ import withReactContent from 'sweetalert2-react-content';
 export default function Secretariamaterialista() {
 
 
-	const url = 'https://localhost:5001/api/materia';
+	const url = 'https://localhost:7284/api/materia';
 	const [materia, setMateria] = useState([]);
 	const [materiaId, setMateriaId] = useState('');
 	const [nombre, setNombre] = useState('');
@@ -20,6 +20,7 @@ export default function Secretariamaterialista() {
 	const [metodosEnsenanza, setMetodosEnsenanza] = useState('');
 	const [horasTeoricas, setHorasTeoricas] = useState(0);
 	const [horasPracticas, setHorasPracticas] = useState(0);
+	const [contadorMaterias, setContadorMaterias] = useState(0);
 
 
 	const [operation, setOperation] = useState(1);
@@ -28,7 +29,7 @@ export default function Secretariamaterialista() {
 	const [editingMode, setEditingMode] = useState(false);
 
 
-	const url2 = 'https://localhost:5001/api/Docente'
+	const url2 = 'https://localhost:7284/api/Docente'
     const [Docente, setDocente] = useState([]);
     const [DocenteId, setDocenteId] = useState('');
 
@@ -46,7 +47,7 @@ export default function Secretariamaterialista() {
 	const getmateria = async () => {
 		try {
 			const respuesta = await axios.get(url);
-			// Asegurarse de que respuesta.data sea un array
+			setContadorMaterias(respuesta.data.length)
 			if (Array.isArray(respuesta.data)) {
 				setMateria(respuesta.data);
 			} else {
@@ -83,11 +84,6 @@ export default function Secretariamaterialista() {
 			setEstado('');
 			setHorasTeoricas('');
 			setHorasPracticas('');
-			
-			
-			
-			
-			
         }
 		if (op === 2) {
 
@@ -219,11 +215,11 @@ export default function Secretariamaterialista() {
 	const enviarSolicitud = async (metodo, parametros) => {
 		if (metodo === "POST") {
 			await axios.post(url, parametros);
-			show_alert('Materia Registrada', 'La materia ha sido registrada correctamente');
+			show_alert('La materia ha sido registrada correctamente', 'success');
 		}
 		if (metodo === "PUT") {
 			await axios.put(url + '/' + materiaId, parametros);
-			show_alert('Materia Editada', 'La materia ha sido editada correctamente');
+			show_alert('La materia ha sido editada correctamente', 'success');
 		}
 		// Obtener nuevamente los datos de todas las materias después de la operación
 		getmateria();
@@ -232,7 +228,7 @@ export default function Secretariamaterialista() {
 	const deletemateria = (materiaId, nombre) => {
 		const MySwal = withReactContent(Swal);
 		MySwal.fire({
-			title: '¿Estás seguro'+ nombre + '?',
+			title: '¿Estás seguro que quieres eliminar la materia '+ nombre + '?',
             text: "¡No podrás revertir esto!",
             icon: 'warning',
             showCancelButton: true,
@@ -246,6 +242,7 @@ export default function Secretariamaterialista() {
 					await axios.delete(`${url}/${materiaId}`);
 					show_alert("Materia eliminada exitosamente", "success");
 					getmateria();
+					setContadorMaterias(contadorMaterias - 1)
 				}catch (error){
 					show_alert("No se pudo eliminar la materia", "error");
 				}
@@ -262,93 +259,111 @@ export default function Secretariamaterialista() {
 	
 			<main className="full-box main-container">
 		
-		<section className="full-box nav-lateral">
-				<div className="full-box nav-lateral-bg show-nav-lateral"></div>
-				<div className="full-box nav-lateral-content">
-					<figure className="full-box nav-lateral-avatar">
-						<i className="far fa-times-circle show-nav-lateral"></i>
-						<figcaption className="SRMNPE text-center">
-							SRUNPE <br/><small className="roboto-condensed-light"></small>
-						</figcaption>
-						<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
-						<figcaption className="roboto-medium text-center">
-						Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
-						</figcaption>
-					</figure>
-					<div className="full-box nav-lateral-bar"></div>
-					<nav className="full-box nav-lateral-menu">
-						<ul>
-							<li>
-								<a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
-							</li>
-	
-							<li>
-								<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
-								<ul>
-									
-									<li>
-										<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
-									</li>
-									<li>
-										<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
-									</li>
-								</ul>
-							</li>
-	
-							<li>
-								<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
-								<ul>
-									
-									<li>
-										<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
-									</li>
-									<li>
-										<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
-									</li>
-								</ul>
-							</li>
-	
-							<li>
-								<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
-								<ul>
-									
-									<li>
-										<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
-									</li>
-									<li>
-										<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
-								<ul>
-									
-									<li>
-										<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
-									</li>
-									
-								</ul>
-							</li>
-							<li>
-								<a href="" className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
-								<ul>
-									
-									<li>
-										<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
-									</li>
-									
-								</ul>
-							</li>
-							
-	
-							
-						</ul>
-					</nav>
-				</div>
-			</section>
-	
-			
+			<section className="full-box nav-lateral">
+			<div className="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div className="full-box nav-lateral-content">
+				<figure className="full-box nav-lateral-avatar">
+					<i className="far fa-times-circle show-nav-lateral"></i>
+					<figcaption className="SRMNPE text-center">
+						SRUNPE <br/><small className="roboto-condensed-light"></small>
+					</figcaption>
+					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
+					<figcaption className="roboto-medium text-center">
+                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+					</figcaption>
+				</figure>
+				<div className="full-box nav-lateral-bar"></div>
+				<nav className="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="/Secretaria"><i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio</a>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaestudiantelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscarestudiante"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Acudiente <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaacudientelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Acudientes</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscaracudiente"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Acuendiente</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
+								</li>
+								<li>
+									<a href="/Secretariadocentebuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Docentes</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
+								</li>
+								<li>
+									<a href="/Secretariacursobuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Curso</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="far fa-calendar-alt"></i> &nbsp; Horarios <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								<li>
+									<a href="/SecretariaHorarioslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Horarios</a>
+								</li>
+								<li>
+									<a href="/SecretariaHorariosbuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Horario</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
 			<section className="full-box page-content">
 				<nav className="full-box navbar-info">
 					<a href="#" className="float-left show-nav-lateral">
@@ -361,16 +376,14 @@ export default function Secretariamaterialista() {
 						<i className="fas fa-power-off"></i>
 					</a>
 				</nav>
-            
 			<div className="full-box page-header">
 				<h3 className="text-left">
 					<i className="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE MATERIAS
 				</h3>
 				<p className="text-justify">
-					
+				Total de materias registrados: {contadorMaterias}
 				</p>
 			</div>
-
 			<div className="container-fluid">
 				<ul className="full-box list-unstyled page-nav-tabs">
 					<li>                
@@ -383,12 +396,8 @@ export default function Secretariamaterialista() {
 								</a>
 						</div>
 					</li>
-					
-					
 				</ul>	
 			</div>
-			
-			
 			<div className="container-fluid">
     <div className="table-responsive">
         <table className="table table-dark table-sm">
@@ -422,7 +431,6 @@ export default function Secretariamaterialista() {
 						<td><span className="table-estado">{materia.estado}</span></td>
 						<td><span className="table-teoricas">{materia.horasTeoricas}</span></td>
 						<td><span className="table-practicas">{materia.horasPracticas}</span></td>
-						
 						<td>
 							<button onClick={() => openModal(2, materia)} className="btn btn-success" data-toggle='modal' data-target='#modalmateria'>
 								<i className="fas fa-edit"></i>
@@ -451,8 +459,6 @@ export default function Secretariamaterialista() {
         </ul>
     </nav>
 </div>
-
-
 		</section>
 	</main>
 	<div id="modalmateria" className="modal fade" aria-hidden="true">
@@ -465,10 +471,6 @@ export default function Secretariamaterialista() {
             <div className="modal-body">
               <input type="hidden" id="materia" />
               <div className="input-group mb-3">
-
-				
-                
-                
               </div>
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-book-open"></i></span>
@@ -495,6 +497,7 @@ export default function Secretariamaterialista() {
 					<div className="input-group mb-3">
 						<span className="input-group-text"><i className="fas fa-school"></i></span>
 						<select
+						id='departamentoacademico'
 							className="form-select"
 							value={departamentoAcademico} // Utilizando la variable de estado
 							onChange={(e) => setDepartamentoAcademico(e.target.value)} // Utilizando la función setDepartamentoAcademico para actualizar el estado
@@ -504,20 +507,18 @@ export default function Secretariamaterialista() {
 							<option value="Arte">Departamento de Arte</option>
 						</select>
 					</div>
-					
 					<div className="input-group mb-3">
                           <span > <i className="fas fa-level-up-alt"></i> Nivel</span>
-                            <select className="form-select" value={nivel} onChange={(e) => setNivel(e.target.value)}>
+                            <select className="form-select" id='nivel' value={nivel} onChange={(e) => setNivel(e.target.value)}>
                                 <option value="">Seleccione Nivel</option>
                                 <option value="Intermedio">Intermedio</option>
                                 <option value="Avanzado">Avanzado</option>
                                 <option value="Otro">Otro</option>
                             </select>
                         </div>
-						
 						<div className="input-group mb-3">
                           <span > <i className="fas fa-stream"></i> Estado</span>
-                            <select className="form-select" value={estado} onChange={(e) => setEstado(e.target.value)}>
+                            <select className="form-select" id='estado' value={estado} onChange={(e) => setEstado(e.target.value)}>
                                 <option value="">Seleccione Estado</option>
                                 <option value="En progreso">En progreso</option>
                                 <option value="Inscripciones abiertas">Inscripciones abiertas</option>
@@ -526,8 +527,6 @@ export default function Secretariamaterialista() {
 								<option value="Otro">Otro</option>
                             </select>
                         </div>
-
-						
                     <div className="input-group mb-3">
                     <span className="input-group-text"><i className="fas fa-comment"></i></span>
                     <input
@@ -539,7 +538,6 @@ export default function Secretariamaterialista() {
                         onChange={(e) => setNotasAdicionales(e.target.value)}
                       />
                     </div>
-                    
                     <div className="input-group mb-3">
 						<span className="input-group-text"><i className="fas fa-laptop-code"></i></span>
 						<input
@@ -551,7 +549,6 @@ export default function Secretariamaterialista() {
 							onChange={(e) => setMetodosEnsenanza(e.target.value)}
 						/>
 					</div>
-
 					<div className="input-group mb-3">
 						<span className="input-group-text"><i className="fas fa-angle-double-right"></i></span>
 						<input
@@ -563,7 +560,6 @@ export default function Secretariamaterialista() {
 							onChange={(e) => setCreditos(e.target.value)}
 						/>
 					</div>
-
 					<div className="input-group mb-3">
 						<span className="input-group-text"><i className="fas fa-laptop-code"></i></span>
 						<input
@@ -575,7 +571,6 @@ export default function Secretariamaterialista() {
 							onChange={(e) => setHorasTeoricas(e.target.value)}
 						/>
 					</div>
-
 					<div className="input-group mb-3">
 						<span className="input-group-text"><i className="fas fa-laptop-code"></i></span>
 						<input
@@ -586,30 +581,19 @@ export default function Secretariamaterialista() {
 							value={horasPracticas}  
 							onChange={(e) => setHorasPracticas(e.target.value)}
 						/>
-					</div>
-                    
-          
-                    
-          
-                    
-					
-                    
-                        
+					</div> 
                     <div className='d-grid col-6 mx-auto'>
                     <div className="d-flex justify-content-center align-items-center h-100">
                       <button onClick={() => validar()} className='btn btn-success'>Guardar</button>
                     </div>
                     </div>
-                  
                   <div className='modal-footer'>
                   <div className="d-flex justify-content-center align-items-center h-100">
 				  <button onClick={()=> cerrarModal()} type='button' id="btnCerrar" className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
                   </div>
                   </div>
                 </div>
-				
               </div>
-			  
 	</div>
 	</div>
     </React.Fragment>

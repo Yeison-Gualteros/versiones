@@ -42,13 +42,23 @@ export default function Secretariareclamos() {
 								</li>
 							</ul>
 						</li>
+						<li>
+							<a href="#" className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Acudiente <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaacudientelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Acudientes</a>
+								</li>
+								<li>
+									<a href="/Secretariabuscaracudiente"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Acuendiente</a>
+								</li>
+							</ul>
+						</li>
 
 						<li>
 							<a href="#" className="nav-btn-submenu"><i className="fas fa-chalkboard-user fa-fw"></i> &nbsp; Docentes <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								{/*<li>
-									<a href="nuevo-profesor.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Docentes</a>
-	</li>*/}
+								
 								<li>
 									<a href="/Secretariadocentelista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Docentes</a>
 								</li>
@@ -61,9 +71,7 @@ export default function Secretariareclamos() {
 						<li>
 							<a href="#" className="nav-btn-submenu"><i className="fas fa-layer-group fa-fw"></i> &nbsp; Cursos <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								{/*<li>
-									<a href="curso-nuevo.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Curso</a>
-								</li>*/}
+								
 								<li>
 									<a href="/Secretariacursoslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Cursos</a>
 								</li>
@@ -75,21 +83,39 @@ export default function Secretariareclamos() {
 						<li>
 							<a href="#" className="nav-btn-submenu"><i className="fas fa-pallet fa-fw"></i> &nbsp; Materias <i className="fas fa-chevron-down"></i></a>
 							<ul>
-								{/*<li>
-									<a href="materia-nueva.html"><i className="fas fa-plus fa-fw"></i> &nbsp; Agregar Materias</a>
-								</li>*/}
+								
 								<li>
 									<a href="/Secretariamaterialista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Materias</a>
 								</li>
 								
 							</ul>
 						</li>
-
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="fas fa-kaaba"></i> &nbsp; Aulas <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/Secretariaulalista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Aulas</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
+							<a href=" " className="nav-btn-submenu"><i className="far fa-calendar-alt"></i> &nbsp; Horarios <i className="fas fa-chevron-down"></i></a>
+							<ul>
+								
+								<li>
+									<a href="/SecretariaHorarioslista"><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Horarios</a>
+								</li>
+								<li>
+									<a href="/SecretariaHorariosbuscar"><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Horario</a>
+								</li>
+								
+							</ul>
+						</li>
 						
 
-						{/*<li>
-							<a href="/Secretariareclamos"><i className="fas fa-exclamation-circle fa-fw"></i> &nbsp; Reclamos</a>
-							</li>*/}
+						
 					</ul>
 				</nav>
 			</div>
