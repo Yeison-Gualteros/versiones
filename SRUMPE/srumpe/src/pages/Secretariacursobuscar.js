@@ -267,7 +267,7 @@ export default function Secretariacursoslista() {
 					</figcaption>
 					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
 					<figcaption className="roboto-medium text-center">
-                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+                    ¡Bienvenido! <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
 					</figcaption>
 				</figure>
 				<div className="full-box nav-lateral-bar"></div>

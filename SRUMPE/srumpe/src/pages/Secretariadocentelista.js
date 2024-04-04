@@ -178,7 +178,8 @@ export default function Secretariadocentelista(){
         }
         if (!fechaNacimiento) {
             setError('Por favor, seleccione la fecha de nacimiento del docente.');
-        } else {
+        }
+         else {
             const fechaSeleccionada = new Date(fechaNacimiento);
             const fechaHace18Anios = new Date();
             fechaHace18Anios.setFullYear(fechaHace18Anios.getFullYear() - 18);
@@ -283,7 +284,7 @@ export default function Secretariadocentelista(){
                 metodo = "PUT";
             }
             enviarSolicitud(metodo, parametros);
-            cerrarModal();
+            
     }
         
     };
@@ -356,7 +357,7 @@ export default function Secretariadocentelista(){
 					</figcaption>
 					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
 					<figcaption className="roboto-medium text-center">
-                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+                    ¡Bienvenido! <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
 					</figcaption>
 				</figure>
 				<div className="full-box nav-lateral-bar"></div>
@@ -760,7 +761,7 @@ export default function Secretariadocentelista(){
                     
                     <div className="input-group mb-3">
                           <span > <i className="fas fa-venus-mars"></i> Genero</span>
-                            <select className="form-select" value={genero} onChange={(e) => setGenero(e.target.value)}>
+                            <select className="form-select" id='Genero' value={genero} onChange={(e) => setGenero(e.target.value)}>
                                 <option value="">Seleccione Genero</option>
                                 <option value="Maculino">Masculino</option>
                                 <option value="Femenino">Femenino</option>

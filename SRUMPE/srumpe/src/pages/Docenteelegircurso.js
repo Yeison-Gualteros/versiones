@@ -216,7 +216,7 @@ export default function Docenteelegircurso() {
                                 <i className="far fa-times-circle show-nav-lateral"></i>
                                 <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
                                 <figcaption className="roboto-medium text-center">
-                                Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
+                               ¡Bienvenido! <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
                                 </figcaption>
                             </figure>
                             <div className="full-box nav-lateral-bar"></div>

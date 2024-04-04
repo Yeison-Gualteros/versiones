@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { show_alert } from '../functions';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useEstudiantes } from './EstudianteContext';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
 
-export default function Docenteestudiantelista() {
+export default function Docenteestudiantelista({ route }) {
   
   const url = 'https://localhost:7284/api/notas'
   const [notas, setNotas] = useState([]);
@@ -26,7 +23,62 @@ export default function Docenteestudiantelista() {
 
   const [notasSeleccionadas, setNotasSeleccionadas] = useState([]);
   const [promedio, setPromedio] = useState(null); // Estado para almacenar el promedio de las notas seleccionadas
+  const docenteId = route?.params?.docenteId;
 
+  const [cursos, setCursos] = useState([]);
+  const [materias, setMaterias] = useState([]);
+  const [cursoSeleccionado, setCursoSeleccionado] = useState(null);
+  const [materiaSeleccionada, setMateriaSeleccionada] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cursosRes = await axios.get('https://localhost:7284/api/cursos');
+        const materiasRes = await axios.get('https://localhost:7284/api/materia');
+        setCursos(cursosRes.data);
+        setMaterias(materiasRes.data);
+      } catch (error) {
+        show_alert('Error', 'No se pudieron cargar los datos: ' + error.message);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const selectCurso = (cursoId) => {
+    setCursoSeleccionado(cursoSeleccionado === cursoId ? null : cursoId);
+  };
+
+  const selectMateria = (materiaId) => {
+    setMateriaSeleccionada(materiaSeleccionada === materiaId ? null : materiaId);
+  };
+
+  const assignToDocente = async () => {
+    if (materiaSeleccionada && cursoSeleccionado) {
+      try {
+        // Asegúrate de que el cuerpo de la solicitud coincida con lo que espera tu API.
+        const response = await axios.post('https://localhost:7284/api/asignaciondocente', {
+          docenteId,
+          materiaId: materiaSeleccionada,
+          cursoId: cursoSeleccionado,
+        });
+
+        if (response.status === 200 || response.status === 201) {
+          show_alert('Éxito', 'Materia y curso asignados correctamente al docente.');
+          setCursoSeleccionado(null);
+          setMateriaSeleccionada(null);
+        } else {
+          show_alert('Error', `Error al asignar: ${response.status} ${response.statusText}`);
+        }
+      } catch (error) {
+        show_alert('Error', `Error al asignar: ${error.message}`);
+      }
+    } else {
+     show_alert('Error', 'Debe seleccionar una materia y un curso.');
+    }
+  };
+
+  // Asegúrate de que tu keyExtractor extraiga el ID correcto de tu objeto.
+  const keyExtractor = (item) => item.materiaId || item.cursoId;
 
   const getnotas = async () => {
     try {
@@ -80,6 +132,7 @@ const openModal = (op, nota) => {
     setTipoNota(nota.tipoNota);
     setDescripcionNota(nota.descripcionNota);
   }
+  
   setShowModal(true);
 };
 
@@ -174,7 +227,7 @@ const enviarSolicitud = async (metodo, parametros) => {
     show_alert('Nota Editada', 'success');
   }
   // Obtener nuevamente los datos de todas las materias después de la operación
-  getnotas();
+  getnotas(); 
 };
 
 const deletecursos = (notaId, estudiante) => {
@@ -230,6 +283,7 @@ const calcularPromedio = () => {
 };
 
 
+
   return (
     <React.Fragment>
       <main className="full-box main-container">
@@ -240,7 +294,7 @@ const calcularPromedio = () => {
                                 <i className="far fa-times-circle show-nav-lateral"></i>
                                 <img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
                                 <figcaption className="roboto-medium text-center">
-                                Juan David Novoa Yanguma <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
+                               ¡Bienvenido! <br/><small className="roboto-condensed-light"><p><span className="badge badge-success">Docente</span></p></small>
                                 </figcaption>
                             </figure>
                             <div className="full-box nav-lateral-bar"></div>
@@ -248,7 +302,7 @@ const calcularPromedio = () => {
                                 <ul>
                                     <li>
                                     <a href='/Docente'>
-                                        <i class="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
+                                        <i className="fab fa-dashcube fa-fw"></i> &nbsp; Inicio
                                     </a>
                                     </li>
                                     <li>
@@ -256,7 +310,7 @@ const calcularPromedio = () => {
                                         <ul>	
                                             <li>
                                                 <a href='/Docenteelegircurso'>
-                                                <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos
+                                                <i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Elegir Cursos
                                                 </a>	
                                             </li>				
                                         </ul>
@@ -265,10 +319,10 @@ const calcularPromedio = () => {
                                         <a href=" " className="nav-btn-submenu"><i className="fas fa-users fa-fw"></i> &nbsp;  Estudiantes <i className="fas fa-chevron-down"></i></a>
                                         <ul>  
                                         <li>
-                                            <a href='/Docenteestudiantelista'><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
+                                            <a href='/Docenteestudiantelista'><i className="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista De Estudiante</a>
                                         </li>
                                         <li>
-                                            <a href='/Docentebuscarestudiante'><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
+                                            <a href='/Docentebuscarestudiante'><i className="fas fa-search fa-fw"></i> &nbsp; Buscar Estudiante</a>
                                         </li>
                                         </ul>
                                     </li>
@@ -341,7 +395,7 @@ const calcularPromedio = () => {
               {notas.map((notas, i) => (
                   <tr className="text-center" key={notas.notaId}> 
                       <td><span className="table-index">{i + 1}</span></td>
-                      <td><span className="table-estudiante">{notas.estudiante}</span></td>
+                      <td><span className="table-estudiante">{notas.estudiante}{notas.nombres}</span></td>
                       <td><span className="table-curso">{notas.curso}</span></td>
                       <td><span className="table-periodo">{notas.periodoAcademico}</span></td>
                       <td><span className="table-fechac">{notas.fechaCreacion}</span></td>
@@ -358,7 +412,14 @@ const calcularPromedio = () => {
                               <i className="far fa-trash-alt"></i>
                           </button>
                       </td>
-                      <td><input type="checkbox" onChange={(e) => handleCheckboxChange(e, notas)} /></td>
+                      {/*<td>
+                        <button onClick={() => openModal(3, notas)} className="btn btn-danger">
+                              <i className="far fa-trash-alt"></i>
+                          </button>
+              </td>*/}
+                      <td>
+                        <input type="checkbox" onChange={(e) => handleCheckboxChange(e, notas)} data-toggle='modal' data-target='#asignacionmodal' />
+                      </td>
                   </tr>
               ))}
           </tbody>
@@ -468,11 +529,158 @@ const calcularPromedio = () => {
                       onChange={(e) => setTipoNota(e.target.value)}
                     >
                       <option value="">Selecciona el tipo de nota</option>
-                      <option value="Periodo uno">Examen</option>
-                      <option value="Periodo dos">Trabajo practico</option>
-                      <option value="Periodo tres">Exposicion</option>
-                      <option value="Periodo cuatro">Ensayo</option>
-                      <option value="Periodo cuatro">Examen final</option>
+                      <option value="Examen">Examen</option>
+                      <option value="Trabajo practico">Trabajo practico</option>
+                      <option value="Exposicion">Exposicion</option>
+                      <option value="Ensayo">Ensayo</option>
+                      <option value="Examen fina">Examen final</option>
+                      <option value="autoEvaluacion">autoEvaluacion</option>
+                    </select>
+                  </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="descripcionn"
+                      className="form-control"
+                      placeholder="Descripcion de nota..."
+                      value={descripcionNota}
+                      onChange={(e) => setDescripcionNota(e.target.value)}
+                    />
+                  </div>
+                  <div className="d-grid col-6 mx-auto">
+                    <div className="d-flex justify-content-center align-items-center h-100">
+                      <button onClick={() => validar()} className="btn btn-success">
+                        Guardar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <div className="d-flex justify-content-center align-items-center h-100">
+                    <button
+                      type="button"
+                      id="btnCerrar"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="asiganacionmodal" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button type="button" className="fas fa-times-circle" aria-label="Close" onClick={cerrarModal}></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="cursos" />
+              <div className="input-group mb-3">
+              </div>
+                    <div className="input-group mb-3">
+                    <span className="input-group-text"><i className="fas fa-code-branch"></i></span>
+                    <input
+                        type="text"
+                        id="estudiante"
+                        className="form-control"
+                        placeholder="Nombre"
+                        value={estudiante} 
+                        onChange={(e) => setEstudiante(e.target.value)}
+                      />
+                    </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="curso"
+                      className="form-control"
+                      placeholder="Curso"
+                      value={curso}
+                      onChange={(e) => setCurso(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <select
+                      id="periodoa"
+                      className="form-select"
+                      value={periodoAcademico}
+                      onChange={(e) => setPeriodoAcademico(e.target.value)}
+                    >
+                      <option value="">Selecciona el período académico</option>
+                      <option value="Periodo uno">Periodo uno</option>
+                      <option value="Periodo dos">Periodo dos</option>
+                      <option value="Periodo tres">Periodo tres</option>
+                      <option value="Periodo cuatro">Periodo cuatro</option>
+                    </select>
+                  </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="datetime-local"
+                      id="fechac"
+                      className="form-control"
+                      placeholder="Fecha de creacion"
+                      value={fechaCreacion}
+                      onChange={(e) => setFechaCreacion(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="materia"
+                      className="form-control"
+                      placeholder="Materia"
+                      value={materia}
+                      onChange={(e) => setMateria(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <input
+                      type="number"
+                      id="valorn"
+                      className="form-control"
+                      placeholder="Valor de la nota"
+                      value={valorNota}
+                      onChange={(e) => setValorNota(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fas fa-sort-numeric-up-alt"></i>
+                    </span>
+                    <select
+                      id="tipon"
+                      className="form-select"
+                      value={tipoNota}
+                      onChange={(e) => setTipoNota(e.target.value)}
+                    >
+                      <option value="">Selecciona el tipo de nota</option>
+                      <option value="Examen">Examen</option>
+                      <option value="Trabajo practico">Trabajo practico</option>
+                      <option value="Exposicion">Exposicion</option>
+                      <option value="Ensayo">Ensayo</option>
+                      <option value="Examen fina">Examen final</option>
+                      <option value="autoEvaluacion">autoEvaluacion</option>
                     </select>
                   </div>
                   <div className="input-group mb-3">

@@ -145,7 +145,7 @@ export default function Secretariaacudientelista() {
       }
       enviarSolicitud(metodo, parametros);
     }    
-      cerrarModal();
+      
     }
   const enviarSolicitud = async (metodo, parametros) => {
     try {
@@ -161,7 +161,7 @@ export default function Secretariaacudientelista() {
       document.getElementById('btnCerrar').click();
       getAcudiente();
     } catch (error) {
-      show_alert('Error de solicitud', 'error');
+      show_alert('completa todos los campos', 'error');
       console.error(error);
     }
   };  
@@ -206,7 +206,7 @@ export default function Secretariaacudientelista() {
 					</figcaption>
 					<img src="/assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
 					<figcaption className="roboto-medium text-center">
-                    Axl Julian Acuña Rubiano <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
+                    ¡Bienvenido! <br/><small className="roboto-condensed-light"><p><span className="badge badge-info">Administrativo</span></p></small>
 					</figcaption>
 				</figure>
 				<div className="full-box nav-lateral-bar"></div>
@@ -412,7 +412,7 @@ export default function Secretariaacudientelista() {
                     </div>
                         <div className="input-group mb-3">
                             <div className="form-group">
-                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de nacimiento: </span>
+                              <span className="input-group-text"><i className="far fa-calendar-alt center"></i>fecha de registro: </span>
                             <input type="date" id="fecha" name="fecha" className="form-control" value={fechaRegistro} onChange={(e)=>setFechaRegistro(e.target.value)}/>
                           </div>
                         </div>

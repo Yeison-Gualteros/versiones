@@ -1,17 +1,33 @@
-import React, {useState} from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { show_alert } from '../functions';
 
 
 export default function Estudiante() {
-
-	
+ 
 	const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
   const toggleSubMenu = () => {
     setIsSubMenuOpen(!isSubMenuOpen);
   };
 
-	
+  const url5 = 'https://localhost:7284/api/notas'
+  const [notas, setNotas] = useState([]);
+  const [contadorNota, setContadorNota] = useState(0);
+  useEffect(() => {
+	  getNotas();
+	}, []);
+	const getNotas = async () => {
+	  try {
+		const response = await axios.get(url5);
+		console.log('Datos recibidos:', response.data);
+		setNotas(response.data);
+		setContadorNota(response.data.length);
+	  } catch (error) {
+		console.error('Error al obtener Notas', error);
+	  }
+	};
+  
     return(
         <React.Fragment>
             <div style={{ paddingBottom: '60px' }}>
@@ -26,7 +42,7 @@ export default function Estudiante() {
 								</figcaption>
 								<img src="../assets/avatar/Avatar_negro.jpg" className="img-fluid" alt="Avatar"/>
 								<figcaption className="roboto-medium text-center">
-									Yeison Andrey Gualteros Bernal <br/><small className="roboto-condensed-light"><p><span className="badge badge-dark">Estudiante</span></p></small>
+								¡Bienvenido! <br/><small className="roboto-condensed-light"><p><span className="badge badge-dark">Estudiante</span></p></small>
 								</figcaption>
 							</figure>
 							<div class="full-box nav-lateral-bar"></div>
@@ -86,7 +102,7 @@ export default function Estudiante() {
 					<div class="tile-tittle">Notas</div>
 					<div class="tile-icon">
 						<i class="fas fa-pallet fa-fw"></i>
-						<p>12 Materias</p>
+						<p>Registrados: {contadorNota}</p>
 					</div>
 				</a>
 				<br />
